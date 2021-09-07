@@ -1,36 +1,6 @@
 const uuid = require("uuid");
 
-const games = [
-  {
-    id: "Test-room-1",
-    users: [
-      {
-        userName: "user1",
-        role: "Role1",
-      },
-    ],
-  },
-
-  {
-    id: "Test-room-2",
-    users: [
-      {
-        userName: "user2",
-        role: "Role2",
-      },
-    ],
-  },
-
-  {
-    id: "Test-room-3",
-    users: [
-      {
-        userName: "user3",
-        role: "Role3",
-      },
-    ],
-  },
-];
+const games = [];
 
 class Controller {
   newGame(req, res) {
@@ -42,9 +12,10 @@ class Controller {
           id: id,
           users: [{ userName: userName, role: role }],
         });
-        return res.json(id);
+
+        return res.status(200).json(id);
       } else {
-        return res.json(`Invalid nickname`);
+        return res.status(400).json({ message: "Invalid nickname" });
       }
     } catch (e) {
       console.log(e);
@@ -59,23 +30,22 @@ class Controller {
       });
 
       if (gameIdx === -1) {
-        return res.json(`game not found`);
+        return res.status(400).json({ message: "game not found" });
       }
 
       if (userName.length < 4 || userName.length > 20) {
-        return res.json(`invalid name`);
+        return res.status(400).json({ message: "invalid nickname" });
       }
 
       const isUserAlreadyExist = games[gameIdx].users.findIndex(
         (user) => user.userName === userName
       );
       if (isUserAlreadyExist !== -1) {
-        return res.json(`User Already Exist`);
+        return res.status(400).json({ message: "User Already Exist" });
       }
 
       games[gameIdx].users.push({ userName, role });
-
-      return res.json(true);
+      return res.status(200).json({ message: "join was successful" });
     } catch (e) {
       console.log(e);
     }
@@ -90,7 +60,7 @@ class Controller {
       });
 
       if (gameIdx === -1) {
-        return res.json(`game not found`);
+        return res.status(400).json({ message: "game not found" });
       }
 
       const userIdx = games[gameIdx].users.findIndex(
@@ -103,14 +73,14 @@ class Controller {
 
       games[gameIdx].users = newUsersArray;
 
-      return res.json(`user deleted successfully`);
+      return res.status(200).json({ message: "user deleted successfully" });
     } catch (e) {
       console.log(e);
     }
   }
 
   getAllData(req, res) {
-    return res.json(games);
+    return res.status(200).json(games);
   }
 }
 
