@@ -5,7 +5,20 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtract = require("mini-css-extract-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 
-module.exports = {
+const devServer = (develop) => {
+  return develop ? {
+    devServer:{
+      port: 3000,
+      open: true,
+    }
+  } : {};
+}
+
+const eslint = (develop) => {
+  return develop ? [] : [ new ESLintPlugin({ extensions: ['ts', 'js', 'tsx'] }) ];
+}
+
+module.exports = ({develop}) => ({
   entry: {
     main: "./src/index.tsx",
   },
@@ -13,10 +26,6 @@ module.exports = {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     assetModuleFilename: "assets/[name][ext]",
-  },
-  devServer: {
-    port: 3000,
-    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -42,12 +51,13 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js"],
   },
   plugins: [
-    new ESLintPlugin({ extensions: ["ts", "js", "tsx"] }),
     new MiniCssExtract({ filename: "[name].[contenthash].css" }),
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new CopyPlugin({
       patterns: [{ from: "./public" }],
     }),
     new CleanWebpackPlugin(),
+    ...eslint(develop)
   ],
-};
+  ...devServer(develop)
+})
