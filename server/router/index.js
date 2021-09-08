@@ -1,5 +1,5 @@
 const Router = require("express").Router;
-const Controller = require("../controllers/Controller");
+const Controller = require("../controllers/сontroller");
 const router = new Router();
 
 router.get("/", Controller.getAllData);
