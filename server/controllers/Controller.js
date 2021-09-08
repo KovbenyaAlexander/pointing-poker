@@ -32,7 +32,7 @@ class Controller {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      if (role !== "observer" || role !== "player") {
+      if (role !== "observer" && role !== "player") {
         return res.status(400).json({ message: "Invalid role" });
       }
 
