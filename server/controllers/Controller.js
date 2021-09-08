@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 
-const games = [];
+let games = new Map();
 
 class Controller {
   newGame(req, res) {
@@ -8,11 +8,8 @@ class Controller {
       const { userName, role } = req.body;
       if (userName.length > 4 && userName.length < 30) {
         const id = uuid.v4();
-        games.push({
-          id: id,
-          users: [{ userName: userName, role: role }],
-        });
-
+        const usersArray = [{ userName, role }];
+        games.set(id, usersArray);
         return res.status(200).json(id);
       } else {
         return res.status(400).json({ message: "Invalid nickname" });
@@ -25,27 +22,26 @@ class Controller {
   join(req, res) {
     try {
       const { userName, id, role } = req.body;
-      const gameIdx = games.findIndex((item) => {
-        return item.id === id;
-      });
+      const users = games.get(id);
 
-      if (gameIdx === -1) {
-        return res.status(400).json({ message: "game not found" });
+      if (!users) {
+        return res.status(400).json({ message: "Game not found" });
       }
 
-      if (userName.length < 4 || userName.length > 20) {
-        return res.status(400).json({ message: "invalid nickname" });
+      if (userName.length < 4 || userName.length > 30) {
+        return res.status(400).json({ message: "Invalid nickname" });
       }
 
-      const isUserAlreadyExist = games[gameIdx].users.findIndex(
+      const isUserAlreadyExist = users.findIndex(
         (user) => user.userName === userName
       );
+
       if (isUserAlreadyExist !== -1) {
         return res.status(400).json({ message: "User Already Exist" });
       }
 
-      games[gameIdx].users.push({ userName, role });
-      return res.status(200).json({ message: "join was successful" });
+      users.push({ userName, role });
+      return res.status(200).json({ message: "Join was successful" });
     } catch (e) {
       console.log(e);
     }
@@ -54,33 +50,27 @@ class Controller {
   removeUser(req, res) {
     try {
       const { userName, id } = req.body;
+      const users = games.get(id);
 
-      const gameIdx = games.findIndex((item) => {
-        return item.id === id;
-      });
-
-      if (gameIdx === -1) {
-        return res.status(400).json({ message: "game not found" });
+      if (!users) {
+        return res.status(400).json({ message: "Game not found" });
       }
 
-      const userIdx = games[gameIdx].users.findIndex(
-        (user) => user.userName === userName
-      );
-      const newUsersArray = [
-        ...games[gameIdx].users.slice(0, userIdx),
-        ...games[gameIdx].users.slice(userIdx + 1),
-      ];
+      if (userName.length < 4 || userName.length > 30) {
+        return res.status(400).json({ message: "Invalid nickname" });
+      }
 
-      games[gameIdx].users = newUsersArray;
+      const newUsers = users.filter((user) => user.userName !== userName);
+      games.set(id, newUsers);
 
-      return res.status(200).json({ message: "user deleted successfully" });
+      return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {
       console.log(e);
     }
   }
 
   getAllData(req, res) {
-    return res.status(200).json(games);
+    return res.status(200).send(Array.from(games));
   }
 }
 
