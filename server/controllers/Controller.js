@@ -5,10 +5,15 @@ let games = new Map();
 class Controller {
   newGame(req, res) {
     try {
-      const { userName, role } = req.body;
+      const { userName } = req.body;
+
+      if (!userName) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
       if (userName.length > 4 && userName.length < 30) {
         const id = uuid.v4();
-        const usersArray = [{ userName, role }];
+        const usersArray = [{ userName, role: "dealer" }];
         games.set(id, usersArray);
         return res.status(200).json(id);
       } else {
@@ -22,6 +27,15 @@ class Controller {
   join(req, res) {
     try {
       const { userName, id, role } = req.body;
+
+      if (!userName || !role || !id) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
+      if (role !== "observer" || role !== "player") {
+        return res.status(400).json({ message: "Invalid role" });
+      }
+
       const users = games.get(id);
 
       if (!users) {
@@ -50,6 +64,11 @@ class Controller {
   removeUser(req, res) {
     try {
       const { userName, id } = req.body;
+
+      if (!userName || !id) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
       const users = games.get(id);
 
       if (!users) {
