@@ -11,14 +11,14 @@ class Controller {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      if (userName.length > 4 && userName.length < 30) {
-        const id = uuid.v4();
-        const usersArray = [{ userName, role: "dealer" }];
-        games.set(id, usersArray);
-        return res.status(200).json(id);
-      } else {
+      if (userName.length < 4 && userName.length > 30) {
         return res.status(400).json({ message: "Invalid nickname" });
       }
+
+      const id = uuid.v4();
+      const usersArray = [{ userName, role: "dealer" }];
+      games.set(id, { usersArray });
+      return res.status(200).json(id);
     } catch (e) {
       console.log(e);
     }
@@ -36,25 +36,23 @@ class Controller {
         return res.status(400).json({ message: "Invalid role" });
       }
 
-      const users = games.get(id);
-
-      if (!users) {
-        return res.status(400).json({ message: "Game not found" });
-      }
-
       if (userName.length < 4 || userName.length > 30) {
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
-      const isUserAlreadyExist = users.findIndex(
-        (user) => user.userName === userName
-      );
+      const gameInfo = games.get(id);
 
-      if (isUserAlreadyExist !== -1) {
+      if (!gameInfo) {
+        return res.status(400).json({ message: "Game not found" });
+      }
+
+      if (gameInfo.usersArray.find((user) => user.userName === userName)) {
         return res.status(400).json({ message: "User Already Exist" });
       }
 
-      users.push({ userName, role });
+      const newUsersArray = [...gameInfo.usersArray, { userName, role }];
+      games.set(id, { ...gameInfo, usersArray: newUsersArray });
+
       return res.status(200).json({ message: "Join was successful" });
     } catch (e) {
       console.log(e);
@@ -69,18 +67,20 @@ class Controller {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      const users = games.get(id);
-
-      if (!users) {
-        return res.status(400).json({ message: "Game not found" });
-      }
-
       if (userName.length < 4 || userName.length > 30) {
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
-      const newUsers = users.filter((user) => user.userName !== userName);
-      games.set(id, newUsers);
+      const gameInfo = games.get(id);
+
+      if (!gameInfo) {
+        return res.status(400).json({ message: "Game not found" });
+      }
+
+      const newUsersArray = gameInfo.usersArray.filter(
+        (user) => user.userName !== userName
+      );
+      games.set(id, { ...gameInfo, usersArray: newUsersArray });
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {
