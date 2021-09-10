@@ -1,29 +1,6 @@
-const uuid = require("uuid");
-
-let games = new Map();
+const games = require("./index");
 
 class Controller {
-  newGame(req, res) {
-    try {
-      const { userName } = req.body;
-
-      if (!userName) {
-        return res.status(400).json({ message: "Invalid data" });
-      }
-
-      if (userName.length < 4 && userName.length > 30) {
-        return res.status(400).json({ message: "Invalid nickname" });
-      }
-
-      const id = uuid.v4();
-      const usersArray = [{ userName, role: "dealer" }];
-      games.set(id, { usersArray });
-      return res.status(200).json(id);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   join(req, res) {
     try {
       const { userName, id, role } = req.body;
@@ -86,10 +63,6 @@ class Controller {
     } catch (e) {
       console.log(e);
     }
-  }
-
-  getAllData(req, res) {
-    return res.status(200).send(Array.from(games));
   }
 }
 
