@@ -13,10 +13,10 @@ export default function JoinToGameForm(): JSX.Element {
   }
 
   return (
-    <form className="joinToGameFrom">
-      <label className="joinToGameFrom__label" htmlFor="gameID">
+    <form className="join-to-game-from">
+      <label className="join-to-game-from__label" htmlFor="gameID">
         Game ID: 
-        <input type="text" id="gameID" className="joinToGameFrom__gameId-field" 
+        <input type="text" id="gameID" className="join-to-game-from__gameId-field" 
           placeholder="Your game id" 
           value={id}
           onChange={onIdChange}/>
