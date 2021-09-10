@@ -1,6 +1,6 @@
 import React from 'react';
-import JoinToGameForm from '../join-to-game-form/join-to-game-form';
-import NewUserFrom from '../new-user-form/new-user-form';
+import JoinToGameForm from '../../components/join-to-game-form/join-to-game-form';
+import NewUserFrom from '../../components/new-user-form/new-user-form';
 import './style.scss';
 
 export default function HelloPage(): JSX.Element {
