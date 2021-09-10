@@ -5,7 +5,7 @@ import { IStore } from '../../store/types/store-types';
 import './style.scss';
 
 export default function NotFound(): JSX.Element {
-  const user = useSelector((state: IStore) => state.user);
+  const state = useSelector((store: IStore) => store);
 
   return (
     <article className="not-found">
@@ -16,7 +16,11 @@ export default function NotFound(): JSX.Element {
       </h2>
       <p>
         Current User -
-        {user.name}
+        {state.user.name}
+      </p>
+      <p>
+        Current time -
+        {state.settings.time}
       </p>
       <Link to="/">Go Home</Link>
     </article>
