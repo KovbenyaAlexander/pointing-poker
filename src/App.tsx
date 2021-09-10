@@ -17,6 +17,7 @@ const App = (): JSX.Element => {
           </Route>
           <Route path="/lobby"><NotFound /></Route>
           <Route path="/game"><GamePage /></Route>
+          <Route path="/settings"><NotFound /></Route>
           <Route path="*"><NotFound /></Route>
         </Switch>        
       </Router>

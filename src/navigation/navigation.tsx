@@ -14,6 +14,10 @@ export default function Navigation(): JSX.Element {
       <li className='navigation__item'>
         <NavLink to='/game' className="navigation__link" activeClassName="navigation__link_active">Game</NavLink>
       </li>
+      <li className='navigation__item'>
+        <NavLink to='/settings' className="navigation__link" 
+          activeClassName="navigation__link_active">Settings</NavLink>
+      </li>
     </ul>
   );
 }
