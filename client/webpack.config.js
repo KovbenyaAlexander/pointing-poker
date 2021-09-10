@@ -20,7 +20,7 @@ const eslint = (develop) => {
 
 module.exports = ({develop}) => ({
   entry: {
-    main: "./src/index.tsx",
+    main: "./src/client/index.tsx",
   },
   output: {
     filename: "[name].[contenthash].js",
@@ -52,7 +52,7 @@ module.exports = ({develop}) => ({
   },
   plugins: [
     new MiniCssExtract({ filename: "[name].[contenthash].css" }),
-    new HtmlWebpackPlugin({ template: "./src/index.html" }),
+    new HtmlWebpackPlugin({ template: "./src/client/index.html" }),
     new CopyPlugin({
       patterns: [{ from: "./public" }],
     }),
