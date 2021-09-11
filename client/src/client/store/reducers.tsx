@@ -3,7 +3,7 @@ import { Actions, SettingsActions, UserActions } from './types/actions-types';
 import { ISettings, IUserInfo } from './types/store-types';
 
 const mockUser: IUserInfo = { name: 'Alex' };
-const mockSettings: ISettings = { time: 30 };
+const settings: ISettings = { time: 30, id: null };
 
 function userDataReducer(state: IUserInfo = mockUser, action: UserActions) {
   switch (action.type) {
@@ -14,10 +14,12 @@ function userDataReducer(state: IUserInfo = mockUser, action: UserActions) {
   }
 }
 
-function settingsDataReducer(state: ISettings = mockSettings, action: SettingsActions) {
+function settingsDataReducer(state: ISettings = settings, action: SettingsActions) {
   switch (action.type) {
     case Actions.UPDATE_SETTINGS:
       return { ...state, ...action.payload };
+    case Actions.UPDATE_ID:
+      return { ...state, id: action.payload };
     default:
       return state;
   }

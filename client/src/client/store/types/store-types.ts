@@ -4,6 +4,7 @@ export interface IUserInfo {
 
 export interface ISettings {
   time: number;
+  id: string | null
 }
 
 export interface IStore {

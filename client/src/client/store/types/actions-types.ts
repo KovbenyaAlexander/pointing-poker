@@ -3,6 +3,7 @@ import { ISettings, IUserInfo } from './store-types';
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
   UPDATE_SETTINGS = 'UPDATE_SETTINGS',
+  UPDATE_ID = 'UPDATE_ID',
 }
 
 // User Actions
@@ -18,5 +19,9 @@ export interface SettingUpdateAction {
   payload: ISettings;
   type: Actions.UPDATE_SETTINGS
 }
+export interface IdUpdateAction {
+  payload: ISettings;
+  type: Actions.UPDATE_ID
+}
 
-export type SettingsActions = SettingUpdateAction;
+export type SettingsActions = SettingUpdateAction | IdUpdateAction;
