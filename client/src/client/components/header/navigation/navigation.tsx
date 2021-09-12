@@ -5,7 +5,7 @@ import './style.scss';
 export default function Navigation(): JSX.Element {
   return (
     <ul className="navigation">
-      <li className="navigation__item">
+      {/* <li className="navigation__item">
         <NavLink exact to="/" className="navigation__link" activeClassName="navigation__link_active">Home</NavLink>
       </li>
       <li className="navigation__item">
@@ -22,7 +22,7 @@ export default function Navigation(): JSX.Element {
         >
           Settings
         </NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 }

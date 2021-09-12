@@ -1,0 +1,41 @@
+.popap-window
+  width: 100%
+  min-height: 100%
+  height: 100% 
+
+  display: flex
+  justify-content: center
+  align-content: center
+  position: absolute
+  top: 0
+  left: 0
+
+  background: silver
+
+  .popap-container
+
+
+    background: #fff
+    h3
+      text-align: center
+    .wrapper-forms
+      display: flex
+      .photo-user-form
+        .in_photo, .without-photo
+
+          width: 5rem
+          height: 5rem
+
+          border: 1px solid #000
+          border-radius: 50%
+
+          background: white 
+        // .without-photo
+        input[type=file]
+          display: none
+      .data-user-form
+        display: flex
+        flex-direction: column
+    .btn-container
+      display: flex
+      justify-content: space-between

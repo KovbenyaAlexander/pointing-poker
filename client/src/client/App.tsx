@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import HelloPage from './pages/hello-page/hello-page';
+import HelloPage from './pages/main-page/main-page';
 import NotFound from './pages/404/404';
 import Header from './components/header/header';
 import GamePage from './pages/game-page/game-page';
