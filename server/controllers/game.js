@@ -16,7 +16,7 @@ class Game {
 
       const id = uuid.v4();
       const usersArray = [{ userName, role: "dealer" }];
-      games.set(id, { usersArray, settings: {} });
+      games.set(id, { usersArray, settings: { isActive: false } });
       return res.status(200).json(id);
     } catch (e) {
       console.log(e);
@@ -32,7 +32,7 @@ class Game {
       }
 
       games.delete(id);
-      return res.status(400).json({ message: "Game deleted successfully" });
+      return res.status(200).json({ message: "Game deleted successfully" });
     } catch (e) {
       console.log(e);
     }
@@ -53,6 +53,23 @@ class Game {
       }
 
       return res.status(200).json(game);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  activateGame(req, res) {
+    try {
+      const { id } = req.body;
+
+      if (!id) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
+      const game = games.get(id);
+      game.settings.isActive = true;
+
+      return res.status(200).json({ message: "Game activated successfully" });
     } catch (e) {
       console.log(e);
     }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { newGame } from '../../store/thunk';
+import { newGame, cancelGame, startGame } from '../../store/thunk';
 import { IStore } from '../../store/types/store-types';
 
 export default function SettingsPage(): JSX.Element {
@@ -15,14 +15,31 @@ export default function SettingsPage(): JSX.Element {
     dispatch(newGame());
   }, []);
 
+  const cancelGameHandler = () => {
+    dispatch(cancelGame());
+  };
+
+  const startGameHandler = () => {
+    dispatch(startGame());
+  };
+
   return (
     <div className="settings-page">
+      <p>
+        Room id:
+        {id}
+      </p>
+      <p>
+        Link to game:
+        {`http://localhost:3000/#/game/${id}`}
+      </p>
+      <p>
+        Your name:
+        {name}
+      </p>
 
-      Room id:
-      {id}
-      <br />
-      Your name:
-      {name}
+      <button type="button" onClick={startGameHandler}>Start game</button>
+      <button type="button" onClick={cancelGameHandler}>Cancel game</button>
 
     </div>
   );

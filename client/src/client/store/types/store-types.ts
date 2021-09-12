@@ -3,8 +3,9 @@ export interface IUserInfo {
 }
 
 export interface ISettings {
-  time: number;
-  id: string | null
+  time?: number;
+  id?: string | null;
+  isActive?: boolean;
 }
 
 export interface IStore {

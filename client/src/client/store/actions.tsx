@@ -14,10 +14,3 @@ export function UpdateSettings(payload: ISettings): SettingsActions {
     payload,
   };
 }
-
-export function UpdateId(payload: ISettings): SettingsActions {
-  return {
-    type: Actions.UPDATE_ID,
-    payload,
-  };
-}
