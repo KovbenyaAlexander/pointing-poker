@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import DevTools from '../../store/devtools';
 import { exampleMiddleware } from '../../store/middleware';
 import { IStore } from '../../store/types/store-types';
 import './style.scss';
@@ -8,9 +9,11 @@ import './style.scss';
 export default function NotFound(): JSX.Element {
   const state = useSelector((store: IStore) => store);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(exampleMiddleware());
   }, []);
+
   return (
     <article className="not-found">
       <h2 className="not-found__title">
@@ -27,6 +30,7 @@ export default function NotFound(): JSX.Element {
         {state.settings.time}
       </p>
       <Link to="/">Go Home</Link>
+      {process.env.NODE_ENV === 'development' ? <DevTools /> : ''}
     </article>
   );
 }
