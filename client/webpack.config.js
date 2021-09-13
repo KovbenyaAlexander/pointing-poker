@@ -4,6 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtract = require("mini-css-extract-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const webpack = require('webpack');
 
 const devServer = (develop) => {
   return develop ? {
@@ -16,6 +17,13 @@ const devServer = (develop) => {
 
 const eslint = (develop) => {
   return develop ? [] : [ new ESLintPlugin({ extensions: ['ts', 'js', 'tsx'] }) ];
+}
+
+const definePlugin = (isDev) => {
+  const mode = isDev ? 'development' : 'production';
+  return [new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(mode)
+  })];
 }
 
 module.exports = ({develop}) => ({
@@ -51,13 +59,14 @@ module.exports = ({develop}) => ({
     extensions: [".ts", ".tsx", ".js"],
   },
   plugins: [
+    ...definePlugin(develop),
+    ...eslint(develop),
     new MiniCssExtract({ filename: "[name].[contenthash].css" }),
     new HtmlWebpackPlugin({ template: "./src/client/index.html" }),
     new CopyPlugin({
       patterns: [{ from: "./public" }],
     }),
     new CleanWebpackPlugin(),
-    ...eslint(develop)
   ],
   ...devServer(develop)
 })
