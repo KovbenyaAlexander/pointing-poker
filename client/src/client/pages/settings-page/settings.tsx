@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateSettings } from '../../store/actions';
+import { IStore } from '../../store/types/store-types';
 import './style.scss';
 
 export default function Settings(): JSX.Element {
-  const [settingsState, setSettingsState] = useState({
-    gameName: '',
-    isDealerInGame: false,
-    isAutoEntry: false,
-    isAutoFinish: false,
-    isVoteMutable: false,
-    estimationType: 'power2',
-    isTimerКequired: false,
-    timerValue: '00:01',
-  });
-
-  console.log(settingsState);
+  const dispatch = useDispatch();
+  const settings = useSelector((s:IStore) => ({
+    gameName: s.settings.gameName,
+    isDealerInGame: s.settings.isDealerInGame,
+    isAutoEntry: s.settings.isAutoEntry,
+    isAutoFinish: s.settings.isAutoFinish,
+    isVoteMutable: s.settings.isVoteMutable,
+    estimationType: s.settings.estimationType,
+    isTimerRequired: s.settings.isTimerRequired,
+    timerValue: s.settings.timerValue,
+  }));
 
   return (
     <div className="settings-page">
       <span>Name of game</span>
       <input
         type="text"
-        onChange={(e) => setSettingsState(() => ({ ...settingsState, gameName: e.target.value }))}
+        value={settings.gameName}
+        onChange={(e) => dispatch(UpdateSettings({ gameName: e.target.value }))}
       />
 
       <br />
@@ -28,8 +31,8 @@ export default function Settings(): JSX.Element {
       <span>Dealer in game</span>
       <input
         type="checkbox"
-        checked={settingsState.isDealerInGame}
-        onChange={() => setSettingsState(() => ({ ...settingsState, isDealerInGame: !settingsState.isDealerInGame }))}
+        checked={settings.isDealerInGame}
+        onChange={(e) => { dispatch(UpdateSettings({ isDealerInGame: e.target.checked })); }}
       />
 
       <br />
@@ -37,8 +40,8 @@ export default function Settings(): JSX.Element {
       <span>Auto entry</span>
       <input
         type="checkbox"
-        checked={settingsState.isAutoEntry}
-        onChange={() => setSettingsState(() => ({ ...settingsState, isAutoEntry: !settingsState.isAutoEntry }))}
+        checked={settings.isAutoEntry}
+        onChange={(e) => { dispatch(UpdateSettings({ isAutoEntry: e.target.checked })); }}
       />
 
       <br />
@@ -46,8 +49,8 @@ export default function Settings(): JSX.Element {
       <span>Auto finish</span>
       <input
         type="checkbox"
-        checked={settingsState.isAutoFinish}
-        onChange={() => setSettingsState(() => ({ ...settingsState, isAutoFinish: !settingsState.isAutoFinish }))}
+        checked={settings.isAutoFinish}
+        onChange={(e) => { dispatch(UpdateSettings({ isAutoFinish: e.target.checked })); }}
       />
 
       <br />
@@ -55,8 +58,8 @@ export default function Settings(): JSX.Element {
       <span>Allow change vote</span>
       <input
         type="checkbox"
-        checked={settingsState.isVoteMutable}
-        onChange={() => setSettingsState(() => ({ ...settingsState, isVoteMutable: !settingsState.isVoteMutable }))}
+        checked={settings.isVoteMutable}
+        onChange={(e) => { dispatch(UpdateSettings({ isVoteMutable: e.target.checked })); }}
       />
 
       <br />
@@ -68,8 +71,8 @@ export default function Settings(): JSX.Element {
           type="radio"
           name="Estimation"
           id="PowerOf2"
-          checked={settingsState.estimationType === 'power2'}
-          onChange={() => setSettingsState(() => ({ ...settingsState, estimationType: 'power2' }))}
+          checked={settings.estimationType === 'power2'}
+          onChange={() => { dispatch(UpdateSettings({ estimationType: 'power2' })); }}
         />
       </label>
 
@@ -81,8 +84,8 @@ export default function Settings(): JSX.Element {
           type="radio"
           name="Estimation"
           id="Fibonacci"
-          checked={settingsState.estimationType === 'fibonacci'}
-          onChange={() => setSettingsState(() => ({ ...settingsState, estimationType: 'fibonacci' }))}
+          checked={settings.estimationType === 'fibonacci'}
+          onChange={() => { dispatch(UpdateSettings({ estimationType: 'fibonacci' })); }}
         />
       </label>
 
@@ -91,19 +94,19 @@ export default function Settings(): JSX.Element {
       <span>Timer </span>
       <input
         type="checkbox"
-        checked={settingsState.isTimerКequired}
-        onChange={() => setSettingsState(() => ({ ...settingsState, isTimerКequired: !settingsState.isTimerКequired }))}
+        checked={settings.isTimerRequired}
+        onChange={(e) => { dispatch(UpdateSettings({ isTimerRequired: e.target.checked })); }}
       />
       <br />
-      {settingsState.isTimerКequired
+      {settings.isTimerRequired
    && (
      <label htmlFor="appt-time">
-       Choose an appointment time:
+       Choose time:
        <input
          id="appt-time"
          type="time"
-         value={settingsState.timerValue}
-         onChange={(e) => setSettingsState(() => ({ ...settingsState, timerValue: e.target.value }))}
+         value={settings.timerValue}
+         onChange={(e) => { dispatch(UpdateSettings({ timerValue: e.target.value })); }}
        />
      </label>
    )}

@@ -6,7 +6,7 @@ import { UpdateSettings } from './actions';
 
 const url = 'http://localhost:5000/api/';
 
-export function newGame() {
+export function createGame() {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const { user } = getState();

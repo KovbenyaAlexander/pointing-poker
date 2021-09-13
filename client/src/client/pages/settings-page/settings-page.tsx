@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { newGame, cancelGame, startGame } from '../../store/thunk';
+import { createGame, cancelGame, startGame } from '../../store/thunk';
 import { IStore } from '../../store/types/store-types';
 import Settings from './settings';
 
@@ -14,7 +14,7 @@ export default function SettingsPage(): JSX.Element {
   }));
 
   useEffect(() => {
-    dispatch(newGame());
+    dispatch(createGame());
   }, []);
 
   const cancelGameHandler = () => {

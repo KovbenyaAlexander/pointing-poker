@@ -3,7 +3,19 @@ import { Actions, SettingsActions, UserActions } from './types/actions-types';
 import { ISettings, IUserInfo } from './types/store-types';
 
 const mockUser: IUserInfo = { name: 'Alex' };
-const settings: ISettings = { time: 30, id: null, isActive: false };
+const settings: ISettings = {
+  time: 30,
+  id: null,
+  isActive: false,
+  gameName: '',
+  isDealerInGame: false,
+  isAutoEntry: false,
+  isAutoFinish: false,
+  isVoteMutable: false,
+  estimationType: 'power2',
+  isTimerRequired: false,
+  timerValue: '00:01',
+};
 
 function userDataReducer(state: IUserInfo = mockUser, action: UserActions) {
   switch (action.type) {
