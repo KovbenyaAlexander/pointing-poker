@@ -38,10 +38,7 @@ export function startGame() {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const { settings } = getState();
-      const response = await axios.post(`${url}/activateGame`, { id: settings.id });
-      if (response.status === 200) {
-        dispatch(UpdateSettings({ isActive: true }));
-      }
+      await axios.post(`${url}/activateGame`, settings);
     } catch (e) {
       console.log(e);
     }

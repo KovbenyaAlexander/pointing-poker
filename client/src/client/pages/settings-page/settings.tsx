@@ -22,6 +22,7 @@ export default function Settings(): JSX.Element {
       <span>Name of game</span>
       <input
         type="text"
+        minLength={2}
         value={settings.gameName}
         onChange={(e) => dispatch(UpdateSettings({ gameName: e.target.value }))}
       />

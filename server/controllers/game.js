@@ -60,14 +60,32 @@ class Game {
 
   activateGame(req, res) {
     try {
-      const { id } = req.body;
-
-      if (!id) {
+      if (
+        !req.body.hasOwnProperty("id") ||
+        !req.body.hasOwnProperty("gameName") ||
+        !req.body.hasOwnProperty("isDealerInGame") ||
+        !req.body.hasOwnProperty("isAutoEntry") ||
+        !req.body.hasOwnProperty("isAutoFinish") ||
+        !req.body.hasOwnProperty("isVoteMutable") ||
+        !req.body.hasOwnProperty("estimationType") ||
+        !req.body.hasOwnProperty("isTimerRequired") ||
+        !req.body.hasOwnProperty("timerValue")
+      ) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      const game = games.get(id);
+      const game = games.get(req.body.id);
+
       game.settings.isActive = true;
+      game.settings.gameName = req.body.gameName;
+      game.settings.isDealerInGame = req.body.isDealerInGame;
+      game.settings.isAutoEntry = req.body.isAutoEntry;
+      game.settings.isVoteMutable = req.body.isVoteMutable;
+      game.settings.isVoteMutable = req.body.isVoteMutable;
+      game.settings.estimationType = req.body.estimationType;
+      game.settings.estimationType = req.body.estimationType;
+      game.settings.isTimerRequired = req.body.isTimerRequired;
+      game.settings.timerValue = req.body.timerValue;
 
       return res.status(200).json({ message: "Game activated successfully" });
     } catch (e) {
