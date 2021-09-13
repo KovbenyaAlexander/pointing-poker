@@ -20,3 +20,5 @@ export interface SettingUpdateAction {
 }
 
 export type SettingsActions = SettingUpdateAction;
+
+export type AllActions = SettingsActions | UserActions;

@@ -1,16 +1,15 @@
 import { applyMiddleware } from 'redux';
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import thunk from 'redux-thunk';
 import { UpdateUser } from './actions';
-import { SettingsActions, UserActions } from './types/actions-types';
-import { IStore } from './types/store-types';
+import { ThunkActionCustom, ThunkDispatchCustom } from './types/middleware-types';
 
-export function exampleMiddleware(): ThunkAction<void, IStore, unknown, UserActions | SettingsActions> {
-  return (dispatch: ThunkDispatch<IStore, unknown, UserActions | SettingsActions>) => {
+export function exampleMiddleware(): ThunkActionCustom {
+  return (dispatch: ThunkDispatchCustom) => {
     const promise = new Promise((resolve, reject) => {
       setTimeout(() => {
         dispatch(UpdateUser({ name: 'Panda' }));
         resolve(1);
-      }, 2000);
+      }, 5000);
     });
   };
 }
