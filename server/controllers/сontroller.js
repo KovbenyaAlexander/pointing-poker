@@ -23,12 +23,12 @@ class Controller {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      if (gameInfo.usersArray.find((user) => user.userName === userName)) {
+      if (gameInfo.users.find((user) => user.userName === userName)) {
         return res.status(400).json({ message: "User Already Exist" });
       }
 
-      const newUsersArray = [...gameInfo.usersArray, { userName, role }];
-      games.set(id, { ...gameInfo, usersArray: newUsersArray });
+      const newUsers = [...gameInfo.users, { userName, role }];
+      games.set(id, { ...gameInfo, users: newUsers });
 
       return res.status(200).json({ message: "Join was successful" });
     } catch (e) {
@@ -54,10 +54,10 @@ class Controller {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      const newUsersArray = gameInfo.usersArray.filter(
+      const newUsers = gameInfo.users.filter(
         (user) => user.userName !== userName
       );
-      games.set(id, { ...gameInfo, usersArray: newUsersArray });
+      games.set(id, { ...gameInfo, users: newUsers });
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {

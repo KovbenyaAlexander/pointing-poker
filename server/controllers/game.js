@@ -15,8 +15,8 @@ class Game {
       }
 
       const id = uuid.v4();
-      const usersArray = [{ userName, role: "dealer" }];
-      games.set(id, { usersArray, settings: { isActive: false } });
+      const users = [{ userName, role: "dealer" }];
+      games.set(id, { users, settings: { isActive: false } });
       return res.status(200).json(id);
     } catch (e) {
       console.log(e);
