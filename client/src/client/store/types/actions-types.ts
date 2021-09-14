@@ -19,9 +19,5 @@ export interface SettingUpdateAction {
   payload: ISettings;
   type: Actions.UPDATE_SETTINGS
 }
-export interface IdUpdateAction {
-  payload: ISettings;
-  type: Actions.UPDATE_ID
-}
 
-export type SettingsActions = SettingUpdateAction | IdUpdateAction;
+export type SettingsActions = SettingUpdateAction;
