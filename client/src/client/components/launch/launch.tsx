@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createGame, cancelGame, startGame } from '../../store/thunk';
+import { cancelGame, startGame } from '../../store/thunk';
 import { IStore } from '../../store/types/store-types';
-// import Settings from '../settings/settings';
 
 type Props = {
   settings:{
@@ -31,8 +30,6 @@ export default function Launch({ settings }:Props): JSX.Element {
 
   const startGameHandler = () => {
     dispatch(startGame(settings));
-    // console.log(`LAUNCH`)
-    // console.log(settings);
   };
 
   const copyLinkHandler = () => {

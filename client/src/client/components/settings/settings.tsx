@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './style.scss';
 
-type SettingsType = {
+export type SettingsType = {
   gameName: string,
   isDealerInGame: boolean,
   isAutoEntry: boolean,
@@ -23,8 +23,6 @@ export default function Settings({ settings, setSettings }:Props): JSX.Element {
       <span>Name of game</span>
       <input
         type="text"
-        minLength={2}
-        maxLength={10}
         value={settings.gameName}
         onChange={(e) => setSettings({ ...settings, gameName: e.target.value })}
       />

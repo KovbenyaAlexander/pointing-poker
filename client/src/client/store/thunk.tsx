@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import axios from 'axios';
 import { IStore } from './types/store-types';
 import { UpdateSettings } from './actions';
+import { SettingsType } from '../components/settings/settings';
 
 const url = 'http://localhost:5000/api/';
 
@@ -34,12 +35,12 @@ export function cancelGame() {
   };
 }
 
-export function startGame(settings: any) {
+export function startGame(settings: SettingsType) {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const state = getState();
       const response = await axios.post(`${url}/activateGame`, { ...settings, id: state.settings.id });
-      if(response.status === 200){
+      if (response.status === 200) {
         dispatch(UpdateSettings(response.data));
       }
     } catch (e) {
