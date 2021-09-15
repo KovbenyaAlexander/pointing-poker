@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { Actions, SettingsActions, UserActions } from './types/actions-types';
+import {  DataUserReducer } from './types/data-user-reducer.ts/data-user';
 import { ISettings, IUserInfo } from './types/store-types';
 
 const mockUser: IUserInfo = { name: 'Alex' };
@@ -26,4 +27,5 @@ function settingsDataReducer(state: ISettings = mockSettings, action: SettingsAc
 export const reducer = combineReducers({
   user: userDataReducer,
   settings: settingsDataReducer,
+  dataUser: DataUserReducer 
 });

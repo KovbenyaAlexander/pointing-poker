@@ -21,25 +21,9 @@ export const DataForm = ({dataUser, valid, error}:IDataForm) => {
 
 
 
+
   function handleChangeFirstName(e: React.ChangeEvent<HTMLInputElement>){
-    const reg = /([a-z]{1,20})\w+/;
     dataUser.setFirstName(e.target.value)
-    if(!reg.test(String(dataUser.firstName).toLowerCase())) {
-      error.setErrorFirstName("Не верные символы")
- 
-
-    }
-    else if(dataUser.firstName.length <= 0) {
-      error.setErrorFirstName('Не может быть пустым')
-
-    }else if(dataUser.firstName.length >= 20) {
-      error.setErrorFirstName('Много симвалов')
-
-    }
-    else{
-      error.setErrorFirstName('');
-      
-    }
 
   }
   function handleChangeLastName(e: React.ChangeEvent<HTMLInputElement>){
@@ -54,12 +38,14 @@ export const DataForm = ({dataUser, valid, error}:IDataForm) => {
   return (
     <form className="data-user-form">
       <label htmlFor="firstName">
-        <p>First Name: {error.errorFirstName}</p>
+        <p>First Name: </p>
         <input 
         type="text" 
         id="firstName"
         value ={dataUser.firstName} 
         onChange ={(e) => handleChangeFirstName(e)}/>
+
+       <p>{error.errorFirstName}</p> 
       </label>
       <label htmlFor="firstName">
         <p>Last Name:</p> 
