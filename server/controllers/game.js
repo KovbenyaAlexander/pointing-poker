@@ -87,7 +87,7 @@ class Game {
       game.settings.isTimerRequired = req.body.isTimerRequired;
       game.settings.timerValue = req.body.timerValue;
 
-      return res.status(200).json({ message: "Game activated successfully" });
+      return res.status(200).json({ ...game.settings, id: req.body.id });
     } catch (e) {
       console.log(e);
     }

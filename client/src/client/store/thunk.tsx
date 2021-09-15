@@ -40,8 +40,7 @@ export function startGame(settings: any) {
       const state = getState();
       const response = await axios.post(`${url}/activateGame`, { ...settings, id: state.settings.id });
       if(response.status === 200){
-        console.log(`OK`);
-        console.log(response);
+        dispatch(UpdateSettings(response.data));
       }
     } catch (e) {
       console.log(e);
