@@ -1,59 +1,90 @@
-import React, { useEffect, useState } from "react";
-import { WithoutPhoto } from "./without-photo/without-photo";
-import "./style.sass";
-import { InPhoto } from "./in-photo/in-photo";
-import { DataForm } from "./data-form/data-form";
-import { useDispatch, useSelector } from "react-redux";
-import { DataUserActions } from "../../../store/types/data-user-reducer.ts/data-user";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { InPhoto } from './in-photo/in-photo';
+import { DataForm } from './data-form/data-form';
+import { WithoutPhoto } from './without-photo/without-photo';
+import { DataUserActions } from '../../../store/actions';
+import { IDataUser } from '../../../store/types/store-types';
+import './style.sass';
 
 interface PopapState {
   statePopap: React.Dispatch<React.SetStateAction<boolean>>;
+  data: {
+    firstName: string;
+    lastName: string;
+    jobPosition: string;
+    photoUser: string | ArrayBuffer | null | undefined;
+  };
+  setData: {
+    setFirstName: React.Dispatch<React.SetStateAction<string>>;
+    setLastName: React.Dispatch<React.SetStateAction<string>>;
+    setJobPosition: React.Dispatch<React.SetStateAction<string>>;
+    setPhotoUser: React.Dispatch<
+    React.SetStateAction<string | ArrayBuffer | null | undefined>
+    >;
+  };
 }
 
 // any - 3
 
-export const PopapForRegistration = ({ statePopap }: PopapState) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [jobPosition, setJobPosition] = useState("");
-  const [errorFirstName, setErrorFirstName] = useState("")
+export const PopapForRegistration = ({
+  statePopap,
+  data,
+  setData,
+}: PopapState):ReactElement => {
+  const host = 'http://localhost:5000/api';
 
-  const [photoUser, setPhotoUser] = useState<
-    string | ArrayBuffer | null | undefined
-  >("");
-  const [validForm, setValidForm] = useState(false)
-  
+  const {
+    firstName, lastName, photoUser, jobPosition,
+  } = data;
+  const {
+    setFirstName, setLastName, setJobPosition, setPhotoUser,
+  } = setData;
+
+  const [errorFirstName, setErrorFirstName] = useState('');
+  const [validForm, setValidForm] = useState(false);
+
   const dispatch = useDispatch();
-  const  {dataUser}  = useSelector((dataUserSelector:any) => dataUserSelector)
 
+  async function sendUserServer(person: IDataUser) {
+    await fetch(`${host}/newsUser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(person),
+    })
+      .then((res) => {
+        if (!res.status) {
+          console.log('error');
+        }
+      });
+  }
 
+  async function fetchPersonData() {
+    const res = await fetch(`${host}/getUser`);
 
-  
+    const user = await res.json();
+
+    dispatch(DataUserActions({ ...user }));
+  }
 
   function checkedErrorForm() {
     const reg = /([a-z]{1,20})\w+/;
 
-    
-     if(!reg.test(String(firstName).toLowerCase())) {
-      setErrorFirstName("Emty strinf our invalid characters")
-      setValidForm(false)
-    } else if(firstName.length >= 20) {
-      setErrorFirstName('more symbal')
-      setValidForm(false)
-
-    }
-    else{
+    if (!reg.test(String(firstName).toLowerCase())) {
+      setErrorFirstName('Emty strinf our invalid characters');
+      setValidForm(false);
+    } else if (firstName.length >= 20) {
+      setErrorFirstName('more symbal');
+      setValidForm(false);
+    } else {
       setErrorFirstName('');
-      setValidForm(true)
-
-      
+      setValidForm(true);
     }
-
   }
 
-  
-
-  function handlerNewUserPhoto(e: React.ChangeEvent<EventTarget | any>) {
+  function handlerNewUserPhoto(e: React.ChangeEvent<any>):void {
     const file = e.target.files[0];
 
     const render = new FileReader();
@@ -73,27 +104,27 @@ export const PopapForRegistration = ({ statePopap }: PopapState) => {
 
   function handlerClickConfirm(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
+    // ?
+    window.location.href = '#/settings';
 
     statePopap(false);
     const allDataUser = {
       firstName,
       lastName,
       jobPosition,
-      photoUser
-    }
-    dispatch(DataUserActions({...allDataUser}))
+      photoUser,
+    };
 
+    sendUserServer({ ...allDataUser });
+    fetchPersonData();
   }
-  console.log(dataUser)
 
-
-  useEffect(()=>{
-    if(firstName){
-
-      checkedErrorForm()
+  useEffect(() => {
+    if (firstName) {
+      checkedErrorForm();
     }
-  }, [firstName])
-  
+  }, [firstName, lastName, jobPosition, photoUser]);
+
   return (
     <div className="popap-window">
       <div className="popap-container">
@@ -101,7 +132,11 @@ export const PopapForRegistration = ({ statePopap }: PopapState) => {
         <div className="wrapper-forms">
           <form className="photo-user-form">
             <label htmlFor="file">
-              {!photoUser ? <WithoutPhoto /> : <InPhoto photoUser={photoUser} />}
+              {!photoUser ? (
+                <WithoutPhoto />
+              ) : (
+                <InPhoto photoUser={photoUser} />
+              )}
 
               <input
                 id="file"
@@ -120,19 +155,22 @@ export const PopapForRegistration = ({ statePopap }: PopapState) => {
               jobPosition,
               setJobPosition,
             }}
-            valid ={setValidForm}
-            error={{errorFirstName, setErrorFirstName}}
+            error={{ errorFirstName, setErrorFirstName }}
           />
         </div>
         <div className="btn-container">
+
           <button
-           onClick={(e) => handlerClickConfirm(e)}
+            type="button"
+            onClick={(e) => handlerClickConfirm(e)}
             className="confirm"
-            disabled = {!validForm}
-            >
+            disabled={!validForm}
+          >
             Confirm
           </button>
+
           <button
+            type="button"
             onClick={(e): void => handlerClickCancel(e)}
             className="closes"
           >

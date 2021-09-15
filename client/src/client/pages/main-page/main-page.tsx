@@ -4,6 +4,6 @@ import './style.scss';
 
 export default function HelloPage(): JSX.Element {
   return (
-    <ContentHelloPage/>
+    <ContentHelloPage />
   );
 }

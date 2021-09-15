@@ -1,34 +1,21 @@
+import { Actions, IDataUserUpdateAction } from '../actions-types';
+import { IDataUser } from '../store-types';
+
 const defaultState = {
-dataUser: {
+
   lastName: '',
   firstName: '',
   jobPosition: '',
-  photoUser: ''
-}
-}
+  photoUser: '',
 
-interface IDataUser {
-  firstName: string 
-  lastName?: string 
-  jobPosition?: string 
-  photoUser?: string | ArrayBuffer | null | undefined
-}
+};
 
-
-
-export enum ActionsDataUser {
-  ADDED_DATA_USER = 'ADDED_DATA_NAME'
-}
-
-export const DataUserReducer = (state = defaultState, action: any) =>{
+export const DataUserReducer = (state = defaultState, action: IDataUserUpdateAction):IDataUser => {
   switch (action.type) {
-    case ActionsDataUser.ADDED_DATA_USER:
-     return { ...state,  ...action.payload }
+    case Actions.ADDED_DATA_USER:
+      return { ...state, ...action.payload };
 
-  
     default:
-      return state
+      return state;
   }
-}
-
-export const DataUserActions = (payload: IDataUser) => ({ type: ActionsDataUser.ADDED_DATA_USER, payload });
+};

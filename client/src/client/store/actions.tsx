@@ -1,5 +1,7 @@
-import { Actions, SettingsActions, UserUpdateAction } from './types/actions-types';
-import { ISettings, IUserInfo } from './types/store-types';
+import {
+  Actions, IDataUserAction, SettingsActions, UserUpdateAction,
+} from './types/actions-types';
+import { IDataUser, ISettings, IUserInfo } from './types/store-types';
 
 export function UpdateUser(payload: IUserInfo): UserUpdateAction {
   return {
@@ -14,3 +16,5 @@ export function UpdateSettings(payload: ISettings): SettingsActions {
     payload,
   };
 }
+
+export const DataUserActions = (payload: IDataUser):IDataUserAction => ({ type: Actions.ADDED_DATA_USER, payload });
