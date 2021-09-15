@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
-import './style.scss';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createGame } from '../../store/thunk';
-import Settings from './settings';
-import Launch from './launch';
+import Settings from '../../components/settings/settings';
+import Launch from '../../components/launch/launch';
 
 export default function SettingsPage(): JSX.Element {
   const dispatch = useDispatch();
@@ -12,11 +11,22 @@ export default function SettingsPage(): JSX.Element {
     dispatch(createGame());
   }, []);
 
+  const [settings, setSettings] = useState({
+    gameName: '',
+    isDealerInGame: false,
+    isAutoEntry: false,
+    isAutoFinish: false,
+    isVoteMutable: false,
+    estimationType: 'power2',
+    isTimerRequired: false,
+    timerValue: '00:01',
+  });
+
   return (
     <div className="settings-page">
-      <Settings />
+      <Settings settings={settings} setSettings={setSettings} />
       <hr />
-      <Launch />
+      <Launch settings={settings} />
     </div>
   );
 }

@@ -34,11 +34,15 @@ export function cancelGame() {
   };
 }
 
-export function startGame() {
+export function startGame(settings: any) {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
-      const { settings } = getState();
-      await axios.post(`${url}/activateGame`, settings);
+      const state = getState();
+      const response = await axios.post(`${url}/activateGame`, { ...settings, id: state.settings.id });
+      if(response.status === 200){
+        console.log(`OK`);
+        console.log(response);
+      }
     } catch (e) {
       console.log(e);
     }

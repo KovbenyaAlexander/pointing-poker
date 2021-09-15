@@ -1,11 +1,23 @@
 import React, { useEffect } from 'react';
-import './style.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGame, cancelGame, startGame } from '../../store/thunk';
 import { IStore } from '../../store/types/store-types';
-import Settings from './settings';
+// import Settings from '../settings/settings';
 
-export default function Launch(): JSX.Element {
+type Props = {
+  settings:{
+    gameName: string,
+    isDealerInGame: boolean,
+    isAutoEntry: boolean,
+    isAutoFinish: boolean,
+    isVoteMutable: boolean,
+    estimationType: string,
+    isTimerRequired: boolean,
+    timerValue: string,
+  }
+};
+
+export default function Launch({ settings }:Props): JSX.Element {
   const dispatch = useDispatch();
 
   const { id, name } = useSelector((state: IStore) => ({
@@ -18,12 +30,14 @@ export default function Launch(): JSX.Element {
   };
 
   const startGameHandler = () => {
-    dispatch(startGame());
+    dispatch(startGame(settings));
+    // console.log(`LAUNCH`)
+    // console.log(settings);
   };
 
-  const copyLinkHandler=()=>{
+  const copyLinkHandler = () => {
     navigator.clipboard.writeText(`http://localhost:3000/#/game/${id}`);
-  }
+  };
 
   return (
     <div className="settings-page">
