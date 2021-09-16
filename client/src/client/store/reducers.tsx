@@ -11,15 +11,11 @@ const mockStore: IStore = {
 };
 
 export default function reducer(state: IStore = mockStore, action: AllActions) {
-  let { user } = state;
-  let { settings } = state;
   switch (action.type) {
     case Actions.UPDATE_USERINFO:
-      user = { ...user, ...action.payload };
-      return { ...state, user };
+      return { ...state, user: { ...action.payload } };
     case Actions.UPDATE_SETTINGS:
-      settings = { ...settings, ...action.payload };
-      return { ...state, settings };
+      return { ...state, settings: { ...action.payload } };
     default:
       return state;
   }
