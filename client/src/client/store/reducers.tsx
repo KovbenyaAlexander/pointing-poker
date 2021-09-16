@@ -1,29 +1,22 @@
-import { combineReducers } from 'redux';
-import { Actions, SettingsActions, UserActions } from './types/actions-types';
-import { ISettings, IUserInfo } from './types/store-types';
+import {
+  Actions, AllActions,
+} from '../types/actions-types';
+import { ISettings, IStore, IUserInfo } from '../types/store-types';
 
 const mockUser: IUserInfo = { name: 'Alex' };
 const mockSettings: ISettings = { time: 30 };
+const mockStore: IStore = {
+  user: mockUser,
+  settings: mockSettings,
+};
 
-function userDataReducer(state: IUserInfo = mockUser, action: UserActions) {
+export default function reducer(state: IStore = mockStore, action: AllActions) {
   switch (action.type) {
     case Actions.UPDATE_USERINFO:
-      return { ...state, ...action.payload };
-    default:
-      return state;
-  }
-}
-
-function settingsDataReducer(state: ISettings = mockSettings, action: SettingsActions) {
-  switch (action.type) {
+      return { ...state, user: { ...action.payload } };
     case Actions.UPDATE_SETTINGS:
-      return { ...state, ...action.payload };
+      return { ...state, settings: { ...action.payload } };
     default:
       return state;
   }
 }
-
-export const reducer = combineReducers({
-  user: userDataReducer,
-  settings: settingsDataReducer,
-});
