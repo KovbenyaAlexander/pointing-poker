@@ -5,7 +5,7 @@ export interface IUserInfo {
 export interface ISettings {
   time?: number;
   id?: string | null;
-  isActive?: boolean;
+  isActive?: boolean | null;
   gameName?: string;
   isDealerInGame?: boolean;
   isAutoEntry?: boolean;
@@ -14,6 +14,7 @@ export interface ISettings {
   estimationType?: string;
   isTimerRequired?: boolean;
   timerValue?: string;
+  isGameCreated?: boolean;
 }
 
 export interface IStore {

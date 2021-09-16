@@ -6,6 +6,7 @@ const mockUser: IUserInfo = { name: 'Alex' };
 const settings: ISettings = {
   time: 30,
   id: null,
+  isActive: null,
 };
 
 function userDataReducer(state: IUserInfo = mockUser, action: UserActions) {

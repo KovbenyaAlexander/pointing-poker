@@ -7,13 +7,14 @@ import { SettingsType } from '../components/settings/settings';
 
 const url = 'http://localhost:5000/api/';
 
-export function createGame() {
+export function createGame(settings: SettingsType) {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const { user } = getState();
-      const response = await axios.post(`${url}newGame`, { userName: user.name });
+      const response = await axios.post(`${url}newGame`, { userName: user.name, settings });
       if (response.status === 200) {
-        dispatch(UpdateSettings({ id: response.data }));
+        console.log(response);
+        dispatch(UpdateSettings({ ...response.data }));
       }
     } catch (e) {
       console.log(e);
@@ -35,11 +36,11 @@ export function cancelGame() {
   };
 }
 
-export function startGame(settings: SettingsType) {
+export function activateGame() {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const state = getState();
-      const response = await axios.post(`${url}/activateGame`, { ...settings, id: state.settings.id });
+      const response = await axios.post(`${url}/activateGame`, { id: state.settings.id });
       if (response.status === 200) {
         dispatch(UpdateSettings(response.data));
       }

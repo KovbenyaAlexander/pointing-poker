@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createGame } from '../../store/thunk';
+import React, { useState } from 'react';
 import Settings from '../../components/settings/settings';
 import Launch from '../../components/launch/launch';
 
 export default function SettingsPage(): JSX.Element {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(createGame());
-  }, []);
-
   const [settings, setSettings] = useState({
     gameName: '',
     isDealerInGame: false,

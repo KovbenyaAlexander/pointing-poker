@@ -4,7 +4,7 @@ const games = require("./index");
 class Game {
   newGame(req, res) {
     try {
-      const { userName } = req.body;
+      const { userName, settings } = req.body;
 
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
@@ -16,8 +16,10 @@ class Game {
 
       const id = uuid.v4();
       const users = [{ userName, role: "dealer" }];
-      games.set(id, { users, settings: { isActive: false } });
-      return res.status(200).json(id);
+      games.set(id, { users, settings: { isActive: false, ...settings } });
+      return res
+        .status(200)
+        .json({ id, ...settings, isActive: false, isGameCreated: true });
     } catch (e) {
       console.log(e);
     }
@@ -60,34 +62,18 @@ class Game {
 
   activateGame(req, res) {
     try {
-      if (
-        !req.body.hasOwnProperty("id") ||
-        !req.body.hasOwnProperty("gameName") ||
-        !req.body.hasOwnProperty("isDealerInGame") ||
-        !req.body.hasOwnProperty("isAutoEntry") ||
-        !req.body.hasOwnProperty("isAutoFinish") ||
-        !req.body.hasOwnProperty("isVoteMutable") ||
-        !req.body.hasOwnProperty("estimationType") ||
-        !req.body.hasOwnProperty("isTimerRequired") ||
-        !req.body.hasOwnProperty("timerValue")
-      ) {
+      if (!req.body.hasOwnProperty("id")) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
       const game = games.get(req.body.id);
+      if (!game) {
+        return res.status(400).json({ message: "Game not found" });
+      }
 
       game.settings.isActive = true;
-      game.settings.gameName = req.body.gameName;
-      game.settings.isDealerInGame = req.body.isDealerInGame;
-      game.settings.isAutoEntry = req.body.isAutoEntry;
-      game.settings.isVoteMutable = req.body.isVoteMutable;
-      game.settings.isVoteMutable = req.body.isVoteMutable;
-      game.settings.estimationType = req.body.estimationType;
-      game.settings.estimationType = req.body.estimationType;
-      game.settings.isTimerRequired = req.body.isTimerRequired;
-      game.settings.timerValue = req.body.timerValue;
 
-      return res.status(200).json({ ...game.settings, id: req.body.id });
+      return res.status(200);
     } catch (e) {
       console.log(e);
     }
