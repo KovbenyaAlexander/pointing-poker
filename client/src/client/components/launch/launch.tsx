@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { cancelGame, activateGame, createGame } from '../../store/thunk';
 import { IStore } from '../../store/types/store-types';
 
@@ -33,37 +34,45 @@ export default function Launch({ settings }:Props): JSX.Element {
     dispatch(activateGame());
   };
 
-  const copyLinkHandler = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/#/game/${id}`);
-  };
-
   const createGameHandler = () => {
     dispatch(createGame(settings));
   };
 
   return (
     <div className="settings-page">
-      {isGameCreated === true && (
+      {isGameCreated === true ? (
         <>
-          <p>
-            Room id:
-            {id}
-          </p>
-          <p>
-            Link to game:
-            {`http://localhost:3000/#/game/${id}`}
-          </p>
           <p>
             Your name:
             {name}
           </p>
-        </>
-      )}
 
-      <button type="button" onClick={createGameHandler}>Create game</button>
-      <button type="button" onClick={startGameHandler}>Start game</button>
-      <button type="button" onClick={cancelGameHandler}>Cancel game</button>
-      <button type="button" onClick={copyLinkHandler}>Copy link</button>
+          <p>
+            Room id:
+            {id}
+            <CopyToClipboard
+              text={id}
+            >
+              <button type="button">Copy id of game to clipboard</button>
+            </CopyToClipboard>
+          </p>
+          <p>
+            Link to game:
+            {`http://localhost:3000/#/game/${id}`}
+            <CopyToClipboard
+              text={`http://localhost:3000/#/game/${id}`}
+            >
+              <button type="button">Copy link to game to clipboard</button>
+            </CopyToClipboard>
+
+          </p>
+
+          <br />
+          <button type="button" onClick={startGameHandler}>Start game</button>
+          <button type="button" onClick={cancelGameHandler}>Cancel game</button>
+        </>
+      )
+        : <button type="button" onClick={createGameHandler}>Create game</button>}
 
     </div>
   );
