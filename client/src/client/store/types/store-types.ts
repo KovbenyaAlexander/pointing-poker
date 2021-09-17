@@ -14,7 +14,6 @@ export interface ISettings {
   estimationType?: string;
   isTimerRequired?: boolean;
   timerValue?: string;
-  isGameCreated?: boolean;
 }
 
 export interface IStore {

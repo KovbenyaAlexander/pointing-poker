@@ -20,10 +20,9 @@ type Props = {
 export default function Launch({ settings }:Props): JSX.Element {
   const dispatch = useDispatch();
 
-  const { id, name, isGameCreated } = useSelector((state: IStore) => ({
+  const { id, name } = useSelector((state: IStore) => ({
     name: state.user.name,
     id: state.settings.id,
-    isGameCreated: state.settings.isGameCreated,
   }));
 
   const cancelGameHandler = () => {
@@ -40,7 +39,7 @@ export default function Launch({ settings }:Props): JSX.Element {
 
   return (
     <div className="settings-page">
-      {isGameCreated === true ? (
+      {id ? (
         <>
           <p>
             Your name:

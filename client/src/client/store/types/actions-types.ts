@@ -3,7 +3,6 @@ import { ISettings, IUserInfo } from './store-types';
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
   UPDATE_SETTINGS = 'UPDATE_SETTINGS',
-  UPDATE_ID = 'UPDATE_ID',
 }
 
 // User Actions
