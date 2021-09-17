@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { cancelGame, activateGame, createGame } from '../../store/thunk';
-import { IStore } from '../../store/types/store-types';
+import { IStore } from '../../types/store-types';
 
 type Props = {
   settings:{

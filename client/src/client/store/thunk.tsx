@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore } from './types/store-types';
+import { IStore } from '../types/store-types';
 import { UpdateSettings } from './actions';
 import { SettingsType } from '../components/settings/settings';
 
