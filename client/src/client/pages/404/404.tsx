@@ -9,7 +9,11 @@ export default function NotFound(): JSX.Element {
   const state = useSelector((store: IStore) => store);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(UpdateUser({ name: 'Vova' }));
+    dispatch(UpdateUser({
+      userID: '1',
+      name: 'Lucy',
+      role: 'dealer',
+    }));
   }, []);
 
   return (
