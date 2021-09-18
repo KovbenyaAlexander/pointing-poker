@@ -14,7 +14,7 @@ export default function DealerCard(): JSX.Element {
   return (
     <section className="dealer-card">
       <h2>Dealer:</h2>
-      <Member name={dealer.name} imgSrc={dealer.imgSrc} userID={dealer.userID} />
+      <Member user={dealer} />
       { isDelaerUser ? <LobbyDealerActions /> : '' }
     </section>
   );
