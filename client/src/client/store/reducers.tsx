@@ -1,6 +1,8 @@
 import {
-  IStore, ISettings, IUserInfo, Actions, IGame,
-} from '../types/index';
+  IStore, ISettings, IUserInfo, IGame,
+} from '../types/store-types';
+import { Actions } from '../types/actions-types';
+
 import { initialStore } from './initialStore';
 
 export type AllActions =
