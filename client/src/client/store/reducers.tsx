@@ -9,6 +9,9 @@ const mockUser: IUserInfo = { name: 'Alex', role: 'player', userID: '4' };
 const mockSettings: ISettings = { time: 30 };
 const mockGame: IGame = {
   gameID: '1e',
+  excluding: {
+    isActive: false,
+  },
   members: [{
     userID: '1',
     name: 'Lucy',
@@ -45,6 +48,10 @@ export default function reducer(state: IStore = mockStore, action: AllActions) {
       return { ...state, settings: { ...action.payload } };
     case Actions.SET_GAME:
       return { ...state, game: { ...action.payload } };
+    case Actions.START_EXCLUDE:
+      return { ...state, game: { ...state.game, excluding: { ...action.payload } } };
+    case Actions.STOP_EXCLUDE:
+      return { ...state, game: { ...state.game, excluding: { isActive: false } } };
     default:
       return state;
   }

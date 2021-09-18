@@ -9,9 +9,16 @@ export interface ISettings {
   time: number;
 }
 
+export interface IExclude {
+  user?: IUserInfo;
+  reason?: string;
+  isActive: boolean;
+}
+
 export interface IGame {
   gameID: string | undefined;
   members: IUserInfo[];
+  excluding: IExclude;
 }
 
 export interface IStore {
