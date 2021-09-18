@@ -1,0 +1,15 @@
+.member{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  margin: 0 5px;
+  padding: 5px;
+  border: 1px solid;
+  border-radius: 5px;
+
+  &__name{
+    margin: 0 5px;
+  }
+}

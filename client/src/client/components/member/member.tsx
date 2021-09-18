@@ -19,7 +19,7 @@ export default function Member({ user } : { user: IUserInfo }): JSX.Element {
   return (
     <figure className="member">
       <Avatar name={name} imgSrc={imgSrc} />
-      <h4>{ name }</h4>
+      <h4 className="member__name">{ name }</h4>
       { isExludable && (
         <button
           type="button"

@@ -1,0 +1,15 @@
+.members{
+  margin-top: 30px;
+  
+  &__header{
+    margin: 20px 0;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  &__list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

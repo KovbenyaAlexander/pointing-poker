@@ -13,7 +13,7 @@ export default function DealerCard(): JSX.Element {
 
   return (
     <section className="dealer-card">
-      <h2>Dealer:</h2>
+      <h2 className="dealer-card__header">Dealer:</h2>
       <Member user={dealer} />
       { isDelaerUser ? <LobbyDealerActions /> : '' }
     </section>
