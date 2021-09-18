@@ -2,7 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
 import { IStore } from '../types/store-types';
-import { UpdateSettings, UpdateGameInfo } from './actions';
+import { UpdateSettings, UpdateGameInfo, setInitialStore } from './actions';
 
 export type SettingsType = {
   gameName: string,
@@ -23,7 +23,6 @@ export function createGame(settings: SettingsType) {
       const { user } = getState();
       const response = await axios.post(`${url}/newGame`, { userName: user.name, settings });
       if (response.status === 200) {
-        console.log(response.data);
         dispatch(UpdateSettings({ ...response.data }));
         dispatch(UpdateGameInfo({ id: response.data.id, isActive: false }));
       }
@@ -39,7 +38,7 @@ export function cancelGame() {
       const { game } = getState();
       const response = await axios.post(`${url}/removeGame`, { id: game.settings.id });
       if (response.status === 200) {
-        dispatch(UpdateSettings({ id: null }));
+        dispatch(setInitialStore());
       }
     } catch (e) {
       console.log(e);
@@ -47,13 +46,13 @@ export function cancelGame() {
   };
 }
 
-export function activateGame() {
+export function activitySwitcher(isActive: boolean) {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
       const { game } = getState();
-      const response = await axios.post(`${url}/activateGame`, { id: game.id });
+      const response = await axios.post(`${url}/changeGameActivity`, { id: game.id, isActive });
       if (response.status === 200) {
-        dispatch(UpdateGameInfo({isActive: true}));
+        dispatch(UpdateGameInfo({isActive: response.data}));
       }
     } catch (e) {
       console.log(e);

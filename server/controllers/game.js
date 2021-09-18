@@ -58,7 +58,7 @@ class Game {
     }
   }
 
-  activateGame(req, res) {
+  changeGameActivity(req, res) {
     try {
       if (!req.body.hasOwnProperty("id")) {
         return res.status(400).json({ message: "Invalid data" });
@@ -69,9 +69,10 @@ class Game {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      game.settings.isActive = true;
+      const isActive = req.body.isActive;
+      game.settings.isActive = !isActive;
 
-      return res.status(200).json({ message: "Game activated" });
+      return res.status(200).json(game.settings.isActive);
     } catch (e) {
       console.log(e);
     }

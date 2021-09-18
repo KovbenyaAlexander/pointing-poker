@@ -7,7 +7,7 @@ router.get("/", Game.getAllData);
 router.post("/newGame", Game.newGame);
 router.post("/removeGame", Game.removeGame);
 router.post("/getGame", Game.getGame);
-router.post("/activateGame", Game.activateGame);
+router.post("/changeGameActivity", Game.changeGameActivity);
 router.post("/updateSettings", Game.updateSettings);
 
 router.post("/join", Controller.join);

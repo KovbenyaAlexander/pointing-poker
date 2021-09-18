@@ -1,23 +1,24 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { cancelGame, activateGame, createGame } from '../../store/thunk';
+import { cancelGame, activitySwitcher, createGame } from '../../store/thunk';
 import { IStore } from '../../types/store-types';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
 
-  const { id, name } = useSelector((state: IStore) => ({
+  const { id, name, isActive } = useSelector((state: IStore) => ({
     name: state.user.name,
     id: state.game.id,
+    isActive: state.game.isActive
   }));
 
   const cancelGameHandler = () => {
     dispatch(cancelGame());
   };
 
-  const startGameHandler = () => {
-    dispatch(activateGame());
+  const gameActivitySwitcher = () => {
+    dispatch(activitySwitcher(isActive));
   };
 
   return (
@@ -50,7 +51,10 @@ export default function Launch(): JSX.Element {
           </p>
 
           <br />
-          <button type="button" onClick={startGameHandler}>Start game</button>
+
+          {!isActive && <button type="button" onClick={gameActivitySwitcher}>Start game</button>}
+          {isActive && <button type="button" onClick={gameActivitySwitcher}>Pause game</button>}
+
           <button type="button" onClick={cancelGameHandler}>Cancel game</button>
         </>
       )}
