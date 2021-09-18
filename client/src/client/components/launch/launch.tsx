@@ -4,25 +4,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { cancelGame, activateGame, createGame } from '../../store/thunk';
 import { IStore } from '../../types/store-types';
 
-type Props = {
-  settings:{
-    gameName: string,
-    isDealerInGame: boolean,
-    isAutoEntry: boolean,
-    isAutoFinish: boolean,
-    isVoteMutable: boolean,
-    estimationType: string,
-    isTimerRequired: boolean,
-    timerValue: string,
-  }
-};
-
-export default function Launch({ settings }:Props): JSX.Element {
+export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
 
   const { id, name } = useSelector((state: IStore) => ({
     name: state.user.name,
-    id: state.settings.id,
+    id: state.game.id,
   }));
 
   const cancelGameHandler = () => {
@@ -33,13 +20,9 @@ export default function Launch({ settings }:Props): JSX.Element {
     dispatch(activateGame());
   };
 
-  const createGameHandler = () => {
-    dispatch(createGame(settings));
-  };
-
   return (
     <div className="settings-page">
-      {id ? (
+      {id && (
         <>
           <p>
             Your name:
@@ -70,8 +53,7 @@ export default function Launch({ settings }:Props): JSX.Element {
           <button type="button" onClick={startGameHandler}>Start game</button>
           <button type="button" onClick={cancelGameHandler}>Cancel game</button>
         </>
-      )
-        : <button type="button" onClick={createGameHandler}>Create game</button>}
+      )}
 
     </div>
   );

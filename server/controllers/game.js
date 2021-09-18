@@ -71,7 +71,24 @@ class Game {
 
       game.settings.isActive = true;
 
-      return res.status(200);
+      return res.status(200).json({ message: "Game activated" });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  updateSettings(req, res) {
+    try {
+      const { id, settings } = req.body;
+
+      const game = games.get(id);
+      if (!game) {
+        return res.status(400).json({ message: "Game not found" });
+      }
+
+      game.settings = { isActive: game.settings.isActive, ...settings };
+
+      return res.status(200).send(settings);
     } catch (e) {
       console.log(e);
     }

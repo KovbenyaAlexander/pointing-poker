@@ -1,21 +1,15 @@
-import {
-  Actions, AllActions,
-} from '../types/actions-types';
-import { ISettings, IStore, IUserInfo } from '../types/store-types';
-
-const user: IUserInfo = { name: 'Alex' };
-const settings: ISettings = { time: 30 };
-const initialStore: IStore = {
-  user: user,
-  settings: settings,
-};
+import { Actions, AllActions } from '../types/actions-types';
+import { IStore } from '../types/store-types';
+import { initialStore } from './initialStore';
 
 export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
     case Actions.UPDATE_USERINFO:
       return { ...state, user: { ...action.payload } };
     case Actions.UPDATE_SETTINGS:
-      return { ...state, settings: { ...action.payload } };
+      return { ...state, game: { ...state.game, settings: { ...action.payload } } };
+    case Actions.UPDATE_GAMEINFO:
+      return { ...state, game: { ...state.game, ...action.payload } };
     default:
       return state;
   }

@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
+import { createGame, updateSettings } from '../../store/thunk';
 
-export type SettingsType = {
-  gameName: string,
-  isDealerInGame: boolean,
-  isAutoEntry: boolean,
-  isAutoFinish: boolean,
-  isVoteMutable: boolean,
-  estimationType: string,
-  isTimerRequired: boolean,
-  timerValue: string,
-};
+export default function Settings(): JSX.Element {
+  const dispatch = useDispatch();
+  const game = useSelector((state:any) => state.game);
+  const [settings, setSettings] = useState(game.settings);
 
-type Props = {
-  settings: SettingsType
-  setSettings: (props: SettingsType)=>void
-};
+  const onSubmitHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (game.id) {
+      dispatch(updateSettings(settings));
+    } else {
+      dispatch(createGame(settings));
+    }
+  };
 
-export default function Settings({ settings, setSettings }:Props): JSX.Element {
   return (
-    <div className="settings">
+    <form className="settings" onSubmit={onSubmitHandler}>
       <span>Name of game</span>
       <input
         type="text"
@@ -113,6 +112,10 @@ export default function Settings({ settings, setSettings }:Props): JSX.Element {
        />
      </label>
    )}
-    </div>
+
+    {!game.id && <button type="submit">Create game</button> }
+    {game.id && <button type="submit">Update game</button> }
+      
+    </form>
   );
 }

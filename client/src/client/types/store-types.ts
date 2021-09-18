@@ -18,5 +18,9 @@ export interface ISettings {
 
 export interface IStore {
   user: IUserInfo;
-  settings: ISettings;
+  game:{
+    id: string | null;
+    isActive: boolean;
+    settings: ISettings;
+  }
 }
