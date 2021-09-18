@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Settings from '../../components/settings/settings';
 import Launch from '../../components/launch/launch';
 

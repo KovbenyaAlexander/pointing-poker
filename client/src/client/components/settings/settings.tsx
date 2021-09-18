@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { createGame, updateSettings } from '../../store/thunk';
+import { IStore } from '../../types/index';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
-  const game = useSelector((state:any) => state.game);
+  const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
@@ -113,9 +114,9 @@ export default function Settings(): JSX.Element {
      </label>
    )}
 
-    {!game.id && <button type="submit">Create game</button> }
-    {game.id && <button type="submit">Update game</button> }
-      
+      {!game.id && <button type="submit">Create game</button> }
+      {game.id && <button type="submit">Update game</button> }
+
     </form>
   );
 }

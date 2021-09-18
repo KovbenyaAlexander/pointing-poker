@@ -16,9 +16,14 @@ export interface ISettings {
   timerValue?: string;
 }
 
+export interface IGame {
+  id?: string | null;
+  isActive?: boolean;
+}
+
 export interface IStore {
   user: IUserInfo;
-  game:{
+  game: {
     id: string | null;
     isActive: boolean;
     settings: ISettings;

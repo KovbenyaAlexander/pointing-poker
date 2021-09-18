@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { cancelGame, activitySwitcher, createGame } from '../../store/thunk';
-import { IStore } from '../../types/store-types';
+import { cancelGame, activitySwitcher } from '../../store/thunk';
+import { IStore } from '../../types/index';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export default function Launch(): JSX.Element {
   const { id, name, isActive } = useSelector((state: IStore) => ({
     name: state.user.name,
     id: state.game.id,
-    isActive: state.game.isActive
+    isActive: state.game.isActive,
   }));
 
   const cancelGameHandler = () => {
