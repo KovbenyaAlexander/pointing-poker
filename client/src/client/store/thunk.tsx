@@ -1,19 +1,8 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore, ISettings } from '../types/store-types';
+import { IStore, ISettings } from '../types';
 import { UpdateSettings, UpdateGameInfo, setInitialStore } from './actions';
-
-export type SettingsType = {
-  gameName: string,
-  isDealerInGame: boolean,
-  isAutoEntry: boolean,
-  isAutoFinish: boolean,
-  isVoteMutable: boolean,
-  estimationType: string,
-  isTimerRequired: boolean,
-  timerValue: string,
-};
 
 const url = 'http://localhost:5000/api';
 

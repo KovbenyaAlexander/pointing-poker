@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { cancelGame, activitySwitcher } from '../../store/thunk';
-import { IStore } from '../../types/index';
+import { IStore } from '../../types';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();

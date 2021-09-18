@@ -1,5 +1,6 @@
-import { Actions } from '../types/actions-types';
-import { ISettings, IUserInfo, IGame } from '../types/store-types';
+import {
+  ISettings, IUserInfo, IGame, Actions,
+} from '../types';
 import { AllActions } from './reducers';
 
 export function UpdateUser(payload: IUserInfo): AllActions {
