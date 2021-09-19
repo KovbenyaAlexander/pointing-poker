@@ -3,8 +3,6 @@ export interface IUserInfo {
 }
 
 export interface ISettings {
-  time?: number;
-  id?: string | null;
   isActive?: boolean | null;
   gameName?: string;
   isDealerInGame?: boolean;
@@ -19,6 +17,7 @@ export interface ISettings {
 export interface IGame {
   id?: string | null;
   isActive?: boolean;
+  settings?: ISettings;
 }
 
 export interface IStore {

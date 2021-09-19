@@ -52,9 +52,10 @@ export default function Launch(): JSX.Element {
 
           <br />
 
-          {!isActive && <button type="button" onClick={gameActivitySwitcher}>Start game</button>}
-          {isActive && <button type="button" onClick={gameActivitySwitcher}>Pause game</button>}
-
+          <button type="button" onClick={gameActivitySwitcher}>
+            {isActive ? 'Pause game' : 'Start game'}
+          </button>
+          
           <button type="button" onClick={cancelGameHandler}>Cancel game</button>
         </>
       )}

@@ -2,7 +2,6 @@ import { ISettings, IStore, IUserInfo } from '../types/store-types';
 
 const user: IUserInfo = { name: 'Alex' };
 const settings: ISettings = {
-  time: 30,
   gameName: '',
   isDealerInGame: false,
   isAutoEntry: false,

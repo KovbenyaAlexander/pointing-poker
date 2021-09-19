@@ -5,7 +5,6 @@ class Game {
   newGame(req, res) {
     try {
       const { userName, settings } = req.body;
-
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
       }
@@ -17,7 +16,8 @@ class Game {
       const id = uuid.v4();
       const users = [{ userName, role: "dealer" }];
       games.set(id, { users, settings: { isActive: false, ...settings } });
-      return res.status(200).json({ id, settings, isActive: false });
+      console.log(settings);
+      return res.status(200).json({ id, ...settings, isActive: false });
     } catch (e) {
       console.log(e);
     }

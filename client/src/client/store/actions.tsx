@@ -1,5 +1,5 @@
 import {
-  ISettings, IUserInfo, IGame, Actions,
+  IUserInfo, IGame, Actions,
 } from '../types';
 import { AllActions } from './reducers';
 
@@ -10,16 +10,9 @@ export function UpdateUser(payload: IUserInfo): AllActions {
   };
 }
 
-export function UpdateSettings(payload: ISettings): AllActions {
+export function UpdateSettings(payload: IGame): AllActions {
   return {
     type: Actions.UPDATE_SETTINGS,
-    payload,
-  };
-}
-
-export function UpdateGameInfo(payload: IGame): AllActions {
-  return {
-    type: Actions.UPDATE_GAMEINFO,
     payload,
   };
 }

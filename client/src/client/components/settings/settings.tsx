@@ -12,9 +12,9 @@ export default function Settings(): JSX.Element {
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
-      dispatch(updateSettings(settings));
+      dispatch(updateSettings({ settings }));
     } else {
-      dispatch(createGame(settings));
+      dispatch(createGame({ settings }));
     }
   };
 
@@ -114,8 +114,7 @@ export default function Settings(): JSX.Element {
      </label>
    )}
 
-      {!game.id && <button type="submit">Create game</button> }
-      {game.id && <button type="submit">Update game</button> }
+      <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
     </form>
   );
