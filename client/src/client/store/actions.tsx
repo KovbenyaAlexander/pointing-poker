@@ -19,6 +19,6 @@ export function UpdateSettings(payload: IGame): AllActions {
 
 export function setInitialStore(): AllActions {
   return {
-    type: Actions.SET_INITIAL_STORE,
+    type: Actions.SET_DEFAULT_SETTINGS,
   };
 }

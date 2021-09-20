@@ -3,21 +3,14 @@ export interface IUserInfo {
 }
 
 export interface ISettings {
-  isActive?: boolean | null;
-  gameName?: string;
-  isDealerInGame?: boolean;
-  isAutoEntry?: boolean;
-  isAutoFinish?: boolean;
-  isVoteMutable?: boolean;
-  estimationType?: string;
-  isTimerRequired?: boolean;
-  timerValue?: string;
-}
-
-export interface IGame {
-  id?: string | null;
-  isActive?: boolean;
-  settings?: ISettings;
+  gameName: string;
+  isDealerInGame: boolean;
+  isAutoEntry: boolean;
+  isAutoFinish: boolean;
+  isVoteMutable: boolean;
+  estimationType: string;
+  isTimerRequired: boolean;
+  timerValue: string;
 }
 
 export interface IStore {
