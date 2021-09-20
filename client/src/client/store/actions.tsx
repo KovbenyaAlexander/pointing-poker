@@ -1,9 +1,9 @@
 import {
-  Actions, IDataUserAction, SettingsActions, UserUpdateAction,
+  Actions,  IKeyGameIdUpdateAction,  IKeyIdGameAction,  SettingsActions, UserUpdateAction,
 } from './types/actions-types';
-import { IDataUser, ISettings, IUserInfo } from './types/store-types';
+import { IIdKeyUser, ISettings, IUserInfo } from './types/store-types';
 
-export function UpdateUser(payload: IUserInfo): UserUpdateAction {
+export function UpdateUser(payload: any): any {
   return {
     type: Actions.UPDATE_USERINFO,
     payload,
@@ -17,4 +17,7 @@ export function UpdateSettings(payload: ISettings): SettingsActions {
   };
 }
 
-export const DataUserActions = (payload: IDataUser):IDataUserAction => ({ type: Actions.ADDED_DATA_USER, payload });
+
+
+export const KeyGameIdActions = (payload: IIdKeyUser):IKeyIdGameAction => 
+({ type: Actions.UPDATE_KEY_GAME, payload });

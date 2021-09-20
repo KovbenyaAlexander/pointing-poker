@@ -1,9 +1,9 @@
-import { IDataUser, ISettings, IUserInfo } from './store-types';
+import { ISettings, IUserInfo } from './store-types';
 
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
   UPDATE_SETTINGS = 'UPDATE_SETTINGS',
-  ADDED_DATA_USER = 'ADDED_DATA_USER',
+  UPDATE_KEY_GAME = 'UPDATE_KEY_GAME',
 }
 
 // User Actions
@@ -24,9 +24,9 @@ export type SettingsActions = SettingUpdateAction;
 
 // data user
 
-export interface IDataUserUpdateAction{
-  type: Actions.ADDED_DATA_USER;
-  payload: IDataUser
+export interface IKeyGameIdUpdateAction{
+  type: Actions.UPDATE_KEY_GAME;
+  payload: any
 }
 
-export type IDataUserAction = IDataUserUpdateAction;
+export type IKeyIdGameAction = IKeyGameIdUpdateAction;

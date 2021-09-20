@@ -41,13 +41,11 @@ class Game {
   getGame(req, res) {
     try {
       const { id } = req.body;
-
       if (!id) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
       const game = games.get(id);
-
       if (!game) {
         return res.status(200).json(false);
       }
@@ -60,6 +58,14 @@ class Game {
 
   getAllData(req, res) {
     return res.status(200).send(Array.from(games));
+  }
+
+  chekedIdKey(req, res) {
+    const [...allKeyID] = games.keys();
+    const { gameIdUser } = req.body;
+    const id = allKeyID.find((id) => id === gameIdUser);
+
+    res.status(200).send({ id });
   }
 }
 

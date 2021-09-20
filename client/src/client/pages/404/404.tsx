@@ -16,7 +16,7 @@ export default function NotFound(): JSX.Element {
       </h2>
       <p>
         Current User -
-        {state.user.name}
+        {state.user.firstName}
       </p>
       <p>
         Current time -

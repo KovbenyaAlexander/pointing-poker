@@ -1,5 +1,9 @@
 export interface IUserInfo {
-  name: string;
+  firstName: string
+  lastName: string
+  jobPosition: string
+  photoUser: string
+  role: string
 }
 
 export interface ISettings {
@@ -11,11 +15,8 @@ export interface IStore {
   settings: ISettings;
 }
 
-export interface IDataUser {
 
-  firstName: string
-  lastName?: string
-  jobPosition?: string
-  photoUser?: string | ArrayBuffer | null | undefined
-
+export interface IIdKeyUser{
+  keyID: string
 }
+
