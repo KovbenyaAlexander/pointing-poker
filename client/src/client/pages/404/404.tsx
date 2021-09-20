@@ -23,7 +23,6 @@ export default function NotFound(): JSX.Element {
       </p>
       <p>
         Current time -
-        {state.settings.time}
       </p>
       <Link to="/">Go Home</Link>
     </article>

@@ -1,21 +1,23 @@
 import {
-  Actions, AllActions,
-} from '../types/actions-types';
-import { ISettings, IStore, IUserInfo } from '../types/store-types';
+  IStore, IUserInfo,
+} from '../types/store-types';
+import { Actions, IGame } from '../types/actions-types';
 
-const mockUser: IUserInfo = { name: 'Alex' };
-const mockSettings: ISettings = { time: 30 };
-const mockStore: IStore = {
-  user: mockUser,
-  settings: mockSettings,
-};
+import { initialStore } from './initialStore';
 
-export default function reducer(state: IStore = mockStore, action: AllActions) {
+export type AllActions =
+  { type: typeof Actions.UPDATE_SETTINGS; payload: IGame }
+  | { type: typeof Actions.UPDATE_USERINFO; payload: IUserInfo }
+  | { type: typeof Actions.SET_DEFAULT_SETTINGS };
+
+export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
     case Actions.UPDATE_USERINFO:
       return { ...state, user: { ...action.payload } };
     case Actions.UPDATE_SETTINGS:
-      return { ...state, settings: { ...action.payload } };
+      return { ...state, game: { ...state.game, ...action.payload } };
+    case Actions.SET_DEFAULT_SETTINGS:
+      return { ...state, game: initialStore.game };
     default:
       return state;
   }

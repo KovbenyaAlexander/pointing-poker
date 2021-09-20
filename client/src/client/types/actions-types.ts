@@ -1,24 +1,20 @@
-import { ISettings, IUserInfo } from './store-types';
-
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
   UPDATE_SETTINGS = 'UPDATE_SETTINGS',
+  SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
 }
 
-// User Actions
-export interface UserUpdateAction {
-  payload: IUserInfo;
-  type: Actions.UPDATE_USERINFO;
+export interface IGame {
+  id?: string | null;
+  isActive?: boolean;
+  settings?: {
+    gameName: string;
+    isDealerInGame: boolean;
+    isAutoEntry: boolean;
+    isAutoFinish: boolean;
+    isVoteMutable: boolean;
+    estimationType: string;
+    isTimerRequired: boolean;
+    timerValue: string;
+  }
 }
-
-export type UserActions = UserUpdateAction;
-
-// Settings Actions
-export interface SettingUpdateAction {
-  payload: ISettings;
-  type: Actions.UPDATE_SETTINGS
-}
-
-export type SettingsActions = SettingUpdateAction;
-
-export type AllActions = SettingsActions | UserActions;

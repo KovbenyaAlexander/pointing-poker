@@ -21,6 +21,7 @@
   "homepage": "https://github.com/KovbenyaAlexander/pointing-poker#readme",
   "devDependencies": {
     "@types/react": "^17.0.20",
+    "@types/react-copy-to-clipboard": "^5.0.1",
     "@types/react-dom": "^17.0.9",
     "@types/react-router": "^5.1.16",
     "@types/react-router-dom": "^5.1.8",
@@ -51,7 +52,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "axios": "^0.21.4",
     "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
     "react-router": "^5.2.1",
