@@ -14,6 +14,7 @@ const App = (): JSX.Element => (
       <Switch>
         <Route exact path="/">
           <HelloPage />
+          {/* <Chat socket={socket}/> */}
         </Route>
         <Route path="/lobby"><NotFound /></Route>
         <Route path="/game"><GamePage /></Route>

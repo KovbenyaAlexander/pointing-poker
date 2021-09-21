@@ -19,5 +19,6 @@ export interface IStore {
     id: string | null;
     isActive: boolean;
     settings: ISettings;
-  }
+  },
+  socket: any
 }

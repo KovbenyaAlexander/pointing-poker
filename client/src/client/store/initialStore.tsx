@@ -1,4 +1,9 @@
+import io from 'socket.io-client';
 import { ISettings, IStore, IUserInfo } from '../types/store-types';
+
+const socket = io('http://localhost:5000', {
+  withCredentials: true,
+});
 
 const user: IUserInfo = { name: '' };
 const settings: ISettings = {
@@ -19,4 +24,5 @@ export const initialStore: IStore = {
     isActive: false,
     id: null,
   },
+  socket,
 };
