@@ -30,7 +30,7 @@ class Controller {
       const newUsers = [...gameInfo.users, { userName, role }];
       games.set(id, { ...gameInfo, users: newUsers });
 
-      return res.status(200).json({ message: "Join was successful" });
+      return res.status(200).json({ message: "Join was successful", gameID: id });
     } catch (e) {
       console.log(e);
     }

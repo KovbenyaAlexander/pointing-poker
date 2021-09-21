@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./router/index");
 const { Server } = require('socket.io');
-const PORT = 5000;
+const { initSocket } = require('./sockets/socket-main');
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
@@ -18,12 +19,6 @@ const io = new Server(server, {
   }
 });
 
-const sokets = [];
 
-io.on('connection', (soket) => {
-  sokets.push(soket);
-  console.log('Connected with user')
-  soket.on('updateState', store => {
-    console.log(store);
-  });
-});
+
+io.on('connection', initSocket);
