@@ -1,5 +1,5 @@
 import {
-  Actions,  IKeyGameIdUpdateAction,  IKeyIdGameAction,  SettingsActions, UserUpdateAction,
+  Actions, IKeyIdGameAction,  SettingsActions, UserUpdateAction,
 } from './types/actions-types';
 import { IIdKeyUser, ISettings, IUserInfo } from './types/store-types';
 

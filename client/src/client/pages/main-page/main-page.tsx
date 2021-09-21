@@ -1,12 +1,16 @@
 import React, { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyGameIdActions } from "../../store/actions";
-import { LoginPopap } from "./login-popap";
+import { LoginPopap } from "../../components/login-popap/login-popap";
 import "./style.scss";
 
 const url = "http://localhost:5000/api";
 
 export const MainPage = (props: any): ReactElement => {
+  //  const [stateValid, setStateValid] = useState<any>({
+  //   statePopap: false,
+  //   errorValidIdKey: "",
+  // });
   const dispatch = useDispatch();
   const { gameId }: any = props.match.params;
   // test state 
@@ -14,11 +18,17 @@ export const MainPage = (props: any): ReactElement => {
   // **
   const [gameIdUser, setGameIdUser] = useState(gameId || "");
 
-  const [stateValid, setStateValid] = useState<any>({
-    statePopap: false,
-    errorValidIdKey: "",
-  });
-  const { statePopap, errorValidIdKey } = stateValid;
+
+  const [shouldShowLogin, setShouldShowLogin] = useState(false);
+  const [isGameFound, setIsGameFound] = useState(true);
+
+
+  // const [stateValid, setStateValid] = useState<any>({
+  //   statePopap: false,
+  //   errorValidIdKey: "",
+  // });
+
+  // const { statePopap, errorValidIdKey } = stateValid;
 
 
   async function onJoinGame() {
@@ -49,15 +59,18 @@ export const MainPage = (props: any): ReactElement => {
       const { id } = await res.json()
       const idKeyUser = id
       if  (!id) {
-        setStateValid({
+        // setStateValid({
   
-          statePopap: false,
-          errorValidIdKey: "Game not found...",
+        //   statePopap: false,
+        //   errorValidIdKey: "Game not found...",
           
-        });
+        // });
+
+        setIsGameFound(false)
         
       } else{
-        setStateValid({ statePopap: true, errorValidIdKey: "" });
+        // setStateValid({ statePopap: true, errorValidIdKey: "" });
+        setShouldShowLogin(true)
         dispatch(KeyGameIdActions(idKeyUser))
       }
       
@@ -65,11 +78,11 @@ export const MainPage = (props: any): ReactElement => {
   }
   return (
     <article>
-      {statePopap && <LoginPopap statePopap={setStateValid} />}
+      {shouldShowLogin && <LoginPopap statePopap={setShouldShowLogin} />}
       <section>
           
 
-          {/* test created dieler */}
+          {/* test created dealer */}
           <h2 className="new-game__title">Create New Game!</h2>
           <p>Name dealer:</p>
           <input type="text" onChange={(e) => setNameDieler(e.target.value)}/>
@@ -93,7 +106,9 @@ export const MainPage = (props: any): ReactElement => {
             Play
           </button>
         </form>
-        <p>{errorValidIdKey}</p>
+        {!isGameFound && (
+    <p>Game not found...</p>
+)}
       </section>
     </article>
   );

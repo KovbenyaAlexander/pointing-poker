@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { UpdateUser } from "../../store/actions";
 
-import "./style.scss";
+import "./login-popap.scss";
 
 interface ILoginPopap {
   statePopap: Dispatch<SetStateAction<boolean>>;
@@ -15,61 +15,16 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
   const dispatch = useDispatch()
 
   const {keyID} = useSelector((s:any) => s.idKey)
-  
-  const [stateDataUser, setStateDataUser] = useState({
+
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [userForm, setUserForm] = useState({
     firstName: "",
-    validFirstName: false,
-    defaultCheckbox: true,
-    errorMessage: "",
     lastName: "",
     jobPosition: "value1",
     role: "player",
     photoUser: "",
-    gameActive: 'game'
   });
-
-  const {
-    firstName,
-    lastName,
-    jobPosition,
-    photoUser,
-    defaultCheckbox,
-    role,
-    validFirstName,
-    errorMessage,
-    gameActive
-  } = stateDataUser;
-
-
-  useEffect(() => {
-    function checkedValidFirstName() {
-
-      const reg = /([a-z])\w+/;
-
-      if (!reg.test(String(stateDataUser.firstName).toLowerCase())) {
-        setStateDataUser({
-          ...stateDataUser,
-          validFirstName: true,
-          errorMessage: "Wrong data...",
-        });
-      } else {
-        setStateDataUser({
-          ...stateDataUser,
-          validFirstName: false,
-          errorMessage: "",
-        });
-      }
-    }
-    checkedValidFirstName();
-  }, [firstName, lastName, jobPosition, role, photoUser]);
-
-  function getUserDataValue(
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) {
-    setStateDataUser({ ...stateDataUser, [e.target.name]: e.target.value });
-  }
+  console.log(userForm.firstName)
 
   function addedPhotoUser(e: React.ChangeEvent<any>) {
     const file = e.target.files[0];
@@ -77,8 +32,8 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
     const render = new FileReader();
 
     render.onload = (event) => {
-      setStateDataUser({
-        ...stateDataUser,
+      setUserForm({
+        ...userForm,
         [e.target.name]: event.target?.result,
       });
     };
@@ -86,20 +41,16 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
     render.readAsDataURL(file);
   }
 
-// 
+useEffect(()=>{
+  const reg = /([a-z])\w+/;
+  if(!reg.test(String(userForm.firstName).toLowerCase())){
+    setIsFormValid(false)
+  }else{
+    setIsFormValid(true)
+  }
 
-async function sendDataUser() {
-  dispatch(UpdateUser({
-    firstName,
-    lastName,
-    jobPosition,
-    photoUser,
-    role
-  }))
+}, [userForm.firstName])
 
-
-}
-// 
   return (
     <div className="login_popap">
       <div className="login_popap-wrapper">
@@ -107,12 +58,12 @@ async function sendDataUser() {
         <form>
           <div className="photo_user-wrapper">
             <label htmlFor="photoUser">
-              {!photoUser ? (
+              {!userForm.photoUser ? (
                 <p>Added photo</p>
               ) : (
                 <img
-                  src={photoUser}
-                  alt={firstName && (firstName)}
+                  src={userForm.photoUser}
+                  alt={userForm.firstName && (userForm.firstName)}
                 />
               )}
 
@@ -131,10 +82,10 @@ async function sendDataUser() {
               type="text"
               name="firstName"
               id="firstName"
-              value={firstName}
-              onChange={(e) => getUserDataValue(e)}
+              value={userForm.firstName}
+              onChange={(e) => setUserForm({...userForm, firstName: e.target.value})}
             />
-            <p>{errorMessage}</p>
+            <p>{!isFormValid && ('Wrong data..')}</p>
           </label>
 
           <label htmlFor="lastName">
@@ -143,8 +94,8 @@ async function sendDataUser() {
               type="text"
               name="lastName"
               id="lastName"
-              value={lastName}
-              onChange={(e) => getUserDataValue(e)}
+              value={userForm.lastName}
+              onChange={(e) => setUserForm({...userForm, lastName: e.target.value})}
             />
           </label>
 
@@ -153,13 +104,11 @@ async function sendDataUser() {
             <select
               id="jobPosition"
               name="jobPosition"
-              onChange={(e) => getUserDataValue(e)}
+              onChange={(e) => setUserForm({...userForm, jobPosition: e.target.value})}
             >
               <option value="value1">value1</option>
               <option value="value2">value2</option>
               <option value="value3">value3</option>
-              <option value="value4">value4</option>
-              <option value="value5">value5</option>
             </select>
           </label>
           <label htmlFor="isRole">
@@ -171,11 +120,11 @@ async function sendDataUser() {
           </label>
           <div className="btn_wrapper">
 
-            <NavLink to={`/${gameActive}/${keyID}`}>
+            <NavLink to={`/game/${keyID}`}>
             <button 
             type="submit" 
-            disabled={validFirstName} 
-            onClick={()=> sendDataUser()}>
+            disabled={!isFormValid} 
+            >
               Check Button
             </button>
             </NavLink>
