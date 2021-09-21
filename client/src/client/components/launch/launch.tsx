@@ -1,16 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useHistory } from 'react-router';
 import { cancelGame, activitySwitcher } from '../../store/thunk';
 import { IStore } from '../../types';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { id, name, isActive } = useSelector((state: IStore) => ({
+  const {
+    id, name, isActive, socket,
+  } = useSelector((state: IStore) => ({
     name: state.user.name,
     id: state.game.id,
     isActive: state.game.isActive,
+    socket: state.socket,
   }));
 
   const cancelGameHandler = () => {
@@ -18,6 +23,10 @@ export default function Launch(): JSX.Element {
   };
 
   const gameActivitySwitcher = () => {
+    if (!isActive) {
+      socket.emit('joinRoom', { name, id });
+      history.push(`/game/${id}`);
+    }
     dispatch(activitySwitcher(isActive));
   };
 

@@ -23,41 +23,16 @@ const io = socket(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("sendMessage", ({ gameID, userName, message }) => {
-    // console.log(`------------`);
-    // console.log(gameID);
-    // console.log(userName);
-    // console.log(message);
+  socket.on("joinRoom", ({ name, id }) => {
+    socket.join(id);
+  });
 
-    console.log(socket.id);
+  socket.on("sendMessage", ({ name, id, message }) => {
+    console.log(message);
 
-    io.to(gameID).emit("message", {
-      userName: userName,
-      message: message,
+    io.to(id).emit("message", {
+      name,
+      message,
     });
   });
 });
-
-// const express = require("express");
-// const app = express();
-// const socket = require("socket.io");
-// const cors = require("cors");
-
-// app.use(express());
-
-// const port = 8000;
-
-// // app.use(cors({ "Access-Control-Allow-Origin": "*" }));
-
-// var server = app.listen(
-//   port,
-//   console.log(`Server is running on the port: ${port} `)
-// );
-
-// const io = socket(server);
-
-// io.on("connection", (socket) => {
-//   socket.on("chat", (text) => {
-//     console.log(text);
-//   });
-// });

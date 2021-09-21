@@ -4,20 +4,24 @@ import { IStore } from '../../types';
 
 const Chat = () => {
   const [message, setMessage] = useState('');
-  const { socket, gameID, userName } = useSelector((s: IStore) => ({
+  const [messages, setMessages] = useState<any>([{ name: 'name', message: 'message' }]);
+  const { socket, id, name } = useSelector((s: IStore) => ({
     socket: s.socket,
-    gameID: s.game.id,
-    userName: s.user.name,
+    id: s.game.id,
+    name: s.user.name,
   }));
+
 
   useEffect(() => {
     socket.on('message', (data: any) => {
-      console.log(data);
+      setMessages((prev: any)=>{
+        return [...prev, data]
+      });
     });
   }, [socket]);
 
   const sendMessage = () => {
-    socket.emit('sendMessage', { gameID, userName, message });
+    socket.emit('sendMessage', { id, name, message });
   };
 
   return (
@@ -25,9 +29,25 @@ const Chat = () => {
       <input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        onClick={() => sendMessage()}
       />
       <button type="button" onClick={sendMessage}>Send</button>
+      <span>Room id: {id}</span>
+      <hr />
+      {messages.map((msg: any) =>
+        // TODO: remove random
+        (
+          <div key={Math.random()}>
+            <span>
+              Author:
+              {msg.name}
+            </span>
+            <span>
+              Message:
+              {msg.message}
+            </span>
+            <br />
+          </div>
+        ))}
     </div>
   );
 };
