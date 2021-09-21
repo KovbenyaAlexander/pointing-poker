@@ -4,8 +4,7 @@ const games = require("./index");
 class Game {
   newGame(req, res) {
     try {
-      const { userName } = req.body;
-
+      const { userName, settings } = req.body;
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
       }
@@ -15,9 +14,9 @@ class Game {
       }
 
       const id = uuid.v4();
-      const usersArray = [{ userName, role: "dealer" }];
-      games.set(id, { usersArray, settings: {} });
-      return res.status(200).json(id);
+      const users = [{ userName, role: "dealer" }];
+      games.set(id, { users, settings: { isActive: false, ...settings } });
+      return res.status(200).json({ id, ...settings, isActive: false });
     } catch (e) {
       console.log(e);
     }
@@ -32,7 +31,7 @@ class Game {
       }
 
       games.delete(id);
-      return res.status(400).json({ message: "Game deleted successfully" });
+      return res.status(200).json({ message: "Game deleted successfully" });
     } catch (e) {
       console.log(e);
     }
@@ -51,6 +50,43 @@ class Game {
       }
 
       return res.status(200).json(game);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  changeGameActivity(req, res) {
+    try {
+      if (!req.body.hasOwnProperty("id")) {
+        return res.status(400).json({ message: "Invalid data" });
+      }
+
+      const game = games.get(req.body.id);
+      if (!game) {
+        return res.status(400).json({ message: "Game not found" });
+      }
+
+      const isActive = req.body.isActive;
+      game.settings.isActive = !isActive;
+
+      return res.status(200).json(game.settings.isActive);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  updateSettings(req, res) {
+    try {
+      const { id, settings } = req.body;
+
+      const game = games.get(id);
+      if (!game) {
+        return res.status(400).json({ message: "Game not found" });
+      }
+
+      game.settings = { isActive: game.settings.isActive, ...settings };
+
+      return res.status(200).send(settings);
     } catch (e) {
       console.log(e);
     }

@@ -1,57 +1,24 @@
-import { combineReducers } from 'redux';
-import { Actions, SettingsActions, UserActions, UserUpdateAction } from './types/actions-types';
-import { IIdKeyUser, ISettings, IUserInfo } from './types/store-types';
+import {
+  IStore, IUserInfo,
+} from '../types/store-types';
+import { Actions, IGame } from '../types/actions-types';
 
+import { initialStore } from './initialStore';
 
-const mockSettings: ISettings = { time: 30 };
+export type AllActions =
+  { type: typeof Actions.UPDATE_SETTINGS; payload: IGame }
+  | { type: typeof Actions.UPDATE_USERINFO; payload: IUserInfo }
+  | { type: typeof Actions.SET_DEFAULT_SETTINGS };
 
-
-function settingsDataReducer(state: ISettings = mockSettings, action: SettingsActions) {
+export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
+    case Actions.UPDATE_USERINFO:
+      return { ...state, user: { ...action.payload } };
     case Actions.UPDATE_SETTINGS:
-      return { ...state, ...action.payload};
+      return { ...state, game: { ...state.game, ...action.payload } };
+    case Actions.SET_DEFAULT_SETTINGS:
+      return { ...state, game: initialStore.game };
     default:
       return state;
   }
 }
-
-
-const mockIdKey = {
-  keyID: ''
-}
-
-function keyIdReducer(state:IIdKeyUser = mockIdKey, action:any) {
-  switch (action.type) {
-    case Actions.UPDATE_KEY_GAME:
-      return {...state, keyID: action.payload}  
-    default:
-      return state
-  }
-}
-
-const mockUser = {
-  firstName: '',
-  lastName: '',
-  jobPosition: '',
-  photoUser: '',
-  role: "player"
-
-}
-
-
- function userDataReducer(state:IUserInfo = mockUser, action:UserUpdateAction) {
-  switch (action.type) {
-    case Actions.UPDATE_USERINFO:
-      return { ...state,  ...action.payload}  
-    default:
-      return state
-  }
-}
-
-
-
-export const reducer = combineReducers({
-  user: userDataReducer,
-  settings: settingsDataReducer,
-  idKey: keyIdReducer,
-});

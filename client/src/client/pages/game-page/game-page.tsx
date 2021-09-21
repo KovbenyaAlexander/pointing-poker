@@ -1,10 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { IStore } from "../../store/types/store-types";
 import "./style.scss";
 
 export default function GamePage(): JSX.Element {
-  const { user } = useSelector((store: IStore) => store);
+  const { user } = useSelector((store: any) => store);
   return (
     <article className="game">
       <h2 className="game__title">There are all your games</h2>

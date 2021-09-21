@@ -1,23 +1,24 @@
 import {
-  Actions, IKeyIdGameAction,  SettingsActions, UserUpdateAction,
-} from './types/actions-types';
-import { IIdKeyUser, ISettings, IUserInfo } from './types/store-types';
+  IUserInfo, IGame, Actions,
+} from '../types';
+import { AllActions } from './reducers';
 
-export function UpdateUser(payload: any): any {
+export function UpdateUser(payload: IUserInfo): AllActions {
   return {
     type: Actions.UPDATE_USERINFO,
     payload,
   };
 }
 
-export function UpdateSettings(payload: ISettings): SettingsActions {
+export function UpdateSettings(payload: IGame): AllActions {
   return {
     type: Actions.UPDATE_SETTINGS,
     payload,
   };
 }
 
-
-
-export const KeyGameIdActions = (payload: IIdKeyUser):IKeyIdGameAction => 
-({ type: Actions.UPDATE_KEY_GAME, payload });
+export function setInitialStore(): AllActions {
+  return {
+    type: Actions.SET_DEFAULT_SETTINGS,
+  };
+}

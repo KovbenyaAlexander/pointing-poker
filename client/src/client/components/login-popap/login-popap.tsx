@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useDebugValue, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { UpdateUser } from "../../store/actions";
+// import { UpdateUser } from "../../store/actions";
 
 import "./login-popap.scss";
 

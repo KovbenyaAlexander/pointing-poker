@@ -1,12 +1,13 @@
 import React, { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyGameIdActions } from "../../store/actions";
+// import { KeyGameIdActions } from "../../store/actions";
 import { LoginPopap } from "../../components/login-popap/login-popap";
 import "./style.scss";
+import NewUserFrom from "../../components/new-user-form/new-user-form";
 
 const url = "http://localhost:5000/api";
 
-export const MainPage = (props: any): ReactElement => {
+const MainPage = (props: any): ReactElement => {
   //  const [stateValid, setStateValid] = useState<any>({
   //   statePopap: false,
   //   errorValidIdKey: "",
@@ -71,7 +72,7 @@ export const MainPage = (props: any): ReactElement => {
       } else{
         // setStateValid({ statePopap: true, errorValidIdKey: "" });
         setShouldShowLogin(true)
-        dispatch(KeyGameIdActions(idKeyUser))
+        // dispatch(KeyGameIdActions(idKeyUser))
       }
       
 
@@ -83,10 +84,11 @@ export const MainPage = (props: any): ReactElement => {
           
 
           {/* test created dealer */}
-          <h2 className="new-game__title">Create New Game!</h2>
+          {/* <h2 className="new-game__title">Create New Game!</h2>
           <p>Name dealer:</p>
           <input type="text" onChange={(e) => setNameDieler(e.target.value)}/>
-          <button type="button" onClick={() => onJoinGame()}>Create New Game</button>
+          <button type="button" onClick={() => onJoinGame()}>Create New Game</button> */}
+          <NewUserFrom/>
           {/* ***** */}
 
 
@@ -113,3 +115,4 @@ export const MainPage = (props: any): ReactElement => {
     </article>
   );
 };
+export default MainPage
