@@ -62,3 +62,24 @@ export function updateSettings(settings: IGame) {
     }
   };
 }
+
+type JoinType = {
+  name: string,
+  id: string
+  role: string
+};
+
+export function join({ name, id, role }: JoinType) {
+  return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
+    try {
+      const { game } = getState();
+      console.log(name, id, role);
+      const response = await axios.post(`${url}/join`, { userName: name, id, role });
+      // if (response.status === 200) {
+      //   dispatch(UpdateSettings(response.data));
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
