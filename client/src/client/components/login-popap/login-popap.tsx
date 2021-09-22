@@ -1,6 +1,8 @@
 import React, { Dispatch, SetStateAction, useDebugValue, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { UpdateUser } from "../../store/actions";
+
 // import { UpdateUser } from "../../store/actions";
 
 import "./login-popap.scss";
@@ -9,22 +11,20 @@ interface ILoginPopap {
   statePopap: Dispatch<SetStateAction<boolean>>;
 }
 
-// const url = "http://localhost:5000/api";
-
 export const LoginPopap = ({ statePopap }: ILoginPopap) => {
-  const dispatch = useDispatch()
 
-  const {keyID} = useSelector((s:any) => s.idKey)
+  const dispatch = useDispatch()
+  const {isActive, id} = useSelector((sel:any) => sel.game)
+  const test = useSelector((sel:any) => sel)
 
   const [isFormValid, setIsFormValid] = useState(true);
   const [userForm, setUserForm] = useState({
-    firstName: "",
+    name: "",
     lastName: "",
     jobPosition: "value1",
     role: "player",
     photoUser: "",
   });
-  console.log(userForm.firstName)
 
   function addedPhotoUser(e: React.ChangeEvent<any>) {
     const file = e.target.files[0];
@@ -43,13 +43,13 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
 
 useEffect(()=>{
   const reg = /([a-z])\w+/;
-  if(!reg.test(String(userForm.firstName).toLowerCase())){
+  if(!reg.test(String(userForm.name).toLowerCase())){
     setIsFormValid(false)
   }else{
     setIsFormValid(true)
   }
 
-}, [userForm.firstName])
+}, [userForm.name])
 
   return (
     <div className="login_popap">
@@ -63,7 +63,7 @@ useEffect(()=>{
               ) : (
                 <img
                   src={userForm.photoUser}
-                  alt={userForm.firstName && (userForm.firstName)}
+                  alt={userForm.name && (userForm.name)}
                 />
               )}
 
@@ -76,14 +76,14 @@ useEffect(()=>{
               />
             </label>
           </div>
-          <label htmlFor="firstName">
+          <label htmlFor="name">
             <p>First Name:</p>
             <input
               type="text"
-              name="firstName"
-              id="firstName"
-              value={userForm.firstName}
-              onChange={(e) => setUserForm({...userForm, firstName: e.target.value})}
+              name="name"
+              id="name"
+              value={userForm.name}
+              onChange={(e) => setUserForm({...userForm, name: e.target.value})}
             />
             <p>{!isFormValid && ('Wrong data..')}</p>
           </label>
@@ -120,10 +120,11 @@ useEffect(()=>{
           </label>
           <div className="btn_wrapper">
 
-            <NavLink to={`/game/${keyID}`}>
+            <NavLink to={`/${isActive ? 'game': 'lobby'}/${id}`}>
             <button 
             type="submit" 
             disabled={!isFormValid} 
+            onClick = {()=> dispatch(UpdateUser({...userForm}))}
             >
               Check Button
             </button>

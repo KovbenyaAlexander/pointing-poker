@@ -1,9 +1,9 @@
 export interface IUserInfo {
   name: string
-  lastName: string
-  jobPosition: string
-  photoUser: string
-  role: string
+  lastName?: string
+  jobPosition?: string
+  photoUser?: string
+  role?: string
 }
 
 

@@ -40,11 +40,13 @@ class Game {
   getGame(req, res) {
     try {
       const { id } = req.body;
+
       if (!id) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
       const game = games.get(id);
+
       if (!game) {
         return res.status(200).json(false);
       }
@@ -97,12 +99,11 @@ class Game {
   }
 
   chekedIdKey(req, res) {
-    const [...allKeyID] = games.keys();
-    const { gameIdUser } = req.body;
-    const id = allKeyID.find((id) => id === gameIdUser);
-
-    res.status(200).send({ id });
+    const { id } = req.body;
+    res.status(200).send(games.has(id));
   }
+
+
 }
 
 module.exports = new Game();

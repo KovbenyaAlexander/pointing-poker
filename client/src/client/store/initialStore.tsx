@@ -30,3 +30,4 @@ export const initialStore: IStore = {
     id: null,
   },
 };
+

@@ -16,7 +16,7 @@ export default function NewUserFrom(): JSX.Element {
 
   function onSubmitClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    // dispatch(UpdateUser({ name }));
+    dispatch(UpdateUser({ name }));
     history.push('settings');
   }
 
