@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useDebugValue, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { UpdateUser } from "../../store/actions";
 
 
@@ -13,6 +13,8 @@ interface ILoginPopap {
 export const LoginPopap = ({ statePopap }: ILoginPopap) => {
 
   const dispatch = useDispatch()
+  const history = useHistory();
+
   const {isActive, id} = useSelector((sel:any) => sel.game)
 
   const [isFormValid, setIsFormValid] = useState(true);
@@ -48,6 +50,14 @@ useEffect(()=>{
   }
 
 }, [userForm.name])
+// game started
+
+function isGameStarted() {
+  
+  dispatch(UpdateUser({...userForm}))
+
+  history.push(`${isActive ? `game/${id}` : `lobby/${id}`}`)
+}
 
   return (
     <div className="login_popap">
@@ -118,15 +128,14 @@ useEffect(()=>{
           </label>
           <div className="btn_wrapper">
 
-            <NavLink to={`/${isActive ? 'game': 'lobby'}/${id}`}>
             <button 
             type="submit" 
             disabled={!isFormValid} 
-            onClick = {()=> dispatch(UpdateUser({...userForm}))}
+            onClick = {isGameStarted}
             >
               Check Button
             </button>
-            </NavLink>
+
 
             <button 
             type="button" 
