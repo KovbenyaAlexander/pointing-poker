@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { LoginPopap } from "../../components/login-popap/login-popap";
 import "./style.scss";
 import NewUserFrom from "../../components/new-user-form/new-user-form";
@@ -8,11 +7,9 @@ import { isGameActive } from "../../store/thunk";
 const url = "http://localhost:5000/api";
 
 const MainPage = (props: any): ReactElement => {
-  const dispatch = useDispatch();
   const { gameId }: any = props.match.params;
   const [keyID, setKeyID] = useState(gameId || "");
-  const test: any = props
-  console.log(test)
+
 
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
   const [isGameFound, setIsGameFound] = useState(false);

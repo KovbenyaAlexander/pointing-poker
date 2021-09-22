@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { UpdateUser } from "../../store/actions";
 
-// import { UpdateUser } from "../../store/actions";
 
 import "./login-popap.scss";
 
@@ -15,7 +14,6 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
 
   const dispatch = useDispatch()
   const {isActive, id} = useSelector((sel:any) => sel.game)
-  const test = useSelector((sel:any) => sel)
 
   const [isFormValid, setIsFormValid] = useState(true);
   const [userForm, setUserForm] = useState({

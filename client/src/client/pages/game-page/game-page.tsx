@@ -4,8 +4,6 @@ import "./style.scss";
 
 export default function GamePage(): JSX.Element {
   const { user } = useSelector((store: any) => store);
-  const store = useSelector((store: any) => store);
-  console.log(store)
   return (
     <article className="game">
       <h2 className="game__title">There are all your games</h2>
