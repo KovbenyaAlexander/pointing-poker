@@ -1,17 +1,19 @@
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
-import { LoginPopap } from "../../components/login-popap/login-popap";
-import { isGameActive } from "../../store/thunk";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../types";
-import { UpdateUser } from "../../store/actions";
-import { useHistory } from "react-router";
-import "./style.scss";
+import React, {
+  ReactElement, useCallback, useEffect, useState,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { LoginPopap } from '../../components/login-popap/login-popap';
+import { isGameActive } from '../../store/thunk';
+import { AppDispatch, IStore } from '../../types';
+import { UpdateUser } from '../../store/actions';
+import './style.scss';
 
 const MainPage = (props: any): ReactElement => {
   const dispatch: AppDispatch = useDispatch();
-  const { isActive } = useSelector((sel: any) => sel.game);
+  const { isActive } = useSelector((sel: IStore) => sel.game);
   const { gameId }: any = props.match.params;
-  const [keyID, setKeyID] = useState(gameId || "");
+  const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
   const [isGameFound, setIsGameFound] = useState(false);
   const [dealerLogin, setIsDealerLogin] = useState(true);
@@ -19,24 +21,24 @@ const MainPage = (props: any): ReactElement => {
 
   const onLoginDealer = useCallback(
     (data) => {
-      dispatch(UpdateUser({...data}));
-      history.push("settings");
-      console.log(data)
+      dispatch(UpdateUser({ ...data }));
+      history.push('settings');
+      console.log(data);
     },
-    [dispatch, history]
+    [dispatch, history],
   );
 
   const onLoginPlayer = useCallback(
     (data) => {
-      dispatch(UpdateUser({...data}));
+      dispatch(UpdateUser({ ...data }));
       history.push(isActive ? `game/${keyID}` : ` lobby/${keyID}`);
     },
-    [dispatch, history, isActive, keyID]
+    [dispatch, history, isActive, keyID],
   );
 
   const onPlay = useCallback(() => {
     dispatch(isGameActive(keyID))
-      .then((res:any) => {
+      .then((res: any) => {
         if (res) {
           setShouldShowLogin(true);
           setIsDealerLogin(false);
@@ -56,6 +58,13 @@ const MainPage = (props: any): ReactElement => {
   const onPopUpClose = useCallback(() => {
     setShouldShowLogin(false);
   }, []);
+
+  useEffect(() => {
+    if (gameId) {
+      setKeyID(gameId);
+      history.replace('/');
+    }
+  }, [gameId]);
 
   return (
     <article>

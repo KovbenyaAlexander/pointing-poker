@@ -6,7 +6,6 @@ export interface IUserInfo {
   role?: string
 }
 
-
 export interface ISettings {
   gameName: string;
   isDealerInGame: boolean;

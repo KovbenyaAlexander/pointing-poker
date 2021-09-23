@@ -1,15 +1,13 @@
 import { ISettings, IStore, IUserInfo } from '../types/store-types';
 
-
-
-export const user:IUserInfo= {
+export const user:IUserInfo = {
   name: '',
   lastName: '',
   jobPosition: '',
   photoUser: '',
   role: '',
 
-} 
+};
 
 const settings: ISettings = {
   gameName: '',
@@ -30,4 +28,3 @@ export const initialStore: IStore = {
     id: null,
   },
 };
-

@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react";
-import "./login-popap.scss";
+import React, { ReactElement, useEffect, useState } from 'react';
+import './login-popap.scss';
 
 interface ILoginPopap {
   onClose: () => void;
@@ -7,14 +7,14 @@ interface ILoginPopap {
   isDealer?: boolean;
 }
 
-export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
+export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):ReactElement => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [userForm, setUserForm] = useState({
-    name: "",
-    lastName: "",
-    jobPosition: "value1",
-    role: isDealer ? "dealer" : "player",
-    photoUser: "",
+    name: '',
+    lastName: '',
+    jobPosition: 'value1',
+    role: isDealer ? 'dealer' : 'player',
+    photoUser: '',
   });
 
   function addedPhotoUser(e: React.ChangeEvent<any>) {
@@ -45,7 +45,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
     <div className="login_popap">
       <div className="login_popap-wrapper">
         <h2>Login Popap</h2>
-        <form onSubmit={(e) => onSubmit(userForm)}>
+        <form onSubmit={() => onSubmit(userForm)}>
           <div className="photo_user-wrapper">
             <label htmlFor="photoUser">
               {!userForm.photoUser ? (
@@ -73,11 +73,9 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
               name="name"
               id="name"
               value={userForm.name}
-              onChange={(e) =>
-                setUserForm({ ...userForm, name: e.target.value })
-              }
+              onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
             />
-            <p>{!isFormValid && "Wrong data.."}</p>
+            <p>{!isFormValid && 'Wrong data..'}</p>
           </label>
 
           <label htmlFor="lastName">
@@ -87,9 +85,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
               name="lastName"
               id="lastName"
               value={userForm.lastName}
-              onChange={(e) =>
-                setUserForm({ ...userForm, lastName: e.target.value })
-              }
+              onChange={(e) => setUserForm({ ...userForm, lastName: e.target.value })}
             />
           </label>
 
@@ -98,9 +94,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
             <select
               id="jobPosition"
               name="jobPosition"
-              onChange={(e) =>
-                setUserForm({ ...userForm, jobPosition: e.target.value })
-              }
+              onChange={(e) => setUserForm({ ...userForm, jobPosition: e.target.value })}
             >
               <option value="value1">value1</option>
               <option value="value2">value2</option>

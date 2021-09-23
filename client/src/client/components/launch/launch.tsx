@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useHistory } from 'react-router';
 import { cancelGame, activitySwitcher } from '../../store/thunk';
 import { IStore } from '../../types';
-import { useHistory } from 'react-router';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const { id, name, isActive } = useSelector((state: IStore) => ({
     name: state.user.name,
@@ -21,7 +21,7 @@ export default function Launch(): JSX.Element {
 
   const gameActivitySwitcher = () => {
     dispatch(activitySwitcher(isActive));
-    history.push(`game/${id}`)
+    history.push(`game/${id}`);
   };
 
   return (

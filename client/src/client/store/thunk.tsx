@@ -1,15 +1,15 @@
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { Action, AnyAction } from "redux";
-import axios from "axios";
-import { IStore, IGame } from "../types";
-import { UpdateSettings, setInitialStore } from "./actions";
+import { ThunkDispatch } from 'redux-thunk';
+import {AnyAction } from 'redux';
+import axios from 'axios';
+import { IStore, IGame } from '../types';
+import { UpdateSettings, setInitialStore } from './actions';
 
-const url = "http://localhost:5000/api";
+const url = 'http://localhost:5000/api';
 
 export function createGame(settings: IGame) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
-    getState: () => IStore
+    getState: () => IStore,
   ): Promise<void> => {
     try {
       const { user } = getState();
@@ -24,7 +24,7 @@ export function createGame(settings: IGame) {
             settings: response.data.settings,
             isActive: false,
             id: response.data.id,
-          })
+          }),
         );
       }
     } catch (e) {
@@ -36,7 +36,7 @@ export function createGame(settings: IGame) {
 export function cancelGame() {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
-    getState: () => IStore
+    getState: () => IStore,
   ): Promise<void> => {
     try {
       const { game } = getState();
@@ -53,7 +53,7 @@ export function cancelGame() {
 export function activitySwitcher(isActive: boolean) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
-    getState: () => IStore
+    getState: () => IStore,
   ): Promise<void> => {
     try {
       const { game } = getState();
@@ -73,7 +73,7 @@ export function activitySwitcher(isActive: boolean) {
 export function updateSettings(settings: IGame) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
-    getState: () => IStore
+    getState: () => IStore,
   ): Promise<void> => {
     try {
       const { game } = getState();
@@ -90,11 +90,6 @@ export function updateSettings(settings: IGame) {
   };
 }
 
-export const isGameActive = (id: string) => (): Promise<void> =>
-  axios.post(`${url}/checkedIdKey`, { id })
-    .then((res) => res.data)
-    .catch((e) => console.log(e));
-
-
-
-
+export const isGameActive = (id: string) => (): Promise<void> => axios.post(`${url}/checkedIdKey`, { id })
+  .then((res) => res.data)
+  .catch((e) => console.log(e));
