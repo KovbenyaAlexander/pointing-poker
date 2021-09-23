@@ -17,7 +17,7 @@ const App = (): JSX.Element => (
       <Switch>
         <Route
           exact
-          path={["/", "/:gameId"]}
+          path={["/", "/connect/:gameId"]}
           render={(props) => <MainPage {...props} />}
         />
 
