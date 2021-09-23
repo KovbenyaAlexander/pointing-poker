@@ -15,7 +15,6 @@ const App = (): JSX.Element => (
     <Router>
       <Header />
       <Switch>
-
         <Route
           exact
           path={["/", "/:gameId"]}
@@ -37,7 +36,6 @@ const App = (): JSX.Element => (
         <Route path="*">
           <NotFound />
         </Route>
-
       </Switch>
     </Router>
   </>

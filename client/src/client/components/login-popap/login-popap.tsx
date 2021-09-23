@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useDebugValue, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { UpdateUser } from "../../store/actions";
@@ -52,8 +52,8 @@ useEffect(()=>{
 }, [userForm.name])
 // game started
 
-function isGameStarted() {
-  
+function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
   dispatch(UpdateUser({...userForm}))
 
   history.push(`${isActive ? `game/${id}` : `lobby/${id}`}`)
@@ -63,7 +63,7 @@ function isGameStarted() {
     <div className="login_popap">
       <div className="login_popap-wrapper">
         <h2>Login Popap</h2>
-        <form>
+        <form onSubmit = {(e) => isGameStarted(e)}>
           <div className="photo_user-wrapper">
             <label htmlFor="photoUser">
               {!userForm.photoUser ? (
@@ -130,8 +130,7 @@ function isGameStarted() {
 
             <button 
             type="submit" 
-            disabled={!isFormValid} 
-            onClick = {isGameStarted}
+            disabled={!isFormValid}
             >
               Check Button
             </button>

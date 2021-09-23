@@ -1,5 +1,5 @@
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { Action, AnyAction } from "redux";
 import axios from "axios";
 import { IStore, IGame } from "../types";
 import { UpdateSettings, setInitialStore } from "./actions";
@@ -90,18 +90,11 @@ export function updateSettings(settings: IGame) {
   };
 }
 
-export async function isGameActive(id: string) {
-  // return async (): Promise<void> => {
-  try {
-    // const { user } = getState();
-    const response = await axios.post(`${url}/checkedIdKey`, { id });
-    if (response.status === 200) {
-      return response.data;
-      // dispatch(UpdateSettings({ settings: response.data.settings, isActive: false, id: response.data.id }));
-    }
-  } catch (e) {
-    console.log(e);
-  }
-}
+export const isGameActive = (id: string) => (): Promise<void> =>
+  axios.post(`${url}/checkedIdKey`, { id })
+    .then((res) => res.data)
+    .catch((e) => console.log(e));
+
+
 
 
