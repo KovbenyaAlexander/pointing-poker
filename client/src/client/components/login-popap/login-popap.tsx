@@ -1,28 +1,19 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
-import { UpdateUser } from "../../store/actions";
-
-
+import React, {useEffect, useState } from "react";
 import "./login-popap.scss";
 
 interface ILoginPopap {
-  statePopap: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
+  onSubmit: (data: any) => void;
+  isDealer?: boolean;
 }
 
-export const LoginPopap = ({ statePopap }: ILoginPopap) => {
-
-  const dispatch = useDispatch()
-  const history = useHistory();
-
-  const {isActive, id} = useSelector((sel:any) => sel.game)
-
+export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap) => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [userForm, setUserForm] = useState({
     name: "",
     lastName: "",
     jobPosition: "value1",
-    role: "player",
+    role: isDealer ? "dealer" : "player",
     photoUser: "",
   });
 
@@ -41,29 +32,20 @@ export const LoginPopap = ({ statePopap }: ILoginPopap) => {
     render.readAsDataURL(file);
   }
 
-useEffect(()=>{
-  const reg = /([a-z])\w+/;
-  if(!reg.test(String(userForm.name).toLowerCase())){
-    setIsFormValid(false)
-  }else{
-    setIsFormValid(true)
-  }
-
-}, [userForm.name])
-// game started
-
-function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault()
-  dispatch(UpdateUser({...userForm}))
-
-  history.push(`${isActive ? `game/${id}` : `lobby/${id}`}`)
-}
+  useEffect(() => {
+    const reg = /([a-z])\w+/;
+    if (!reg.test(String(userForm.name).toLowerCase())) {
+      setIsFormValid(false);
+    } else {
+      setIsFormValid(true);
+    }
+  }, [userForm.name]);
 
   return (
     <div className="login_popap">
       <div className="login_popap-wrapper">
         <h2>Login Popap</h2>
-        <form onSubmit = {(e) => isGameStarted(e)}>
+        <form onSubmit={(e) => onSubmit(userForm)}>
           <div className="photo_user-wrapper">
             <label htmlFor="photoUser">
               {!userForm.photoUser ? (
@@ -71,7 +53,7 @@ function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
               ) : (
                 <img
                   src={userForm.photoUser}
-                  alt={userForm.name && (userForm.name)}
+                  alt={userForm.name && userForm.name}
                 />
               )}
 
@@ -91,9 +73,11 @@ function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
               name="name"
               id="name"
               value={userForm.name}
-              onChange={(e) => setUserForm({...userForm, name: e.target.value})}
+              onChange={(e) =>
+                setUserForm({ ...userForm, name: e.target.value })
+              }
             />
-            <p>{!isFormValid && ('Wrong data..')}</p>
+            <p>{!isFormValid && "Wrong data.."}</p>
           </label>
 
           <label htmlFor="lastName">
@@ -103,7 +87,9 @@ function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
               name="lastName"
               id="lastName"
               value={userForm.lastName}
-              onChange={(e) => setUserForm({...userForm, lastName: e.target.value})}
+              onChange={(e) =>
+                setUserForm({ ...userForm, lastName: e.target.value })
+              }
             />
           </label>
 
@@ -112,33 +98,27 @@ function isGameStarted(e: React.FormEvent<HTMLFormElement>) {
             <select
               id="jobPosition"
               name="jobPosition"
-              onChange={(e) => setUserForm({...userForm, jobPosition: e.target.value})}
+              onChange={(e) =>
+                setUserForm({ ...userForm, jobPosition: e.target.value })
+              }
             >
               <option value="value1">value1</option>
               <option value="value2">value2</option>
               <option value="value3">value3</option>
             </select>
           </label>
-          <label htmlFor="isRole">
-            <p>You observer?</p>
-            <input 
-            type="checkbox" 
-            name="isRole"
-            id="isRole" />
-          </label>
+          {!isDealer && (
+            <label htmlFor="isRole">
+              <p>You observer?</p>
+              <input type="checkbox" name="isRole" id="isRole" />
+            </label>
+          )}
           <div className="btn_wrapper">
-
-            <button 
-            type="submit" 
-            disabled={!isFormValid}
-            >
+            <button type="submit" disabled={!isFormValid}>
               Check Button
             </button>
 
-
-            <button 
-            type="button" 
-            onClick={() => statePopap(false)}>
+            <button type="button" onClick={onClose}>
               Cancel
             </button>
           </div>
