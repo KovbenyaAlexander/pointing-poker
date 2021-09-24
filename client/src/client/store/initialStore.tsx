@@ -6,7 +6,6 @@ export const user:IUserInfo = {
   jobPosition: '',
   photoUser: '',
   role: '',
-
 };
 
 const settings: ISettings = {

@@ -7,7 +7,7 @@ interface ILoginPopap {
   isDealer?: boolean;
 }
 
-export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):ReactElement => {
+export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Element => {
   const [isFormValid, setIsFormValid] = useState(true);
   const [userForm, setUserForm] = useState({
     name: '',

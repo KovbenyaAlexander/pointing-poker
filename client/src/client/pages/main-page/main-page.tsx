@@ -23,7 +23,6 @@ const MainPage = (props: any): ReactElement => {
     (data) => {
       dispatch(UpdateUser({ ...data }));
       history.push('settings');
-      console.log(data);
     },
     [dispatch, history],
   );
