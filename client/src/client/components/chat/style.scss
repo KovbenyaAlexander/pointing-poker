@@ -1,18 +1,41 @@
-.messages{
-  background-color: rgb(201, 228, 228);
+.chat{
+  background-color: rgb(228, 222, 201);
   width: 500px;
   height: 500px;
   margin: 0 auto;
+  overflow-y: scroll;
 
   &__msg-left{
     display: flex;
-    border: 1px solid black;
     justify-content: start;
   }
 
   &__msg-right{
     display: flex;
-    border: 1px solid black;
     justify-content: end;
+    .message{
+      &__author{
+        display: flex;
+        justify-content: end;
+      }
+    }
+  }
+
+}
+
+.message{
+  &__container{
+    background-color: aqua;
+    padding: 5px;
+    border-radius: 15px;
+    margin: 5px;
+    max-width: 90%;
+    overflow: hidden;
+  }
+  
+  &__author{
+    font-size: 1.2em;
+    color: green;
+    padding: 5px;
   }
 }

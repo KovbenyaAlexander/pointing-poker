@@ -12,7 +12,6 @@ export function createGame(settings: IGame) {
       const { user } = getState();
       const response = await axios.post(`${url}/newGame`, { userName: user.name, settings });
       if (response.status === 200) {
-        console.log(response.data);
         dispatch(UpdateSettings({ settings: response.data.settings, isActive: false, id: response.data.id }));
       }
     } catch (e) {

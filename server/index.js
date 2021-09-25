@@ -28,15 +28,19 @@ const io = socket(server, {
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ name, id }) => {
     socket.join(id);
+
+    // socket.emit("message", {
+    //   name: "",
+    //   message: `Welcome ${name}`,
+    //   messageId: uuid.v4(),
+    // });
   });
 
   socket.on("sendMessage", ({ name, id, message }) => {
-    const messageId = uuid.v4();
-
     io.to(id).emit("message", {
       name,
       message,
-      messageId,
+      messageId: uuid.v4(),
     });
   });
 });
