@@ -25,7 +25,6 @@ export default function JoinToGameForm(): JSX.Element {
 
   function onRadioChangeHandler(e: React.ChangeEvent<HTMLInputElement>): void {
     const typeOfRadio = e.target.id;
-    console.log(typeOfRadio);
     setFormState({
       ...formState,
       role: typeOfRadio,

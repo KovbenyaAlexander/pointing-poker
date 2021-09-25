@@ -72,9 +72,10 @@ type JoinType = {
 export function join({ name, id, role }: JoinType) {
   return async (dispatch: ThunkDispatch<void, IStore, AnyAction>, getState: ()=>IStore): Promise<void> => {
     try {
-      const { game } = getState();
-      console.log(name, id, role);
-      const response = await axios.post(`${url}/join`, { userName: name, id, role });
+      await axios.post(`${url}/join`, { userName: name, id, role });
+      // const { game } = getState();
+      // console.log(name, id, role);
+      // const response = await axios.post(`${url}/join`, { userName: name, id, role });
       // if (response.status === 200) {
       //   dispatch(UpdateSettings(response.data));
       // }

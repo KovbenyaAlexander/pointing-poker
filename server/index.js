@@ -4,6 +4,7 @@ const router = require("./router/index");
 const PORT = 5000;
 const app = express();
 const socket = require("socket.io");
+const uuid = require("uuid");
 
 app.use(express.json());
 app.use(cors());
@@ -13,6 +14,8 @@ const server = app.listen(
   PORT,
   console.log(`Server is running on the port: ${PORT} `)
 );
+
+//---SOCKETS------->>
 
 const io = socket(server, {
   cors: {
@@ -28,11 +31,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", ({ name, id, message }) => {
-    console.log(message);
+    const messageId = uuid.v4();
 
     io.to(id).emit("message", {
       name,
       message,
+      messageId,
     });
   });
 });

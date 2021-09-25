@@ -3,9 +3,15 @@ import { useSelector } from 'react-redux';
 import { IStore } from '../../types';
 import './style.scss';
 
-const Chat = () => {
+type MessageType = {
+  name: string,
+  message: string
+  messageId: string
+};
+
+const Chat = (): JSX.Element => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<Array<MessageType>>([]);
   const { socket, id, name } = useSelector((s: IStore) => ({
     socket: s.socket,
     id: s.game.id,
@@ -13,13 +19,12 @@ const Chat = () => {
   }));
 
   useEffect(() => {
-    const socketUpdate = async ()=>{
-      await socket.on('message', (data: any) => {
-        console.log(data);
-        setMessages((prev: any) => [...prev, data]);
+    const socketUpdate = async () => {
+      await socket.on('message', (data: MessageType) => {
+        setMessages((prev: Array<MessageType>) => [...prev, data]);
       });
-    }
-    socketUpdate()
+    };
+    socketUpdate();
   }, [socket]);
 
   const sendMessage = () => {
@@ -34,28 +39,28 @@ const Chat = () => {
       />
       <button type="button" onClick={sendMessage}>Send</button>
       <hr />
-      <div className='messages'>
-      {messages.map((msg: any, i: number) => {
-        let classes;
-        if (name === msg.name) {
-          classes = 'messages__msg-left';
-        } else {
-          classes = 'messages__msg-right';
-        }
+      <div className="messages">
+        {messages.map((msg: MessageType) => {
+          let classes;
+          if (name === msg.name) {
+            classes = 'messages__msg-left';
+          } else {
+            classes = 'messages__msg-right';
+          }
 
-        return (
-          <div key={i} className={classes}>
-            <span>
-              Author:
-              {msg.name}
-            </span>
-            <span>
-              Message:
-              {msg.message}
-            </span>
-          </div>
-        );
-      })}
+          return (
+            <div key={msg.messageId} className={classes}>
+              <span>
+                Author:
+                {msg.name}
+              </span>
+              <span>
+                Message:
+                {msg.message}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
     </div>
