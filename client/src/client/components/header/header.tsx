@@ -1,11 +1,11 @@
 import React from 'react';
-import Navigation from '../navigation/navigation';
+import { useSelector } from 'react-redux';
+import Navigation from './navigation/navigation';
+
 import './style.scss';
 
-export default function Header(): JSX.Element {
+export default function Header() {
   return (
-    <header className="header">
-      <Navigation />
-    </header>
+    <header className="header" />
   );
 }

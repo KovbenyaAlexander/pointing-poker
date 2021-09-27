@@ -1,5 +1,9 @@
 export interface IUserInfo {
-  name: string;
+  name: string
+  lastName?: string
+  jobPosition?: string
+  photoUser?: string
+  role?: string
 }
 
 export interface ISettings {

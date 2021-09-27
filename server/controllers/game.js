@@ -97,6 +97,13 @@ class Game {
   getAllData(req, res) {
     return res.status(200).send(Array.from(games));
   }
+
+  chekedIdKey(req, res) {
+    const { id } = req.body;
+    res.status(200).send(games.has(id));
+  }
+
+
 }
 
 module.exports = new Game();
