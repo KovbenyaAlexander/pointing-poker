@@ -15,4 +15,23 @@ function emitGameRemove (id) {
         user.socket.emit('gameRemove');
     });
 }
-module.exports = { emitChangeGameActivity, emitUpdateSetting, emitGameRemove };
+
+function emitRemoveUser(idGame, UserName) {
+    findAllUsersByGame(idGame).forEach((user) => {
+        user.socket.emit('RemoveUser', UserName);
+    });
+
+}
+
+function emitUserAdd(idGame, UserName) {
+    findAllUsersByGame(idGame).forEach((user) => {
+        user.socket.emit('UserAdd', UserName);
+    });
+}
+module.exports = { 
+    emitChangeGameActivity,
+    emitUpdateSetting,
+    emitGameRemove,
+    emitRemoveUser,
+    emitUserAdd,
+};

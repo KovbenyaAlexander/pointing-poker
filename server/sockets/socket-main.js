@@ -6,7 +6,6 @@ function findAllUsersByGame (gameID) {
     });
 }
 
-
 class SocketUser{
     userInfo;
     gameID;
@@ -35,9 +34,6 @@ function initSocket(socket) {
 
     socket.on('setUserInfo', user.setUserInfo);
     socket.on('setGameID', user.setGameId);
-    socket.on('updateState', store => {
-    console.log(store);
-  });
 }
 
 module.exports = { initSocket, findAllUsersByGame };
