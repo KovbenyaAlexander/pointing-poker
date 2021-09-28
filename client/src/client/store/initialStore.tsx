@@ -17,6 +17,7 @@ const settings: ISettings = {
   estimationType: 'power2',
   isTimerRequired: false,
   timerValue: '01:01',
+  stories: [],
 };
 
 export const initialStore: IStore = {

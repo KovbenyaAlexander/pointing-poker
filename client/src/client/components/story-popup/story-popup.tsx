@@ -6,11 +6,11 @@ import './style.scss';
 type IstoryPopup = {
   id?: string | null
   setShouldShowPopup: (props: any) => any
-  setStories: any
+  setSettings: any
 };
 
 export default function StoryPopup({
-  id, setShouldShowPopup, setStories,
+  id, setShouldShowPopup, setSettings,
 }: IstoryPopup): JSX.Element {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -19,11 +19,15 @@ export default function StoryPopup({
     e.preventDefault();
     if (name === '') return;
     setShouldShowPopup(false);
-    setStories((prev: any) => [...prev, {
-      name,
-      description,
-      id: String(Date.now()),
-    }]);
+
+    setSettings((prev: any) => ({
+      ...prev,
+      stories: [...prev.stories, {
+        name,
+        description,
+        id: String(Date.now()),
+      }],
+    }));
   };
 
   const onCloseHandler = () => {

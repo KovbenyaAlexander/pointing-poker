@@ -5,22 +5,13 @@ import { createGame, updateSettings } from '../../store/thunk';
 import { IStore } from '../../types/index';
 import StoryPopup from '../story-popup/story-popup';
 
-interface IStories{
-  name: string,
-  description: string,
-  id: string
-}
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopup, setShouldShowPopup] = useState(false);
-  const [stories, setStories] = useState<Array<IStories>>([{
-    name: 'string',
-    description: 'string',
-    id: 'string',
-  }]);
+
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
@@ -31,7 +22,10 @@ export default function Settings(): JSX.Element {
   };
 
   const removeStoryHandler = (id: string) => {
-    setStories((prev) => prev.filter((item) => !(item.id === id)));
+    setSettings((prev) => ({
+      ...prev,
+      stories: prev.stories.filter((item) => !(item.id === id)),
+    }));
   };
 
   return (
@@ -132,7 +126,7 @@ export default function Settings(): JSX.Element {
    )}
 
         <div className="stories-container">
-          {stories.map((story) => (
+          {settings.stories.map((story) => (
             <div className="story" key={story.id}>
               <p className="story__name">
                 name:
@@ -154,7 +148,7 @@ export default function Settings(): JSX.Element {
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
       </form>
-      {shouldShowPopup && <StoryPopup setShouldShowPopup={setShouldShowPopup} setStories={setStories} />}
+      {shouldShowPopup && <StoryPopup setShouldShowPopup={setShouldShowPopup} setSettings={setSettings} />}
     </>
   );
 }
