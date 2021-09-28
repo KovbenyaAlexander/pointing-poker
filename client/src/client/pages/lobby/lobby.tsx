@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import DealerCard from '../../components/dealer-card/dealer-card';
+import Exluding from '../../components/excluding/excluding';
 import MemberList from '../../components/members-list/member-list';
+import Popup from '../../components/popup/popup';
 import { IStore } from '../../types/store-types';
 import './style.scss';
 
@@ -15,8 +16,13 @@ export default function Lobby(): JSX.Element {
         {' '}
         { store.game.gameID }
       </h3>
-      <DealerCard />
       <MemberList />
+      {store.game.excluding.isActive
+        && (
+          <Popup>
+            <Exluding />
+          </Popup>
+        )}
       {/* TODO: if is dealer show settings  */}
     </article>
   );

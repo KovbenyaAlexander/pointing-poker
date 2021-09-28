@@ -16,7 +16,7 @@ export default function ExcludingInit({ user, close }
       reason,
     };
     dispatch(StartExclude(exclude));
-    dispatch(StopExlude('yes'));
+    // dispatch(StopExlude(true));
     close(false);
   }
 

@@ -9,11 +9,11 @@ export default function Exluding(): JSX.Element {
   const dispatch = useDispatch();
 
   function handleConfirm(): void {
-    dispatch(StopExlude('yes'));
+    dispatch(StopExlude(true));
   }
 
   function handleCancel(): void {
-    dispatch(StopExlude('no'));
+    dispatch(StopExlude(false));
   }
 
   return (

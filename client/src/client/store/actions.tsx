@@ -33,8 +33,9 @@ export function StartExclude(payload: IExclude): StartExcludeAction {
   };
 }
 
-export function StopExlude(payload: 'yes' | 'no'): StopExcludeAction {
+export function StopExlude(payload: boolean): StopExcludeAction {
   return {
     type: Actions.STOP_EXCLUDE,
+    payload,
   };
 }

@@ -11,7 +11,8 @@ export default function Member({ user } : { user: IUserInfo }): JSX.Element {
   const store = useSelector((state: IStore) => state);
   const [excludePopup, setExcludePopup] = useState(false);
   const { userID, name, imgSrc } = user;
-  const isExludable = !isDealer(store, userID) && !isCurrentUser(store, userID) && (store.game.members.length - 1) >= 3;
+  const isDealerMember = isDealer(store, userID);
+  const isExludable = !isDealerMember && !isCurrentUser(store, userID) && (store.game.members.length - 1) >= 3;
 
   function handleExcludeInit(): void {
     setExcludePopup(true);
@@ -20,6 +21,7 @@ export default function Member({ user } : { user: IUserInfo }): JSX.Element {
     <figure className="member">
       <Avatar name={name} imgSrc={imgSrc} />
       <h4 className="member__name">{ name }</h4>
+      {isDealerMember && <h3 className="member__dealer">Dealer</h3>}
       { isExludable && (
         <button
           type="button"

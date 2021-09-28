@@ -39,6 +39,7 @@ export interface StartExcludeAction {
 
 export interface StopExcludeAction {
   type: Actions.STOP_EXCLUDE;
+  payload: boolean
 }
 
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;
