@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { createGame, updateSettings } from '../../store/thunk';
 import { IStore } from '../../types/index';
+import StoryPopup from '../story-popup/story-popup';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
+  const [shouldShowPopup, setShouldShowPopup] = useState(false);
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -19,89 +21,90 @@ export default function Settings(): JSX.Element {
   };
 
   return (
-    <form className="settings" onSubmit={onSubmitHandler}>
-      <span>Name of game</span>
-      <input
-        type="text"
-        value={settings.gameName}
-        onChange={(e) => setSettings({ ...settings, gameName: e.target.value })}
-      />
-      <br />
-
-      <span>Dealer in game</span>
-      <input
-        type="checkbox"
-        checked={settings.isDealerInGame}
-        onChange={(e) => setSettings({ ...settings, isDealerInGame: e.target.checked })}
-
-      />
-
-      <br />
-
-      <span>Auto entry</span>
-      <input
-        type="checkbox"
-        checked={settings.isAutoEntry}
-        onChange={(e) => setSettings({ ...settings, isAutoEntry: e.target.checked })}
-      />
-
-      <br />
-
-      <span>Auto finish</span>
-      <input
-        type="checkbox"
-        checked={settings.isAutoFinish}
-        onChange={(e) => setSettings({ ...settings, isAutoFinish: e.target.checked })}
-      />
-
-      <br />
-
-      <span>Allow change vote</span>
-      <input
-        type="checkbox"
-        checked={settings.isVoteMutable}
-        onChange={(e) => setSettings({ ...settings, isVoteMutable: e.target.checked })}
-      />
-
-      <br />
-
-      <p>Estimation Type</p>
-      <label htmlFor="single">
-        Power of number 2
+    <>
+      <form className="settings" onSubmit={onSubmitHandler}>
+        <span>Name of game</span>
         <input
-          type="radio"
-          name="Estimation"
-          id="PowerOf2"
-          checked={settings.estimationType === 'power2'}
-          onChange={() => setSettings({ ...settings, estimationType: 'power2' })}
+          type="text"
+          value={settings.gameName}
+          onChange={(e) => setSettings({ ...settings, gameName: e.target.value })}
         />
-      </label>
+        <br />
 
-      <br />
-
-      <label htmlFor="single">
-        Fibonacci numbers
+        <span>Dealer in game</span>
         <input
-          type="radio"
-          name="Estimation"
-          id="Fibonacci"
-          checked={settings.estimationType === 'fibonacci'}
-          onChange={() => setSettings({ ...settings, estimationType: 'fibonacci' })}
+          type="checkbox"
+          checked={settings.isDealerInGame}
+          onChange={(e) => setSettings({ ...settings, isDealerInGame: e.target.checked })}
 
         />
-      </label>
 
-      <br />
+        <br />
 
-      <span>Timer </span>
-      <input
-        type="checkbox"
-        checked={settings.isTimerRequired}
-        onChange={(e) => setSettings({ ...settings, isTimerRequired: e.target.checked })}
+        <span>Auto entry</span>
+        <input
+          type="checkbox"
+          checked={settings.isAutoEntry}
+          onChange={(e) => setSettings({ ...settings, isAutoEntry: e.target.checked })}
+        />
 
-      />
-      <br />
-      {settings.isTimerRequired
+        <br />
+
+        <span>Auto finish</span>
+        <input
+          type="checkbox"
+          checked={settings.isAutoFinish}
+          onChange={(e) => setSettings({ ...settings, isAutoFinish: e.target.checked })}
+        />
+
+        <br />
+
+        <span>Allow change vote</span>
+        <input
+          type="checkbox"
+          checked={settings.isVoteMutable}
+          onChange={(e) => setSettings({ ...settings, isVoteMutable: e.target.checked })}
+        />
+
+        <br />
+
+        <p>Estimation Type</p>
+        <label htmlFor="single">
+          Power of number 2
+          <input
+            type="radio"
+            name="Estimation"
+            id="PowerOf2"
+            checked={settings.estimationType === 'power2'}
+            onChange={() => setSettings({ ...settings, estimationType: 'power2' })}
+          />
+        </label>
+
+        <br />
+
+        <label htmlFor="single">
+          Fibonacci numbers
+          <input
+            type="radio"
+            name="Estimation"
+            id="Fibonacci"
+            checked={settings.estimationType === 'fibonacci'}
+            onChange={() => setSettings({ ...settings, estimationType: 'fibonacci' })}
+
+          />
+        </label>
+
+        <br />
+
+        <span>Timer </span>
+        <input
+          type="checkbox"
+          checked={settings.isTimerRequired}
+          onChange={(e) => setSettings({ ...settings, isTimerRequired: e.target.checked })}
+
+        />
+        <br />
+        {settings.isTimerRequired
    && (
      <label htmlFor="appt-time">
        Choose time:
@@ -114,8 +117,11 @@ export default function Settings(): JSX.Element {
      </label>
    )}
 
-      <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
+        <button type="button" onClick={() => setShouldShowPopup(true)}>Add story</button>
+        <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
-    </form>
+      </form>
+      {shouldShowPopup && <StoryPopup id="IDdd" setShouldShowPopup={setShouldShowPopup} />}
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import { ThunkDispatch } from 'redux-thunk';
-import {AnyAction } from 'redux';
+import { AnyAction } from 'redux';
 import axios from 'axios';
 import { IStore, IGame } from '../types';
 import { UpdateSettings, setInitialStore } from './actions';
