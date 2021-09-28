@@ -5,12 +5,22 @@ import { createGame, updateSettings } from '../../store/thunk';
 import { IStore } from '../../types/index';
 import StoryPopup from '../story-popup/story-popup';
 
+interface IStories{
+  name: string,
+  description: string,
+  id: string
+}
+
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopup, setShouldShowPopup] = useState(false);
-
+  const [stories, setStories] = useState<Array<IStories>>([{
+    name: 'string',
+    description: 'string',
+    id: 'string',
+  }]);
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
@@ -18,6 +28,10 @@ export default function Settings(): JSX.Element {
     } else {
       dispatch(createGame({ settings }));
     }
+  };
+
+  const removeStoryHandler = (id: string) => {
+    setStories((prev) => prev.filter((item) => !(item.id === id)));
   };
 
   return (
@@ -117,11 +131,30 @@ export default function Settings(): JSX.Element {
      </label>
    )}
 
+        <div className="stories-container">
+          {stories.map((story) => (
+            <div className="story" key={story.id}>
+              <p className="story__name">
+                name:
+                {story.name}
+              </p>
+              {story.description && (
+                <p className="story__description">
+                  description:
+                  {story.description}
+                </p>
+              )}
+
+              <button type="button" onClick={() => removeStoryHandler(story.id)}>Remove</button>
+            </div>
+          ))}
+        </div>
+
         <button type="button" onClick={() => setShouldShowPopup(true)}>Add story</button>
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
       </form>
-      {shouldShowPopup && <StoryPopup id="IDdd" setShouldShowPopup={setShouldShowPopup} />}
+      {shouldShowPopup && <StoryPopup setShouldShowPopup={setShouldShowPopup} setStories={setStories} />}
     </>
   );
 }

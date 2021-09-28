@@ -1,3 +1,4 @@
+import { type } from 'os';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
@@ -5,15 +6,27 @@ import './style.scss';
 type IstoryPopup = {
   id?: string | null
   setShouldShowPopup: (props: any) => any
-  onSubmit?: () => void
+  setStories: any
 };
 
-export default function StoryPopup({ id, setShouldShowPopup, onSubmit }: IstoryPopup): JSX.Element {
-  const [storyName, setStoryName] = useState('');
-  const [storyDescription, setStoryDescription] = useState('');
+export default function StoryPopup({
+  id, setShouldShowPopup, setStories,
+}: IstoryPopup): JSX.Element {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (name === '') return;
+    setShouldShowPopup(false);
+    setStories((prev: any) => [...prev, {
+      name,
+      description,
+      id: String(Date.now()),
+    }]);
+  };
+
+  const onCloseHandler = () => {
     setShouldShowPopup(false);
   };
 
@@ -21,24 +34,25 @@ export default function StoryPopup({ id, setShouldShowPopup, onSubmit }: IstoryP
     <div className="story-popup">
       <form onSubmit={(e) => submitHandler(e)} className="story-popup-wrapper">
 
-        <div className="story__name">
-          <p>Story name:</p>
+        <div className="popup__name">
+          <p>Story name:*</p>
           <input
             type="text"
-            value={storyName}
-            onChange={(e) => setStoryName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
-        <div className="story__description">
+        <div className="popup__description">
           <p>Story description:</p>
           <textarea
-            value={storyDescription}
-            onChange={(e) => setStoryDescription(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
         <button type="submit">Submit</button>
+        <button type="button" onClick={onCloseHandler}>Close</button>
       </form>
     </div>
 
