@@ -18,7 +18,6 @@ export function createGame(settings: IGame) {
         settings,
       });
       if (response.status === 200) {
-        console.log(response.data);
         dispatch(
           UpdateSettings({
             settings: response.data.settings,
@@ -61,6 +60,7 @@ export function activitySwitcher(isActive: boolean) {
         id: game.id,
         isActive,
       });
+      console.log(response);
       if (response.status === 200) {
         dispatch(UpdateSettings({ isActive: response.data }));
       }
@@ -77,11 +77,16 @@ export function updateSettings(settings: IGame) {
   ): Promise<void> => {
     try {
       const { game } = getState();
+      console.log('Settings to ssend--->>');
+      console.log(settings);
+      console.log('Settings to ssend--->>');
+
       const response = await axios.post(`${url}/updateSettings`, {
         id: game.id,
         settings,
       });
       if (response.status === 200) {
+        console.log('200');
         dispatch(UpdateSettings(response.data));
       }
     } catch (e) {

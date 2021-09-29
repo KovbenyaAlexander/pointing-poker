@@ -131,7 +131,7 @@ export default function Settings(): JSX.Element {
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
       </form>
-      
+
       {shouldShowPopupForAdd
       && (
         <StoryPopup

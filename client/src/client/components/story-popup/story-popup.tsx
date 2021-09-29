@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { updateSettings } from '../../store/thunk';
 import { IStory, ISettings } from '../../types';
 
 import './style.scss';
 
 type IstoryPopup = {
   setShouldShowPopup: React.Dispatch<React.SetStateAction<any>>;
-  setSettings: React.Dispatch<React.SetStateAction<ISettings>>;
+  setSettings?: React.Dispatch<React.SetStateAction<ISettings>>;
   stories?: Array<IStory>;
   storyId?: false | string;
+  isGame?: boolean;
+  settings?: ISettings
 };
 
 export default function StoryPopup({
-  stories, setShouldShowPopup, setSettings, storyId,
+  stories, setShouldShowPopup, setSettings, storyId, isGame, settings,
 }: IstoryPopup): JSX.Element {
+  const dispatch = useDispatch();
+
   let defaultName = '';
   let defaultDescription = '';
 
-  if (stories) {
+  if (stories && !isGame) {
     const currentStoryForEditing = stories.find((story:IStory) => story.id === storyId);
     defaultName = currentStoryForEditing!.name;
     defaultDescription = currentStoryForEditing!.description;
@@ -28,15 +34,20 @@ export default function StoryPopup({
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (name === '') return;
 
-    if (stories) { // Editing story
+    if (isGame) {
+      const newStory = {
+        name, description, id: uuidv4(),
+      };
+
+      const newState = JSON.parse(JSON.stringify(settings));
+      newState.stories.push(newStory);
+
+      dispatch(updateSettings({ settings: newState }));
+    } else if (stories) { // Editing story
       const newStory = { name, description, id: storyId };
-
-      if (name === '') {
-        return;
-      }
-
-      setSettings((prev: ISettings) => {
+      setSettings!((prev: ISettings) => {
         const newStories = prev.stories.map((story: any) => {
           if (story.id === storyId) {
             return newStory;
@@ -49,9 +60,7 @@ export default function StoryPopup({
         };
       });
     } else { // Adding story
-      if (name === '') return;
-
-      setSettings((prev: ISettings) => ({
+      setSettings!((prev: ISettings) => ({
         ...prev,
         stories: [...prev.stories, {
           name,
