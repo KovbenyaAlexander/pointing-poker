@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { IStory, ISettings } from '../../types';
+
 import './style.scss';
 
 type IstoryPopup = {
-  setShouldShowPopup: (props: any) => any
-  setSettings?: any
-  stories?: any
-  storyId?: any
+  setShouldShowPopup: React.Dispatch<React.SetStateAction<any>>;
+  setSettings: React.Dispatch<React.SetStateAction<ISettings>>;
+  stories?: Array<IStory>;
+  storyId?: false | string;
 };
 
 export default function StoryPopup({
@@ -15,9 +17,9 @@ export default function StoryPopup({
   let defaultDescription = '';
 
   if (stories) {
-    const currentStoryForEditing = stories.find((story:any) => story.id === storyId);
-    defaultName = currentStoryForEditing.name;
-    defaultDescription = currentStoryForEditing.description;
+    const currentStoryForEditing = stories.find((story:IStory) => story.id === storyId);
+    defaultName = currentStoryForEditing!.name;
+    defaultDescription = currentStoryForEditing!.description;
   }
 
   const [name, setName] = useState(defaultName);
@@ -33,7 +35,7 @@ export default function StoryPopup({
         return;
       }
 
-      setSettings((prev: any) => {
+      setSettings((prev: ISettings) => {
         const newStories = prev.stories.map((story: any) => {
           if (story.id === storyId) {
             return newStory;
@@ -48,7 +50,7 @@ export default function StoryPopup({
     } else { // Adding story
       if (name === '') return;
 
-      setSettings((prev: any) => ({
+      setSettings((prev: ISettings) => ({
         ...prev,
         stories: [...prev.stories, {
           name,
@@ -95,6 +97,5 @@ export default function StoryPopup({
 
 StoryPopup.defaultProps = {
   storyId: null,
-  setSettings: () => null,
   stories: null,
 };

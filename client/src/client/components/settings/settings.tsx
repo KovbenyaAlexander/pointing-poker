@@ -10,7 +10,7 @@ export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
-  const [shouldShowPopup, setShouldShowPopup] = useState(false);
+  const [shouldShowPopup, setShouldShowPopup] = useState<boolean>(false);
   const [storyIdForEditing, setStoryIdForEditing] = useState<false | string>(false); // if value is string(key of story) - should open popup to edit story
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {

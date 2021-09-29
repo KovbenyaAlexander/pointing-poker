@@ -1,17 +1,18 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+import { IStory, ISettings } from '../../types';
 import './style.scss';
 
 interface IStories {
-  stories: any;
-  setSettings :any
-  setStoryIdForEditing: any
+  stories: Array<IStory>;
+  setSettings: React.Dispatch<React.SetStateAction<ISettings>>
+  setStoryIdForEditing: React.Dispatch<React.SetStateAction<false | string>>
 }
 
 export const Stories = ({ stories, setSettings, setStoryIdForEditing }: IStories):JSX.Element => {
   const removeStoryHandler = (id: string) => {
-    setSettings((prev: any) => ({
+    setSettings((prev: ISettings) => ({
       ...prev,
-      stories: prev.stories.filter((item: any) => !(item.id === id)),
+      stories: prev.stories.filter((item: IStory) => !(item.id === id)),
     }));
   };
 
@@ -22,7 +23,7 @@ export const Stories = ({ stories, setSettings, setStoryIdForEditing }: IStories
   return (
     <div>
       <div className="stories-container">
-        {stories.map((story: any) => (
+        {stories.map((story: IStory) => (
           <div className="story" key={story.id}>
             <p className="story__name">
               name:

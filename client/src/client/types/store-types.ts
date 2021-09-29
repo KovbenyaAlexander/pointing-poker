@@ -6,7 +6,7 @@ export interface IUserInfo {
   role?: string
 }
 
-interface IStory{
+export interface IStory{
   name: string,
   description: string,
   id: string
