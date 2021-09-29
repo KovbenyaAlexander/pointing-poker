@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 
 type IstoryPopup = {
@@ -29,6 +29,10 @@ export default function StoryPopup({
     if (stories) { // Editing story
       const newStory = { name, description, id: storyId };
 
+      if (name === '') {
+        return;
+      }
+
       setSettings((prev: any) => {
         const newStories = prev.stories.map((story: any) => {
           if (story.id === storyId) {
@@ -36,8 +40,6 @@ export default function StoryPopup({
           }
           return story;
         });
-
-        setShouldShowPopup(false);
         return {
           ...prev,
           stories: newStories,
@@ -45,7 +47,6 @@ export default function StoryPopup({
       });
     } else { // Adding story
       if (name === '') return;
-      setShouldShowPopup(false);
 
       setSettings((prev: any) => ({
         ...prev,
@@ -56,6 +57,7 @@ export default function StoryPopup({
         }],
       }));
     }
+    setShouldShowPopup(false);
   };
 
   const onCloseHandler = () => {
@@ -94,5 +96,5 @@ export default function StoryPopup({
 StoryPopup.defaultProps = {
   storyId: null,
   setSettings: () => null,
-  stories: [],
+  stories: null,
 };
