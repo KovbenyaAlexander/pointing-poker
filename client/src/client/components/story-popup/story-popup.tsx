@@ -1,33 +1,61 @@
-import { type } from 'os';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {  useState } from 'react';
 import './style.scss';
 
 type IstoryPopup = {
-  id?: string | null
   setShouldShowPopup: (props: any) => any
-  setSettings: any
+  setSettings?: any
+  stories?: any
+  storyId?: any
 };
 
 export default function StoryPopup({
-  id, setShouldShowPopup, setSettings,
+  stories, setShouldShowPopup, setSettings, storyId,
 }: IstoryPopup): JSX.Element {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  let defaultName = '';
+  let defaultDescription = '';
+
+  if (stories) {
+    const currentStoryForEditing = stories.find((story:any) => story.id === storyId);
+    defaultName = currentStoryForEditing.name;
+    defaultDescription = currentStoryForEditing.description;
+  }
+
+  const [name, setName] = useState(defaultName);
+  const [description, setDescription] = useState(defaultDescription);
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (name === '') return;
-    setShouldShowPopup(false);
 
-    setSettings((prev: any) => ({
-      ...prev,
-      stories: [...prev.stories, {
-        name,
-        description,
-        id: String(Date.now()),
-      }],
-    }));
+    if (stories) { // Editing story
+      const newStory = { name, description, id: storyId };
+
+      setSettings((prev: any) => {
+        const newStories = prev.stories.map((story: any) => {
+          if (story.id === storyId) {
+            return newStory;
+          }
+          return story;
+        });
+
+        setShouldShowPopup(false);
+        return {
+          ...prev,
+          stories: newStories,
+        };
+      });
+    } else { // Adding story
+      if (name === '') return;
+      setShouldShowPopup(false);
+
+      setSettings((prev: any) => ({
+        ...prev,
+        stories: [...prev.stories, {
+          name,
+          description,
+          id: String(Date.now()),
+        }],
+      }));
+    }
   };
 
   const onCloseHandler = () => {
@@ -64,5 +92,7 @@ export default function StoryPopup({
 }
 
 StoryPopup.defaultProps = {
-  id: null,
+  storyId: null,
+  setSettings: () => null,
+  stories: [],
 };
