@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { IStory, ISettings } from '../../types';
 
 import './style.scss';
@@ -55,7 +56,7 @@ export default function StoryPopup({
         stories: [...prev.stories, {
           name,
           description,
-          id: String(Date.now()),
+          id: uuidv4(),
         }],
       }));
     }

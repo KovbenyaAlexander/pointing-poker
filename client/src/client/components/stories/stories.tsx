@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React from 'react';
 import { IStory, ISettings } from '../../types';
 import './style.scss';
 

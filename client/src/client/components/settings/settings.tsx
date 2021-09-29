@@ -10,7 +10,7 @@ export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
-  const [shouldShowPopup, setShouldShowPopup] = useState<boolean>(false);
+  const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
   const [storyIdForEditing, setStoryIdForEditing] = useState<false | string>(false); // if value is string(key of story) - should open popup to edit story
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
@@ -25,7 +25,7 @@ export default function Settings(): JSX.Element {
   return (
     <>
       <form className="settings" onSubmit={onSubmitHandler}>
-        <>
+        <div className="settings__container">
           <span>Name of game</span>
           <input
             type="text"
@@ -120,19 +120,34 @@ export default function Settings(): JSX.Element {
      </label>
    )}
 
-        </>
+        </div>
         <Stories
           stories={settings.stories}
           setSettings={setSettings}
           setStoryIdForEditing={setStoryIdForEditing}
         />
 
-        <button type="button" onClick={() => setShouldShowPopup(true)}>Add story</button>
+        <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
       </form>
-      {shouldShowPopup && <StoryPopup setShouldShowPopup={setShouldShowPopup} setSettings={setSettings} />}
-      {storyIdForEditing && <StoryPopup setShouldShowPopup={setStoryIdForEditing} setSettings={setSettings} stories={settings.stories} storyId={storyIdForEditing} />}
+      
+      {shouldShowPopupForAdd
+      && (
+        <StoryPopup
+          setShouldShowPopup={setShouldShowPopupForAdd}
+          setSettings={setSettings}
+        />
+      )}
+      {storyIdForEditing
+       && (
+         <StoryPopup
+           setShouldShowPopup={setStoryIdForEditing}
+           setSettings={setSettings}
+           stories={settings.stories}
+           storyId={storyIdForEditing}
+         />
+       )}
     </>
   );
 }
