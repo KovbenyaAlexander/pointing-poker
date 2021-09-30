@@ -18,10 +18,6 @@ export default function Settings(): JSX.Element {
     if (game.id) {
       dispatch(updateSettings(settings));
     } else {
-      console.log('CREATE GAME___>');
-      console.log(settings);
-      console.log('CREATE GAME___>');
-
       dispatch(createGame({ settings }));
     }
   };
