@@ -1,15 +1,15 @@
 import { ISettings, IStore, IUserInfo } from '../types/store-types';
 
 export const user:IUserInfo = {
-  name: 'USERNAME',
-  lastName: 'adasdd',
+  name: '',
+  lastName: '',
   jobPosition: '',
   photoUser: '',
   role: '',
 };
 
 const settings: ISettings = {
-  gameName: 'GAME__NAME',
+  gameName: '',
   isDealerInGame: false,
   isAutoEntry: false,
   isAutoFinish: false,
@@ -17,11 +17,7 @@ const settings: ISettings = {
   estimationType: 'power2',
   isTimerRequired: false,
   timerValue: '01:01',
-  stories: [{
-    name: 'sdfdsf',
-    description: 'sdfdsf',
-    id: 'sdfdsf',
-  }],
+  stories: [],
 };
 
 export const initialStore: IStore = {

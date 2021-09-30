@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { updateSettings } from '../../store/thunk';
 import { IStory, ISettings } from '../../types';
@@ -37,14 +37,11 @@ export default function StoryPopup({
     if (name === '') return;
 
     if (isGame) {
-      const newStory = {
+      const newStories = [...settings!.stories, {
         name, description, id: uuidv4(),
-      };
+      }];
 
-      const newState = JSON.parse(JSON.stringify(settings));
-      newState.stories.push(newStory);
-
-      dispatch(updateSettings({ settings: newState }));
+      dispatch(updateSettings({ ...settings!, stories: newStories }));
     } else if (stories) { // Editing story
       const newStory = { name, description, id: storyId };
       setSettings!((prev: ISettings) => {
@@ -108,4 +105,7 @@ export default function StoryPopup({
 StoryPopup.defaultProps = {
   storyId: null,
   stories: null,
+  setSettings: null,
+  settings: {},
+  isGame: false,
 };

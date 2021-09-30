@@ -16,8 +16,12 @@ export default function Settings(): JSX.Element {
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
-      dispatch(updateSettings({ settings }));
+      dispatch(updateSettings(settings));
     } else {
+      console.log('CREATE GAME___>');
+      console.log(settings);
+      console.log('CREATE GAME___>');
+
       dispatch(createGame({ settings }));
     }
   };
@@ -128,6 +132,9 @@ export default function Settings(): JSX.Element {
         />
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
+        <br />
+        <br />
+        <br />
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
 
       </form>

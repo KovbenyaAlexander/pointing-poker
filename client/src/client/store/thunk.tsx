@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore, IGame } from '../types';
+import { IStore, IGame, ISettings } from '../types';
 import { UpdateSettings, setInitialStore } from './actions';
 
 const url = 'http://localhost:5000/api';
@@ -70,16 +70,13 @@ export function activitySwitcher(isActive: boolean) {
   };
 }
 
-export function updateSettings(settings: IGame) {
+export function updateSettings(settings: ISettings) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
     getState: () => IStore,
   ): Promise<void> => {
     try {
       const { game } = getState();
-      console.log('Settings to ssend--->>');
-      console.log(settings);
-      console.log('Settings to ssend--->>');
 
       const response = await axios.post(`${url}/updateSettings`, {
         id: game.id,
@@ -87,7 +84,9 @@ export function updateSettings(settings: IGame) {
       });
       if (response.status === 200) {
         console.log('200');
-        dispatch(UpdateSettings(response.data));
+        console.log(response.data);
+        console.log('200');
+        dispatch(UpdateSettings({ settings: response.data }));
       }
     } catch (e) {
       console.log(e);
