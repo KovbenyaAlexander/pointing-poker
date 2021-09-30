@@ -1,6 +1,14 @@
 import { ISettings, IStore, IUserInfo } from '../types/store-types';
 
-const user: IUserInfo = { name: '', role: '', userID: '' };
+export const user:IUserInfo = {
+  name: '',
+  lastName: '',
+  jobPosition: '',
+  photoUser: '',
+  role: '',
+  userID: '',
+};
+
 const settings: ISettings = {
   gameName: '',
   isDealerInGame: false,

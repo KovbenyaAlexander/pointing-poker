@@ -1,8 +1,10 @@
 export interface IUserInfo {
   name: string;
   userID: string;
-  role: string;
-  imgSrc?: string;
+  lastName?: string
+  jobPosition?: string
+  photoUser?: string
+  role?: string
 }
 
 export interface ISettings {
