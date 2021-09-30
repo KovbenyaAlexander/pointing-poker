@@ -1,6 +1,4 @@
-import {
-  IExclude, IGame, ISettings, IUserInfo,
-} from './store-types';
+import { IGame, IExclude } from './store-types';
 
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
@@ -8,23 +6,8 @@ export enum Actions {
   SET_GAME = 'SET_GAME',
   START_EXCLUDE = 'START_EXCLUDE',
   STOP_EXCLUDE = 'STOP_EXCLUDE',
+  SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
 }
-
-// User Actions
-export interface UserUpdateAction {
-  payload: IUserInfo;
-  type: Actions.UPDATE_USERINFO;
-}
-
-export type UserActions = UserUpdateAction;
-
-// Settings Actions
-export interface SettingUpdateAction {
-  payload: ISettings;
-  type: Actions.UPDATE_SETTINGS
-}
-
-export type SettingsActions = SettingUpdateAction;
 
 // Game Actions
 export interface SetGameAction {
@@ -43,5 +26,3 @@ export interface StopExcludeAction {
 }
 
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;
-
-export type AllActions = SettingsActions | UserActions | GameActions;

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { UpdateUser } from '../../store/actions';
 
 export default function NewUserFrom(): JSX.Element {
   const [name, setName] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   function onIdChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setName(e.target.value);
@@ -10,6 +15,8 @@ export default function NewUserFrom(): JSX.Element {
 
   function onSubmitClick(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
+    dispatch(UpdateUser({ name, role: 'dealer', userID: '' }));
+    history.push('settings');
   }
 
   return (

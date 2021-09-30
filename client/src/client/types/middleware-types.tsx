@@ -1,6 +1,6 @@
 import { Store } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AllActions } from './actions-types';
+import { AllActions } from '../store/reducers';
 import { IStore } from './store-types';
 
 export type ThunkActionCustom = ThunkAction<void, IStore, unknown, AllActions>;

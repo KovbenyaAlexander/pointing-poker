@@ -6,7 +6,14 @@ export interface IUserInfo {
 }
 
 export interface ISettings {
-  time: number;
+  gameName: string;
+  isDealerInGame: boolean;
+  isAutoEntry: boolean;
+  isAutoFinish: boolean;
+  isVoteMutable: boolean;
+  estimationType: string;
+  isTimerRequired: boolean;
+  timerValue: string;
 }
 
 export interface IExclude {
@@ -16,13 +23,13 @@ export interface IExclude {
 }
 
 export interface IGame {
-  gameID: string | undefined;
+  id?: string | null;
+  isActive: boolean;
   members: IUserInfo[];
   excluding: IExclude;
+  settings: ISettings;
 }
-
 export interface IStore {
   user: IUserInfo;
-  settings: ISettings;
   game: IGame;
 }
