@@ -1,37 +1,34 @@
-function emitChangeGameActivity (id, status) {
-    findAllUsersByGame(id).forEach((user) => {
-        user.socket.emit('changeGameActivity', status);
-    });
+const { Excludor } = require("./Excludor");
+const rooms = require("./socket-index");
+
+function setSocketListeners(socket) {
+    try {
+        socket.on('initExclude', onInitExclude);
+        socket.on('confirmExclude', onSocketConfirmExclude);
+        return socket;
+    }
+    catch(e){
+        console.log(e);
+    }
+} 
+
+function onInitExclude(id, excluding, isInstantExclude) {
+    const room = rooms.get(id);
+    if (isInstantExclude) {
+        room.excludeMember(excluding.user, excluding);
+    } else {
+        room.game = {...room.game, excluding: {...excluding, isActive: true}};
+        members = room.getMembers().filter((user) => {
+            return true;
+        });
+        room.askToExclude(new Excludor(room.getMembers()));
+    }
 }
 
-function emitUpdateSetting (id, settings) {
-    findAllUsersByGame(id).forEach((user) => {
-        user.socket.emit('updateSettings', settings);
-    });
-}
-
-function emitGameRemove (id) {
-    findAllUsersByGame(id).forEach((user) => {
-        user.socket.emit('gameRemove');
-    });
-}
-
-function emitRemoveUser(idGame, UserName) {
-    findAllUsersByGame(idGame).forEach((user) => {
-        user.socket.emit('RemoveUser', UserName);
-    });
-
-}
-
-function emitUserAdd(idGame, UserName) {
-    findAllUsersByGame(idGame).forEach((user) => {
-        user.socket.emit('UserAdd', UserName);
-    });
+function onSocketConfirmExclude(id, userID, answer) {
+    const room = rooms.get(id);
+    room.writeExcludeAnswer(userID, answer);
 }
 module.exports = { 
-    emitChangeGameActivity,
-    emitUpdateSetting,
-    emitGameRemove,
-    emitRemoveUser,
-    emitUserAdd,
+    setSocketListeners
 };

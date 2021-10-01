@@ -1,5 +1,4 @@
 const uuid = require("uuid");
-const { emitChangeGameActivity, emitUpdateSetting, emitGameRemove } = require("../sockets/socket-action");
 const games = require("./index");
 
 class Game {
@@ -15,8 +14,7 @@ class Game {
       }
 
       const id = uuid.v4();
-      const users = [{ userName, role: "dealer" }];
-      games.set(id, { users, settings: { isActive: false, ...settings, id } });
+      games.set(id, { settings: { isActive: false, ...settings, id } });
       return res.status(200).json({ ...settings, isActive: false, id });
     } catch (e) {
       console.log(e);
@@ -32,8 +30,6 @@ class Game {
       }
 
       games.delete(id);
-
-      emitGameRemove(id);
       
       return res.status(200).json({ message: "Game deleted successfully" });
     } catch (e) {
@@ -75,8 +71,6 @@ class Game {
       const isActive = req.body.isActive;
       game.settings.isActive = !isActive;
 
-      emitChangeGameActivity(id, game.settings.isActive);
-
       return res.status(200).json(game.settings.isActive);
     } catch (e) {
       console.log(e);
@@ -93,8 +87,6 @@ class Game {
       }
 
       game.settings = { isActive: game.settings.isActive, ...settings };
-      
-      emitUpdateSetting(id, game.settings);
 
       return res.status(200).send(settings);
     } catch (e) {

@@ -1,4 +1,4 @@
-const { emitGameRemove, emitUserAdd } = require("../sockets/socket-action");
+const rooms = require("../sockets/socket-index");
 const games = require("./index");
 
 class Controller {
@@ -6,34 +6,34 @@ class Controller {
     try {
       const { user, id, } = req.body;
       const { name, role, userID} = user;
+
+      // User Validate
       if (!name || !role || !id) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      if (role !== "observer" && role !== "player") {
+      if (role !== "observer" && role !== "player" && rooms.get(id)) {
+        console.log(1);
         return res.status(400).json({ message: "Invalid role" });
       }
 
       if (name.length < 4 || name.length > 30) {
+        console.log(2);
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
-      let gameInfo = games.get(id);
-      if (!gameInfo) {
+      // Game Validate
+      const room = rooms.get(id);
+      if (!room) {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      if (gameInfo.users.find((user) => user.userID === userID)) {
+      if (rooms.get(id).isUserExists(userID)) {
+        console.log(4);
         return res.status(400).json({ message: "User Already Exist" });
       }
-
-      const newUsers = [...gameInfo.users, { name, role }];
-      const newSettings = {...gameInfo.settings, members: [...gameInfo.settings.members, user]}
-      games.set(id, { settings: newSettings, users: newUsers});
-      gameInfo = games.get(id)
-
-      emitUserAdd(id, userName);
-      return res.status(200).json({ game: gameInfo.settings, message: "Join was successful" });
+      
+      return res.status(200).json({game: room.game, message: "Join was successful" });
     } catch (e) {
       console.log(e);
     }
@@ -62,7 +62,6 @@ class Controller {
       );
       games.set(id, { ...gameInfo, users: newUsers });
       
-      emitGameRemove(id, userName);
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {

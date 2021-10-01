@@ -6,14 +6,17 @@ import './style.scss';
 
 export default function Exluding(): JSX.Element {
   const store = useSelector((state: IStore) => state.game.excluding);
+  const socket = useSelector((state: IStore) => state.socket);
   const dispatch = useDispatch();
 
   function handleConfirm(): void {
-    dispatch(StopExlude(true));
+    socket?.confirmExclude(true);
+    dispatch(StopExlude());
   }
 
   function handleCancel(): void {
-    dispatch(StopExlude(false));
+    socket?.confirmExclude(false);
+    dispatch(StopExlude());
   }
 
   return (

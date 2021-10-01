@@ -2,7 +2,8 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
 import { IStore, IGame, IUserInfo } from '../types';
-import { setInitialStore, SetGame } from './actions';
+import { setInitialStore, SetGame, SetSocketApi } from './actions';
+import { SocketApi } from '../socket/socket';
 
 const url = 'http://localhost:5000/api';
 
@@ -18,15 +19,18 @@ export function createGame(settings: IGame) {
         settings: { ...settings, members: [user] },
       });
       if (response.status === 200) {
-        dispatch(SetGame({
+        const game: IGame = {
           settings: response.data.settings,
           isActive: false,
           id: response.data.id,
-          members: response.data.members,
+          members: [],
           excluding: {
             isActive: false,
           },
-        }));
+        };
+        const socket = new SocketApi('http://localhost:5000', user, game);
+        dispatch(SetSocketApi(socket));
+        dispatch(SetGame(game));
       }
     } catch (e) {
       console.log(e);
@@ -110,6 +114,10 @@ export function userJoin(id: string) {
         user,
       });
       if (response.status === 200) {
+        if (user.role !== 'dealer') {
+          const socket = new SocketApi('http://localhost:5000', user, response.data.game);
+          dispatch(SetSocketApi(socket));
+        }
         dispatch(SetGame(response.data.game));
       }
     } catch (e) {

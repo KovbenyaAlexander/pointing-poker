@@ -1,6 +1,16 @@
 import {
-  IUserInfo, IGame, Actions, IExclude, SetGameAction, StartExcludeAction, StopExcludeAction, ISettings,
+  IUserInfo,
+  IGame,
+  Actions,
+  IExclude,
+  SetGameAction,
+  StartExcludeAction,
+  StopExcludeAction,
+  ISettings,
+  UpdateMembersAction,
+  SetSocketAction,
 } from '../types';
+import { ISocketApi } from '../types/store-types';
 import { AllActions } from './reducers';
 
 export function UpdateUser(payload: IUserInfo): AllActions {
@@ -31,15 +41,28 @@ export function StartExclude(payload: IExclude): StartExcludeAction {
   };
 }
 
-export function StopExlude(payload: boolean): StopExcludeAction {
+export function StopExlude(): StopExcludeAction {
   return {
     type: Actions.STOP_EXCLUDE,
-    payload,
   };
 }
 
 export function setInitialStore(): AllActions {
   return {
     type: Actions.SET_DEFAULT_SETTINGS,
+  };
+}
+
+export function UpdateMembers(payload: IUserInfo[]): UpdateMembersAction {
+  return {
+    type: Actions.UPDATE_MEMBERS,
+    payload,
+  };
+}
+
+export function SetSocketApi(payload: ISocketApi): SetSocketAction {
+  return {
+    type: Actions.SET_SOCKETAPI,
+    payload,
   };
 }

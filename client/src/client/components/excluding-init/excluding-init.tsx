@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { StartExclude, StopExlude } from '../../store/actions';
-import { IExclude, IUserInfo } from '../../types/store-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { StopExlude } from '../../store/actions';
+import { IExclude, IStore, IUserInfo } from '../../types/store-types';
 import './style.scss';
 
-export default function ExcludingInit({ user, close }
-: { user: IUserInfo, close: React.Dispatch<React.SetStateAction<boolean>> }): JSX.Element {
+export default function ExcludingInit({ user }
+: { user: IUserInfo }): JSX.Element {
   const dispatch = useDispatch();
+  const socket = useSelector((state: IStore) => state.socket);
   const [reason, setReason] = useState('');
 
   function handleConfirm(): void {
     const exclude: IExclude = {
-      isActive: true,
+      isActive: false,
       user,
       reason,
     };
-    dispatch(StartExclude(exclude));
-    // dispatch(StopExlude(true));
-    close(false);
+    socket?.initExclude(exclude, false);
   }
 
   function handleCancel(): void {
-    close(false);
+    dispatch(StopExlude());
   }
   return (
     <div>
-      <h2>Are you sure about a member excluding? Please give a reason: </h2>
+      <h2>
+        Are you sure about
+        {' '}
+        {user.name}
+        {' '}
+        excluding? Please give a reason:
+      </h2>
       <input
         type="text"
         value={reason}

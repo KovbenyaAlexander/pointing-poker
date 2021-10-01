@@ -13,7 +13,7 @@ export default function MemberList(): JSX.Element {
       <ul className="members__list">
         {
           game.members.map((member) => (
-            <Member key={member.userID} user={member} />
+            <Member key={member.userID} member={member} />
           ))
         }
       </ul>

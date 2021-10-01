@@ -1,3 +1,5 @@
+import { Socket } from 'socket.io-client/build/socket';
+
 export interface IUserInfo {
   name: string;
   userID: string;
@@ -22,6 +24,7 @@ export interface IExclude {
   user?: IUserInfo;
   reason?: string;
   isActive: boolean;
+  message?: string;
 }
 
 export interface IGame {
@@ -34,4 +37,13 @@ export interface IGame {
 export interface IStore {
   user: IUserInfo;
   game: IGame;
+  socket?: ISocketApi;
+}
+
+export interface ISocketApi {
+  socket: Socket;
+  setListeners: () => void;
+  initExclude: (e: IExclude | undefined, d: boolean) => void;
+  confirmExclude: (a: boolean) => void;
+  close: () => void;
 }

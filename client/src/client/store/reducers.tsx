@@ -1,5 +1,5 @@
 import {
-  Actions, StopExcludeAction, StartExcludeAction, SetGameAction,
+  Actions, StopExcludeAction, StartExcludeAction, SetGameAction, UpdateMembersAction, SetSocketAction,
 } from '../types/actions-types';
 import {
   IUserInfo, IStore, ISettings,
@@ -10,7 +10,7 @@ export type AllActions =
   { type: typeof Actions.UPDATE_SETTINGS; payload: ISettings }
   | { type: typeof Actions.UPDATE_USERINFO; payload: IUserInfo }
   | { type: typeof Actions.SET_DEFAULT_SETTINGS }
-  | StopExcludeAction | StartExcludeAction | SetGameAction;
+  | StopExcludeAction | StartExcludeAction | SetGameAction | UpdateMembersAction | SetSocketAction;
 
 export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
@@ -25,7 +25,12 @@ export default function reducer(state: IStore = initialStore, action: AllActions
     case Actions.STOP_EXCLUDE:
       return { ...state, game: { ...state.game, excluding: { isActive: false } } };
     case Actions.SET_DEFAULT_SETTINGS:
-      return { ...state, game: initialStore.game };
+      state.socket?.close();
+      return { ...state, game: initialStore.game, socket: undefined };
+    case Actions.UPDATE_MEMBERS:
+      return { ...state, game: { ...state.game, members: [...action.payload] } };
+    case Actions.SET_SOCKETAPI:
+      return { ...state, socket: action.payload };
     default:
       return state;
   }

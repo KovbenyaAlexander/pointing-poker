@@ -1,4 +1,6 @@
-import { IGame, IExclude } from './store-types';
+import {
+  ISocketApi, IUserInfo, IGame, IExclude,
+} from './store-types';
 
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
@@ -7,6 +9,8 @@ export enum Actions {
   START_EXCLUDE = 'START_EXCLUDE',
   STOP_EXCLUDE = 'STOP_EXCLUDE',
   SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
+  UPDATE_MEMBERS = 'UPDATE_MEMBERS',
+  SET_SOCKETAPI = 'SET_SOCKETAPI',
 }
 
 // Game Actions
@@ -22,7 +26,15 @@ export interface StartExcludeAction {
 
 export interface StopExcludeAction {
   type: Actions.STOP_EXCLUDE;
-  payload: boolean
 }
 
+export interface UpdateMembersAction {
+  type: Actions.UPDATE_MEMBERS;
+  payload: IUserInfo[];
+}
+
+export interface SetSocketAction {
+  type: Actions.SET_SOCKETAPI;
+  payload: ISocketApi;
+}
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;

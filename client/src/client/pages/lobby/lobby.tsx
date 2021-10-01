@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import ExcludingInit from '../../components/excluding-init/excluding-init';
 import Exluding from '../../components/excluding/excluding';
 import Launch from '../../components/launch/launch';
 import MemberList from '../../components/members-list/member-list';
+import MessageForExcluded from '../../components/message-excluded/message-excluded';
 import Popup from '../../components/popup/popup';
 import Settings from '../../components/settings/settings';
 import { userJoin } from '../../store/thunk';
@@ -28,13 +30,7 @@ export default function Lobby(): JSX.Element {
         {' '}
         { game.settings.gameName }
       </h3>
-      <MemberList />
-      { game.excluding.isActive
-        && (
-          <Popup>
-            <Exluding />
-          </Popup>
-        )}
+      {game.excluding.reason && !game.id ? <MessageForExcluded /> : <MemberList />}
       {
         dealer
         && (
@@ -45,6 +41,15 @@ export default function Lobby(): JSX.Element {
           </section>
         )
       }
+      { game.excluding.isActive
+        && (
+          <Popup>
+            <Exluding />
+          </Popup>
+        )}
+      {game.excluding.user && !game.excluding.isActive && (
+        <Popup><ExcludingInit user={game.excluding.user} /></Popup>
+      )}
     </article>
   );
 }
