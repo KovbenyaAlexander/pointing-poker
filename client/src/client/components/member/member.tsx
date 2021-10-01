@@ -8,11 +8,11 @@ import Popup from '../popup/popup';
 import './style.scss';
 
 export default function Member({ user } : { user: IUserInfo }): JSX.Element {
-  const store = useSelector((state: IStore) => state);
+  const game = useSelector((state: IStore) => state.game);
   const [excludePopup, setExcludePopup] = useState(false);
   const { userID, name, photoUser } = user;
-  const isDealerMember = isDealer(store, userID);
-  const isExludable = !isDealerMember && !isCurrentUser(store, userID) && (store.game.members.length - 1) >= 3;
+  const isDealerMember = isDealer(game, userID);
+  const isExludable = !isDealerMember && !isCurrentUser(user, userID) && (game.members.length - 1) >= 3;
 
   function handleExcludeInit(): void {
     setExcludePopup(true);

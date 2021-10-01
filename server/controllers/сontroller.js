@@ -30,7 +30,6 @@ class Controller {
       const newSettings = {...gameInfo.settings, members: [...gameInfo.settings.members, user]}
       games.set(id, { settings: newSettings, users: newUsers});
       gameInfo = games.get(id)
-      console.log(gameInfo)
 
       return res.status(200).json({ game: gameInfo.settings, message: "Join was successful" });
     } catch (e) {

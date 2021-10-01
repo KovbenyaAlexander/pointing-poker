@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
+import { useHistory } from 'react-router';
 import { createGame, updateSettings } from '../../store/thunk';
 import { IStore } from '../../types/index';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
 
@@ -15,6 +17,10 @@ export default function Settings(): JSX.Element {
       dispatch(updateSettings({ ...game, settings }));
     } else {
       dispatch(createGame({ ...game, settings }));
+
+      setTimeout(() => {
+        history.push(`lobby/${game.id}`);
+      }, 2000);
     }
   };
 
