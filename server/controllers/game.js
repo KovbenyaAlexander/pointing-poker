@@ -33,7 +33,7 @@ class Game {
       games.delete(id);
       rooms.get(id).finishGame();
       rooms.delete(id);
-      
+
       return res.status(200).json({ message: "Game deleted successfully" });
     } catch (e) {
       console.log(e);
@@ -65,15 +65,14 @@ class Game {
       if (!req.body.hasOwnProperty("id")) {
         return res.status(400).json({ message: "Invalid data" });
       }
-
-      const game = games.get(req.body.id);
+      const { id, isActive } = req.body
+      const game = games.get(id);
       if (!game) {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      const isActive = req.body.isActive;
       game.settings.isActive = !isActive;
-
+      rooms.get(id).setGameActive(game.settings.isActive);
       return res.status(200).json(game.settings.isActive);
     } catch (e) {
       console.log(e);

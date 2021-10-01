@@ -1,4 +1,5 @@
 import {
+  SetGame,
   setInitialStore, StartExclude, UpdateMembers,
 } from '../store/actions';
 import { store } from '../store/store';
@@ -27,4 +28,9 @@ export function onSocketUpdateExcluding(excluding: IExclude): void {
 
 export function onSocketGameEnd(): void {
   store.dispatch(setInitialStore());
+}
+
+export function onSocketSetGameActive(isActive: boolean): void {
+  const { game } = store.getState();
+  store.dispatch(SetGame({ ...game, isActive }));
 }

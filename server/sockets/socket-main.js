@@ -55,6 +55,10 @@ class Room {
         });
     }
 
+    setGameActive(isActive) {
+        this.game = {...this.game, isActive};
+        this.emit('setGameActive', this.game.isActive);
+    }
 
     askToExclude(Excludor) {
         if (this.members.length < 4) {

@@ -32,3 +32,5 @@ export const initialStore: IStore = {
     id: null,
   },
 };
+
+export const clinetUrl = 'http://localhost:3000';

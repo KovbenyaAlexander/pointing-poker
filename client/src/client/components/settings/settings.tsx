@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { useHistory } from 'react-router';
@@ -17,12 +17,14 @@ export default function Settings(): JSX.Element {
       dispatch(updateSettings({ ...game, settings }));
     } else {
       dispatch(createGame({ ...game, settings }));
-
-      setTimeout(() => {
-        history.push(`lobby/${game.id}`);
-      }, 2000);
     }
   };
+
+  useEffect(() => {
+    if (game.id) {
+      history.push(`/lobby/${game.id}`);
+    }
+  }, [game.id]);
 
   return (
     <form className="settings" onSubmit={onSubmitHandler}>
