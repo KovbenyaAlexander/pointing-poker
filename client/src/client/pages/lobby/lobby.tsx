@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import ExcludingInit from '../../components/excluding-init/excluding-init';
 import Exluding from '../../components/excluding/excluding';
 import Launch from '../../components/launch/launch';
@@ -16,12 +16,18 @@ import './style.scss';
 export default function Lobby(): JSX.Element {
   const { game, user } = useSelector((state: IStore) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { gameID } = useParams<{ gameID: string }>();
   const dealer = user ? isDealer(game, user.userID) : false;
 
   useEffect(() => {
     dispatch(userJoin(gameID));
   }, []);
+
+  useEffect(() => {
+    if (!game.id) history.push('/');
+    if (game.isActive) history.push(`/game/${game.id}`);
+  }, [game.id, game.isActive]);
 
   return (
     <article className="lobby">
