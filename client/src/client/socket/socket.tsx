@@ -3,7 +3,12 @@ import { store } from '../store/store';
 import { IExclude, IGame, IUserInfo } from '../types';
 import { ISocketApi } from '../types/store-types';
 import {
-  onSocketExcluded, onSocketExcludeEnd, onSocketExcluding, onSocketUpdateExcluding, onSocketUpdateMembers,
+  onSocketExcluded,
+  onSocketExcludeEnd,
+  onSocketExcluding,
+  onSocketGameEnd,
+  onSocketUpdateExcluding,
+  onSocketUpdateMembers,
 } from './socket-actions';
 
 export class SocketApi implements ISocketApi {
@@ -30,6 +35,7 @@ export class SocketApi implements ISocketApi {
     this.socket.on('excludeEnd', onSocketExcludeEnd);
     this.socket.on('excluded', onSocketExcluded);
     this.socket.on('updateGame', onSocketUpdateExcluding);
+    this.socket.on('gameEnd', onSocketGameEnd);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {

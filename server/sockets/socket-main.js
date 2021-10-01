@@ -31,6 +31,10 @@ class Room {
     join(user) {
         this.members.push(user);
     }
+    
+    finishGame() {
+        this.emit('gameEnd');
+    }
 
     emit(type, data=undefined) {
         this.members.forEach((user) => {
