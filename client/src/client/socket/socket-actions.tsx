@@ -1,9 +1,9 @@
 import {
   SetGame,
-  setInitialStore, StartExclude, UpdateMembers,
+  setInitialStore, StartExclude, UpdateMembers, UpdateSettings,
 } from '../store/actions';
 import { store } from '../store/store';
-import { IExclude, IUserInfo } from '../types/store-types';
+import { IExclude, ISettings, IUserInfo } from '../types/store-types';
 
 export function onSocketUpdateMembers(members: IUserInfo[]): void {
   store.dispatch(UpdateMembers(members));
@@ -33,4 +33,8 @@ export function onSocketGameEnd(): void {
 export function onSocketSetGameActive(isActive: boolean): void {
   const { game } = store.getState();
   store.dispatch(SetGame({ ...game, isActive }));
+}
+
+export function onSocketSetSettings(settings: ISettings): void {
+  store.dispatch(UpdateSettings(settings));
 }

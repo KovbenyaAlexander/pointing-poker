@@ -89,7 +89,8 @@ class Game {
       }
 
       game.settings = { isActive: game.settings.isActive, ...settings };
-
+      const room = rooms.get(id);
+      room.setSettings(settings);
       return res.status(200).send(settings);
     } catch (e) {
       console.log(e);

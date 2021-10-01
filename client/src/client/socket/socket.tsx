@@ -8,6 +8,7 @@ import {
   onSocketExcluding,
   onSocketGameEnd,
   onSocketSetGameActive,
+  onSocketSetSettings,
   onSocketUpdateExcluding,
   onSocketUpdateMembers,
 } from './socket-actions';
@@ -38,6 +39,7 @@ export class SocketApi implements ISocketApi {
     this.socket.on('updateGame', onSocketUpdateExcluding);
     this.socket.on('gameEnd', onSocketGameEnd);
     this.socket.on('setGameActive', onSocketSetGameActive);
+    this.socket.on('updateSettings', onSocketSetSettings);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {

@@ -25,7 +25,6 @@ export default function Lobby(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!game.id) history.push('/');
     if (game.isActive) history.push(`/game/${game.id}`);
   }, [game.id, game.isActive]);
 

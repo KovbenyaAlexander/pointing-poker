@@ -60,6 +60,11 @@ class Room {
         this.emit('setGameActive', this.game.isActive);
     }
 
+    setSettings(settings) {
+        this.game = {...this.game, ...settings};
+        this.emit('updateSettings', this.game.settings);
+    }
+
     askToExclude(Excludor) {
         if (this.members.length < 4) {
             return;

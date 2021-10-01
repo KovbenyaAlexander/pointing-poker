@@ -66,12 +66,12 @@ export function activitySwitcher(isActive: boolean) {
         id: game.id,
         isActive,
       });
-      if (response.status === 200) {
-        dispatch(SetGame({
-          ...game,
-          isActive: response.data,
-        }));
-      }
+      // if (response.status === 200) {
+      //   dispatch(SetGame({
+      //     ...game,
+      //     isActive: response.data,
+      //   }));
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -89,9 +89,9 @@ export function updateSettings(settings: IGame) {
         id: game.id,
         settings,
       });
-      if (response.status === 200) {
-        dispatch(SetGame(response.data));
-      }
+      // if (response.status === 200) {
+      //   dispatch(SetGame(response.data));
+      // }
     } catch (e) {
       console.log(e);
     }
