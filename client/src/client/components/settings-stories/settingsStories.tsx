@@ -5,10 +5,10 @@ import './style.scss';
 interface IStories {
   stories: Array<IStory>;
   setSettings: React.Dispatch<React.SetStateAction<ISettings>>
-  setStoryIdForEditing: React.Dispatch<React.SetStateAction<false | string>>
+  setStoryToEdit: React.Dispatch<React.SetStateAction<false | IStory>>
 }
 
-export const Stories = ({ stories, setSettings, setStoryIdForEditing }: IStories):JSX.Element => {
+export const Stories = ({ stories, setSettings, setStoryToEdit }: IStories):JSX.Element => {
   const removeStoryHandler = (id: string) => {
     setSettings((prev: ISettings) => ({
       ...prev,
@@ -16,8 +16,8 @@ export const Stories = ({ stories, setSettings, setStoryIdForEditing }: IStories
     }));
   };
 
-  const editStoryHandler = (id: string) => {
-    setStoryIdForEditing(id);
+  const editStoryHandler = (story: IStory) => {
+    setStoryToEdit(story);
   };
 
   return (
@@ -36,7 +36,7 @@ export const Stories = ({ stories, setSettings, setStoryIdForEditing }: IStories
               </p>
             )}
 
-            <button type="button" onClick={() => editStoryHandler(story.id)}>Edit</button>
+            <button type="button" onClick={() => editStoryHandler(story)}>Edit</button>
             <button type="button" onClick={() => removeStoryHandler(story.id)}>Remove</button>
           </div>
         ))}

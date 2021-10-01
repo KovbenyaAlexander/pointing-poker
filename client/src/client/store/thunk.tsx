@@ -60,7 +60,6 @@ export function activitySwitcher(isActive: boolean) {
         id: game.id,
         isActive,
       });
-      console.log(response);
       if (response.status === 200) {
         dispatch(UpdateSettings({ isActive: response.data }));
       }
@@ -83,9 +82,6 @@ export function updateSettings(settings: ISettings) {
         settings,
       });
       if (response.status === 200) {
-        console.log('200');
-        console.log(response.data);
-        console.log('200');
         dispatch(UpdateSettings({ settings: response.data }));
       }
     } catch (e) {

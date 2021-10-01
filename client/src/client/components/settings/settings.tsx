@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
+import { v4 as uuidv4 } from 'uuid';
 import { createGame, updateSettings } from '../../store/thunk';
-import { IStore } from '../../types/index';
+import { IStore, IStory, ISettings } from '../../types';
 import StoryPopup from '../story-popup/story-popup';
-import { Stories } from '../stories/stories';
+import { Stories } from '../settings-stories/settingsStories';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
-  const [storyIdForEditing, setStoryIdForEditing] = useState<false | string>(false); // if value is string(key of story) - should open popup to edit story
+  const [storyToEdit, setStoryToEdit] = useState<false | IStory>(false); // if value is string(key of story) - should open popup to edit story
 
-  const onSubmitHandler = (e: React.SyntheticEvent) => {
+  const onSettingsSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
       dispatch(updateSettings(settings));
@@ -22,9 +23,29 @@ export default function Settings(): JSX.Element {
     }
   };
 
+  const onPopupSubmit = (newStory: IStory) => {
+    if (!storyToEdit) {
+      setSettings((prev: ISettings) => ({ ...prev, stories: [...prev.stories, { ...newStory, id: uuidv4() }] }));
+    } else {
+      setSettings((prev: ISettings) => {
+        const newStories = prev.stories.map((story: IStory) => {
+          if (newStory.id === story.id) {
+            return newStory;
+          }
+          return story;
+        });
+
+        return { ...prev, stories: newStories };
+      });
+    }
+
+    setStoryToEdit(false);
+    setShouldShowPopupForAdd(false);
+  };
+
   return (
     <>
-      <form className="settings" onSubmit={onSubmitHandler}>
+      <form className="settings" onSubmit={onSettingsSubmitHandler}>
         <div className="settings__container">
           <span>Name of game</span>
           <input
@@ -124,7 +145,7 @@ export default function Settings(): JSX.Element {
         <Stories
           stories={settings.stories}
           setSettings={setSettings}
-          setStoryIdForEditing={setStoryIdForEditing}
+          setStoryToEdit={setStoryToEdit}
         />
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
@@ -139,16 +160,15 @@ export default function Settings(): JSX.Element {
       && (
         <StoryPopup
           setShouldShowPopup={setShouldShowPopupForAdd}
-          setSettings={setSettings}
+          onPopupSubmit={onPopupSubmit}
         />
       )}
-      {storyIdForEditing
+      {storyToEdit
        && (
          <StoryPopup
-           setShouldShowPopup={setStoryIdForEditing}
-           setSettings={setSettings}
-           stories={settings.stories}
-           storyId={storyIdForEditing}
+           setShouldShowPopup={setStoryToEdit}
+           onPopupSubmit={onPopupSubmit}
+           storyToEdit={storyToEdit}
          />
        )}
     </>
