@@ -1,3 +1,4 @@
+const { emitGameRemove, emitUserAdd } = require("../sockets/socket-action");
 const games = require("./index");
 
 class Controller {
@@ -31,6 +32,7 @@ class Controller {
       games.set(id, { settings: newSettings, users: newUsers});
       gameInfo = games.get(id)
 
+      emitUserAdd(id, userName);
       return res.status(200).json({ game: gameInfo.settings, message: "Join was successful" });
     } catch (e) {
       console.log(e);
@@ -59,6 +61,8 @@ class Controller {
         (user) => user.userName !== userName
       );
       games.set(id, { ...gameInfo, users: newUsers });
+      
+      emitGameRemove(id, userName);
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {
