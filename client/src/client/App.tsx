@@ -19,7 +19,7 @@ const App = (): JSX.Element => (
           render={(props) => <MainPage {...props} />}
         />
 
-        <Route path="/lobby">
+        <Route path="/lobby/:gameID">
           <Lobby />
         </Route>
 

@@ -25,6 +25,7 @@ export default function GamePage(): JSX.Element {
       </p>
       {user.photoUser && (
         <img
+          alt=""
           src={user.photoUser}
           style={{
             width: '50px',

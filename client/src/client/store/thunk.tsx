@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore, IGame } from '../types';
+import { IStore, IGame, IUserInfo } from '../types';
 import { setInitialStore, SetGame } from './actions';
 
 const url = 'http://localhost:5000/api';
@@ -97,3 +97,23 @@ export function updateSettings(settings: IGame) {
 export const isGameActive = (id: string) => (): Promise<void> => axios.post(`${url}/checkedIdKey`, { id })
   .then((res) => res.data)
   .catch((e) => console.log(e));
+
+export function userJoin(id: string) {
+  return async (
+    dispatch: ThunkDispatch<void, IStore, AnyAction>,
+    getState: () => IStore,
+  ): Promise<void> => {
+    try {
+      const { user } = getState();
+      const response = await axios.post(`${url}/join`, {
+        id,
+        user,
+      });
+      if (response.status === 200) {
+        dispatch(SetGame(response.data.game));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
