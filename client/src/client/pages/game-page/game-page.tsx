@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import nextId from "react-id-generator";
 import "./style.scss";
 import { IStore } from "../../types";
 import {
@@ -14,7 +13,7 @@ import {
 import {FieldGame} from "../../components/game-page/field-game/filed-game";
 
 export default function GamePage(): JSX.Element {
-  const key = nextId("key-card");
+
   const select = useSelector((sel: IStore) => sel);
   const [isCardAction, setIsCardAction] = useState<any>({
     selectedCard: null,
@@ -50,14 +49,7 @@ export default function GamePage(): JSX.Element {
       <Route exact path={`/game/${select.game.id}`}>
           <h3>Please select a topic.</h3>
       </Route>
-      {addStory.map((field:string, index:number) => 
-        (
-          <Route key={field + index} path={`/game/${select.game.id}/${field}`} children  ={<FieldGame />}/>
-        )
-      )}
 
- 
-       
       </Switch>
       <section className="game-sidebar">
         <div className="table-panel">
@@ -69,7 +61,7 @@ export default function GamePage(): JSX.Element {
                 <td>score </td>
               </tr>
               {addStory.map((el: string, index: number) => (    
-                <tr key={key + index}>
+                <tr key={el + index}>
                   <td>
                     <NavLink to={`/game/${select.game.id}/${el}`}>
                       {index + 1}

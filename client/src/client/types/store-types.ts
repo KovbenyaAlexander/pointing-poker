@@ -6,6 +6,11 @@ export interface IUserInfo {
   role?: string
 }
 
+export interface IStory{
+  name: string,
+  description: string,
+  id: string
+}
 export interface ISettings {
   gameName: string;
   isDealerInGame: boolean;
@@ -15,6 +20,7 @@ export interface ISettings {
   estimationType: string;
   isTimerRequired: boolean;
   timerValue: string;
+  stories: Array<IStory>
 }
 
 export interface IStore {

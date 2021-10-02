@@ -16,5 +16,10 @@ export interface IGame {
     estimationType: string;
     isTimerRequired: boolean;
     timerValue: string;
+    stories: Array<{
+      name: string,
+      description: string,
+      id: string
+    }>
   }
 }

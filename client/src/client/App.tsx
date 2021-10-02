@@ -7,7 +7,6 @@ import NotFound from './pages/404/404';
 import Header from './components/header/header';
 import './style.scss';
 
-
 const App = (): JSX.Element => (
   <>
     <Router>
