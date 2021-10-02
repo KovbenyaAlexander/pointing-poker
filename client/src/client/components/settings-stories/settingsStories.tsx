@@ -5,10 +5,13 @@ import './style.scss';
 interface IStories {
   stories: Array<IStory>;
   setSettings: React.Dispatch<React.SetStateAction<ISettings>>
-  setStoryToEdit: React.Dispatch<React.SetStateAction<false | IStory>>
+  setStoryToEdit: React.Dispatch<React.SetStateAction<null | IStory>>
+  setShouldShowPopupForAdd: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const Stories = ({ stories, setSettings, setStoryToEdit }: IStories):JSX.Element => {
+export const Stories = ({
+  stories, setSettings, setStoryToEdit, setShouldShowPopupForAdd,
+}: IStories):JSX.Element => {
   const removeStoryHandler = (id: string) => {
     setSettings((prev: ISettings) => ({
       ...prev,
@@ -18,6 +21,7 @@ export const Stories = ({ stories, setSettings, setStoryToEdit }: IStories):JSX.
 
   const editStoryHandler = (story: IStory) => {
     setStoryToEdit(story);
+    setShouldShowPopupForAdd(true);
   };
 
   return (

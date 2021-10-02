@@ -12,7 +12,7 @@ export default function Settings(): JSX.Element {
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
-  const [storyToEdit, setStoryToEdit] = useState<false | IStory>(false); // if value is string(key of story) - should open popup to edit story
+  const [storyToEdit, setStoryToEdit] = useState<null | IStory>(null);
 
   const onSettingsSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ export default function Settings(): JSX.Element {
       });
     }
 
-    setStoryToEdit(false);
+    setStoryToEdit(null);
     setShouldShowPopupForAdd(false);
   };
 
@@ -146,6 +146,7 @@ export default function Settings(): JSX.Element {
           stories={settings.stories}
           setSettings={setSettings}
           setStoryToEdit={setStoryToEdit}
+          setShouldShowPopupForAdd={setShouldShowPopupForAdd}
         />
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
@@ -153,24 +154,16 @@ export default function Settings(): JSX.Element {
         <br />
         <br />
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
-
       </form>
 
-      {shouldShowPopupForAdd
-      && (
+      {shouldShowPopupForAdd && (
         <StoryPopup
           setShouldShowPopup={setShouldShowPopupForAdd}
           onPopupSubmit={onPopupSubmit}
+          storyToEdit={storyToEdit}
         />
       )}
-      {storyToEdit
-       && (
-         <StoryPopup
-           setShouldShowPopup={setStoryToEdit}
-           onPopupSubmit={onPopupSubmit}
-           storyToEdit={storyToEdit}
-         />
-       )}
+
     </>
   );
 }

@@ -5,7 +5,7 @@ import './style.scss';
 
 type IstoryPopup = {
   setShouldShowPopup: React.Dispatch<React.SetStateAction<any>>;
-  storyToEdit?: IStory;
+  storyToEdit?: IStory | null;
   onPopupSubmit: any
 };
 
