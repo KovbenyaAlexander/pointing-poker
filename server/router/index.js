@@ -9,7 +9,7 @@ router.post("/removeGame", Game.removeGame);
 router.post("/getGame", Game.getGame);
 router.post("/changeGameActivity", Game.changeGameActivity);
 router.post("/updateSettings", Game.updateSettings);
-router.post("/checkedIdKey", Game.chekedIdKey)
+router.post("/checkedIdKey", Game.chekedIdKey) 
 router.post("/join", Controller.join);
 router.post("/removeUser", Controller.removeUser);
 
