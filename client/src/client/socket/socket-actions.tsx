@@ -48,3 +48,8 @@ export function onSocketRefreshGame(game: IGame, user: IUserInfo): void {
 export function onSocketCancelGame(): void {
   store.dispatch(setInitialStore());
 }
+
+export function onSocketClose(): void {
+  sessionStorage.clear();
+  store.dispatch(setInitialStore());
+}

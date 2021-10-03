@@ -5,6 +5,7 @@ import { IExclude, IGame, IUserInfo } from '../types';
 import { ISocketApi } from '../types/store-types';
 import {
   onSocketCancelGame,
+  onSocketClose,
   onSocketExcluded,
   onSocketExcludeEnd,
   onSocketExcluding,
@@ -53,6 +54,7 @@ export class SocketApi implements ISocketApi {
     this.socket.on('updateSettings', onSocketSetSettings);
     this.socket.on('refreshGame', onSocketRefreshGame.bind(this));
     this.socket.on('cancelGame', onSocketCancelGame);
+    this.socket.on('close', onSocketClose);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {

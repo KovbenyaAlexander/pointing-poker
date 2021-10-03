@@ -148,11 +148,11 @@ class Room {
 }
 
 function initSocket(socket) {
-    try{
+    try {
         const id = socket.handshake.query.id;
         const recconectID = socket.handshake.query.recconectID;
+        
         if (recconectID) {
-            console.log(recconectID);
             let member = undefined;
             let room = undefined;
             rooms.forEach((r) => {
@@ -162,13 +162,16 @@ function initSocket(socket) {
                    member = result
                }
             });
+
             if (member && room) {
                 socket = setSocketListeners(socket);
                 member.socket = socket;
                 socket.emit('refreshGame', room.getGameData(), member.userInfo);
                 return;
             }
+
             socket.emit('close');
+            return;
         } else {
             let { user, game } = socket.handshake.query;
             user = JSON.parse(socket.handshake.query.user);
