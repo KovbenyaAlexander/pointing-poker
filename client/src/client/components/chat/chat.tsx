@@ -6,14 +6,15 @@ import './style.scss';
 export default function Chat(): JSX.Element {
   const socket = useSelector((state: IStore) => state.socket);
   const messages = useSelector((state: IStore) => state.chat.messages);
-  const authorMessage = useSelector((state: IStore) => state.user.name);
+  const userID = useSelector((state: IStore) => state.user.userID);
+  const name = useSelector((state: IStore) => state.user.name);
 
   const [message, setMessage] = useState('');
 
   const sendMessage = () => {
     setMessage('');
     if (message !== '') {
-      socket?.sendMessage(message, authorMessage);
+      socket?.sendMessage(message, name);
     }
   };
 
@@ -23,7 +24,7 @@ export default function Chat(): JSX.Element {
 
         {messages.map((msg: IChatMessage) => {
           let classes;
-          if (authorMessage === msg.authorMessage) {
+          if (userID === msg.userId) {
             classes = 'chat__messages-left';
           } else {
             classes = 'chat__messages-right';
