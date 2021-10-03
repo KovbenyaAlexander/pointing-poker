@@ -8,6 +8,7 @@ import MemberList from '../../components/members-list/member-list';
 import MessageForExcluded from '../../components/message-excluded/message-excluded';
 import Popup from '../../components/popup/popup';
 import Settings from '../../components/settings/settings';
+import Chat from '../../components/chat/chat';
 import { userJoin } from '../../store/thunk';
 import { IStore } from '../../types/store-types';
 import { isDealer } from '../../utils';
@@ -35,7 +36,13 @@ export default function Lobby(): JSX.Element {
         {' '}
         { game.settings.gameName }
       </h3>
-      {game.excluding.reason && !game.id ? <MessageForExcluded /> : <MemberList />}
+      {game.excluding.reason && !game.id ? <MessageForExcluded /> : (
+        <>
+          <MemberList />
+          {' '}
+          <Chat />
+        </>
+      )}
       {
         dealer
         && (
