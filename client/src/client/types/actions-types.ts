@@ -11,6 +11,7 @@ export enum Actions {
   SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
   UPDATE_MEMBERS = 'UPDATE_MEMBERS',
   SET_SOCKETAPI = 'SET_SOCKETAPI',
+  SET_IS_LOADING = 'SET_IS_LOADING',
 }
 
 // Game Actions
@@ -37,4 +38,10 @@ export interface SetSocketAction {
   type: Actions.SET_SOCKETAPI;
   payload: ISocketApi;
 }
+
+export interface SetIsLoadingAction {
+  type: Actions.SET_IS_LOADING;
+  payload: boolean;
+}
+
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;

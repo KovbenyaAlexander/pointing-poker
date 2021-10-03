@@ -39,6 +39,7 @@ export interface IStore {
   user: IUserInfo;
   game: IGame;
   socket?: ISocketApi;
+  loading: boolean;
 }
 
 export interface ISocketApi {

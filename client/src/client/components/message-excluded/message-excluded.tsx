@@ -14,7 +14,7 @@ export default function MessageForExcluded(): JSX.Element {
     setTimeout(() => {
       dispatch(setInitialStore());
       history.push('/');
-    }, 5000);
+    }, 10000);
   }, []);
   return (
     <section className="message-excluded">

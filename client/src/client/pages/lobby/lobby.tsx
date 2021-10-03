@@ -15,23 +15,12 @@ import './style.scss';
 
 export default function Lobby(): JSX.Element {
   const { game, user } = useSelector((state: IStore) => state);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { gameID } = useParams<{ gameID: string }>();
   const dealer = user ? isDealer(game, user.userID) : false;
-
-  useEffect(() => {
-    dispatch(userJoin(gameID));
-  }, []);
-
-  useEffect(() => {
-    if (game.isActive) history.push(`/game/${game.id}`);
-  }, [game.id, game.isActive]);
 
   return (
     <article className="lobby">
       <h3 className="lobby__title">
-        {`Waiting for start game ${game.settings.gameName}`}
+        {game.excluding.IsYouExcluded ? 'Game Ends for You' : `Waiting for start game ${game.settings.gameName}`}
       </h3>
       {game.excluding.IsYouExcluded ? <MessageForExcluded /> : <MemberList />}
       {

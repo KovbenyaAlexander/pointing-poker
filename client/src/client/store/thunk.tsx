@@ -1,8 +1,10 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore, IGame, IUserInfo } from '../types';
-import { setInitialStore, SetGame, SetSocketApi } from './actions';
+import { IStore, IGame } from '../types';
+import {
+  setInitialStore, SetGame, SetSocketApi, SetIsLoading,
+} from './actions';
 import { SocketApi } from '../socket/socket';
 
 const url = 'http://localhost:5000/api';
@@ -110,6 +112,7 @@ export function userJoin(id: string) {
     try {
       const { user, socket } = getState();
       if (socket) return;
+      dispatch(SetIsLoading(true));
       const response = await axios.post(`${url}/join`, {
         id,
         user,
@@ -120,6 +123,7 @@ export function userJoin(id: string) {
           dispatch(SetSocketApi(newSocket));
         }
         dispatch(SetGame(response.data.game));
+        dispatch(SetIsLoading(false));
       }
     } catch (e) {
       const recconectID = sessionStorage.getItem('socketID');
@@ -128,6 +132,7 @@ export function userJoin(id: string) {
         const socket = new SocketApi('http://localhost:5000', user, game, recconectID);
       }
       console.log(e);
+      dispatch(SetIsLoading(false));
     }
   };
 }

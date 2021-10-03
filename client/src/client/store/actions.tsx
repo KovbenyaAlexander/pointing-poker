@@ -9,6 +9,7 @@ import {
   ISettings,
   UpdateMembersAction,
   SetSocketAction,
+  SetIsLoadingAction,
 } from '../types';
 import { ISocketApi } from '../types/store-types';
 import { AllActions } from './reducers';
@@ -63,6 +64,13 @@ export function UpdateMembers(payload: IUserInfo[]): UpdateMembersAction {
 export function SetSocketApi(payload: ISocketApi): SetSocketAction {
   return {
     type: Actions.SET_SOCKETAPI,
+    payload,
+  };
+}
+
+export function SetIsLoading(payload: boolean): SetIsLoadingAction {
+  return {
+    type: Actions.SET_IS_LOADING,
     payload,
   };
 }
