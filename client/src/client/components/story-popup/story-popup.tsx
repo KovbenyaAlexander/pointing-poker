@@ -6,7 +6,7 @@ import './style.scss';
 type IstoryPopup = {
   setShouldShowPopup: React.Dispatch<React.SetStateAction<any>>;
   storyToEdit?: IStory | null;
-  onPopupSubmit: any
+  onPopupSubmit: (props: IStory)=>void
 };
 
 export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSubmit }: IstoryPopup): JSX.Element {
@@ -15,7 +15,7 @@ export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSub
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    onPopupSubmit({ name, description, id: storyToEdit?.id });
+    onPopupSubmit({ name, description, id: storyToEdit?.id || '' });
   };
 
   return (
@@ -28,6 +28,7 @@ export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSub
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
 
