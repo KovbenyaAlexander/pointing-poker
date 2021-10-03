@@ -31,11 +31,9 @@ export default function Lobby(): JSX.Element {
   return (
     <article className="lobby">
       <h3 className="lobby__title">
-        Waiting for start game
-        {' '}
-        { game.settings.gameName }
+        {`Waiting for start game ${game.settings.gameName}`}
       </h3>
-      {game.excluding.reason && !game.id ? <MessageForExcluded /> : <MemberList />}
+      {game.excluding.IsYouExcluded ? <MessageForExcluded /> : <MemberList />}
       {
         dealer
         && (

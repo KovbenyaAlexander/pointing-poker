@@ -5,6 +5,7 @@ function setSocketListeners(socket) {
     try {
         socket.on('initExclude', onInitExclude);
         socket.on('confirmExclude', onSocketConfirmExclude);
+        socket.on('disconnect', onDisconnect);
         return socket;
     }
     catch(e){
@@ -29,6 +30,21 @@ function onSocketConfirmExclude(id, userID, answer) {
     const room = rooms.get(id);
     room.writeExcludeAnswer(userID, answer);
 }
+
+function onDisconnect() {
+    // This timeout gives a user a chance to refresh connection
+    setTimeout(() => {
+        let keyForDelete = undefined;
+        rooms.forEach((room, key) => {
+            if (room.filterDisconnected()) {
+                room.emit('cancelGame');
+                keyForDelete = key 
+            }  
+        });
+            rooms.delete(keyForDelete);
+    }, 10000);
+}
+
 module.exports = { 
     setSocketListeners
 };

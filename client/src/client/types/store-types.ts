@@ -25,6 +25,7 @@ export interface IExclude {
   reason?: string;
   isActive: boolean;
   message?: string;
+  IsYouExcluded?: boolean;
 }
 
 export interface IGame {

@@ -5,14 +5,14 @@ import Member from '../member/member';
 import './style.scss';
 
 export default function MemberList(): JSX.Element {
-  const game = useSelector((state: IStore) => state.game);
+  const members = useSelector((state: IStore) => state.game.members);
 
   return (
     <section className="members">
       <h3 className="members__header">Members</h3>
       <ul className="members__list">
         {
-          game.members.map((member) => (
+          members.map((member) => (
             <Member key={member.userID} member={member} />
           ))
         }

@@ -108,19 +108,25 @@ export function userJoin(id: string) {
     getState: () => IStore,
   ): Promise<void> => {
     try {
-      const { user } = getState();
+      const { user, socket } = getState();
+      if (socket) return;
       const response = await axios.post(`${url}/join`, {
         id,
         user,
       });
       if (response.status === 200) {
         if (user.role !== 'dealer') {
-          const socket = new SocketApi('http://localhost:5000', user, response.data.game);
-          dispatch(SetSocketApi(socket));
+          const newSocket = new SocketApi('http://localhost:5000', user, response.data.game);
+          dispatch(SetSocketApi(newSocket));
         }
         dispatch(SetGame(response.data.game));
       }
     } catch (e) {
+      const recconectID = sessionStorage.getItem('socketID');
+      if (recconectID) {
+        const { user, game } = getState();
+        const socket = new SocketApi('http://localhost:5000', user, game, recconectID);
+      }
       console.log(e);
     }
   };
