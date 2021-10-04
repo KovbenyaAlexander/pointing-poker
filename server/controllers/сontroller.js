@@ -1,38 +1,37 @@
+const rooms = require("../sockets/socket-index");
 const games = require("./index");
 
 class Controller {
   join(req, res) {
     try {
-      const { userName, id, role } = req.body;
+      const { user, id, } = req.body;
+      const { name, role, userID} = user;
 
-      if (!userName || !role || !id) {
+      // User Validate
+      if (!name || !role || !id) {
         return res.status(400).json({ message: "Invalid data" });
       }
 
-      if (role !== "observer" && role !== "player") {
+      if (role !== "observer" && role !== "player" && rooms.get(id)) {
         return res.status(400).json({ message: "Invalid role" });
       }
 
-      if (userName.length < 4 || userName.length > 30) {
+      if (name.length < 4 || name.length > 30) {
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
-      const gameInfo = games.get(id);
-
-      if (!gameInfo) {
+      // Game Validate
+      const room = rooms.get(id);
+      if (!room) {
         return res.status(400).json({ message: "Game not found" });
       }
 
-      if (gameInfo.users.find((user) => user.userName === userName)) {
+      if (rooms.get(id).isUserExists(userID)) {
         return res.status(400).json({ message: "User Already Exist" });
       }
-
-      const newUsers = [...gameInfo.users, { userName, role }];
-      games.set(id, { ...gameInfo, users: newUsers });
-
-      return res.status(200).json({ message: "Join was successful" });
+      
+      return res.status(200).json({game: room.game, message: "Join was successful" });
     } catch (e) {
-      console.log(e);
     }
   }
 
@@ -58,6 +57,7 @@ class Controller {
         (user) => user.userName !== userName
       );
       games.set(id, { ...gameInfo, users: newUsers });
+      
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {

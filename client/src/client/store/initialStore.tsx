@@ -6,6 +6,7 @@ export const user:IUserInfo = {
   jobPosition: '',
   photoUser: '',
   role: '',
+  userID: '',
 };
 
 const settings: ISettings = {
@@ -22,8 +23,15 @@ const settings: ISettings = {
 export const initialStore: IStore = {
   user,
   game: {
+    members: [],
+    excluding: {
+      isActive: false,
+    },
     settings,
     isActive: false,
     id: null,
   },
+  loading: false,
 };
+
+export const clinetUrl = 'http://localhost:3000';

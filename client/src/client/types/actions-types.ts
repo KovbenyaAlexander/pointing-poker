@@ -1,20 +1,47 @@
+import {
+  ISocketApi, IUserInfo, IGame, IExclude,
+} from './store-types';
+
 export enum Actions {
   UPDATE_USERINFO = 'UPDATE_USERINFO',
   UPDATE_SETTINGS = 'UPDATE_SETTINGS',
+  SET_GAME = 'SET_GAME',
+  START_EXCLUDE = 'START_EXCLUDE',
+  STOP_EXCLUDE = 'STOP_EXCLUDE',
   SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
+  UPDATE_MEMBERS = 'UPDATE_MEMBERS',
+  SET_SOCKETAPI = 'SET_SOCKETAPI',
+  SET_IS_LOADING = 'SET_IS_LOADING',
 }
 
-export interface IGame {
-  id?: string | null;
-  isActive?: boolean;
-  settings?: {
-    gameName: string;
-    isDealerInGame: boolean;
-    isAutoEntry: boolean;
-    isAutoFinish: boolean;
-    isVoteMutable: boolean;
-    estimationType: string;
-    isTimerRequired: boolean;
-    timerValue: string;
-  }
+// Game Actions
+export interface SetGameAction {
+  type: Actions.SET_GAME;
+  payload: IGame;
 }
+
+export interface StartExcludeAction {
+  type: Actions.START_EXCLUDE;
+  payload: IExclude;
+}
+
+export interface StopExcludeAction {
+  type: Actions.STOP_EXCLUDE;
+}
+
+export interface UpdateMembersAction {
+  type: Actions.UPDATE_MEMBERS;
+  payload: IUserInfo[];
+}
+
+export interface SetSocketAction {
+  type: Actions.SET_SOCKETAPI;
+  payload: ISocketApi;
+}
+
+export interface SetIsLoadingAction {
+  type: Actions.SET_IS_LOADING;
+  payload: boolean;
+}
+
+export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;

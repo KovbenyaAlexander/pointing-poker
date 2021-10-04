@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
+import { useHistory } from 'react-router';
 import { createGame, updateSettings } from '../../store/thunk';
 import { IStore } from '../../types/index';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
 
   const onSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
-      dispatch(updateSettings({ settings }));
+      dispatch(updateSettings({ ...game, settings }));
     } else {
-      dispatch(createGame({ settings }));
+      dispatch(createGame({ ...game, settings }));
     }
   };
+
+  useEffect(() => {
+    if (game.id && history.location.pathname !== `/lobby/${game.id}`) {
+      history.push(`/lobby/${game.id}`);
+    }
+  }, [game.id]);
 
   return (
     <form className="settings" onSubmit={onSubmitHandler}>

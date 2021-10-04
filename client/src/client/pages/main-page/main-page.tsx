@@ -1,17 +1,19 @@
 import React, {
   ReactElement, useCallback, useEffect, useState,
 } from 'react';
+import uuid from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { LoginPopap } from '../../components/login-popap/login-popap';
 import { isGameActive } from '../../store/thunk';
-import { AppDispatch, IStore } from '../../types';
+import { AppDispatch } from '../../types/middleware-types';
 import { UpdateUser } from '../../store/actions';
 import './style.scss';
+import { IStore } from '../../types/store-types';
 
 const MainPage = (props: any): ReactElement => {
   const dispatch: AppDispatch = useDispatch();
-  const { isActive } = useSelector((sel: IStore) => sel.game);
+  const { isActive, id } = useSelector((sel: IStore) => sel.game);
   const { gameId }: any = props.match.params;
   const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
@@ -21,7 +23,7 @@ const MainPage = (props: any): ReactElement => {
 
   const onLoginDealer = useCallback(
     (data) => {
-      dispatch(UpdateUser({ ...data }));
+      dispatch(UpdateUser({ ...data, userID: uuid.v4() }));
       history.push('settings');
     },
     [dispatch, history],
@@ -29,8 +31,8 @@ const MainPage = (props: any): ReactElement => {
 
   const onLoginPlayer = useCallback(
     (data) => {
-      dispatch(UpdateUser({ ...data }));
-      history.push(isActive ? `game/${keyID}` : ` lobby/${keyID}`);
+      dispatch(UpdateUser({ ...data, userID: uuid.v4() }));
+      history.push(isActive ? `game/${keyID}` : `lobby/${keyID}`);
     },
     [dispatch, history, isActive, keyID],
   );
@@ -65,6 +67,10 @@ const MainPage = (props: any): ReactElement => {
     }
   }, [gameId]);
 
+  useEffect(() => {
+    if (id) history.push(`/lobby/${id}`);
+  }, [id]);
+
   return (
     <article>
       {shouldShowLogin && dealerLogin && (
@@ -74,7 +80,7 @@ const MainPage = (props: any): ReactElement => {
         <LoginPopap onClose={onPopUpClose} onSubmit={onLoginPlayer} />
       )}
       <section>
-        <button onClick={onNewGame}>Create new game</button>
+        <button type="button" onClick={onNewGame}>Create new game</button>
       </section>
       <h2 className="main-page__separator">OR</h2>
       <section>
