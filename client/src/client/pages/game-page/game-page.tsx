@@ -1,32 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
+import GameInfo from '../../components/game-info/game-info';
+import { IStore } from '../../types';
 import './style.scss';
 
 export default function GamePage(): JSX.Element {
-  const { user } = useSelector((store: any) => store);
+  const game = useSelector((state: IStore) => state.game);
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if (!game.id) history.push(`/lobby/${id}`);
+  }, [game.id]);
+
   return (
     <article className="game">
-      <h2 className="game__title">There are all your games</h2>
-      <p>{window.location.hash}</p>
-      <p>{`first name: ${user.name}`}</p>
-      {user.lastName && (
-        <p>{`last name: ${user.lastName}`}</p>
-      )}
-      <p>
-        job position
-        {user.jobPosition}
-      </p>
-      {user.photoUser && (
-        <img
-          alt=""
-          src={user.photoUser}
-          style={{
-            width: '50px',
-            height: '50px',
-            borderRadius: '50px',
-          }}
-        />
-      )}
+      <GameInfo />
+      <section className="game__chat"><p>Chat</p></section>
+      <section className="game__issues"><p>Issue</p></section>
+      <section className="game__cards"><p>Cards</p></section>
     </article>
   );
 }

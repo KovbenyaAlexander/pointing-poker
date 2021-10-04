@@ -3,10 +3,11 @@ import { Socket } from 'socket.io-client/build/socket';
 export interface IUserInfo {
   name: string;
   userID: string;
-  lastName?: string
-  jobPosition?: string
-  photoUser?: string
-  role?: string
+  lastName?: string;
+  jobPosition?: string;
+  photoUser?: string;
+  role?: string;
+  choose?: number;
 }
 
 export interface ISettings {
