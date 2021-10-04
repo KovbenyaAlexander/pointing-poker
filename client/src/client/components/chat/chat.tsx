@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IChatMessage, IStore } from '../../types';
+import { IStore } from '../../types';
+import ChatMessages from '../chat-messages/chat-messages';
+import ChatController from '../chat-controller/chat-controller';
 import './style.scss';
 
 export default function Chat(): JSX.Element {
@@ -21,42 +23,8 @@ export default function Chat(): JSX.Element {
 
   return (
     <div className="chat">
-      <div className="chat__messages">
-
-        {messages.map((msg: IChatMessage) => {
-          let classes;
-          if (userID !== msg.userId) {
-            classes = 'chat__messages-left';
-          } else {
-            classes = 'chat__messages-right';
-          }
-          return (
-            <div key={msg.messageId} className={`${classes} message`}>
-
-              <div className="message__container">
-                <span className="message__author">
-                  {msg.authorMessage}
-                </span>
-                <p className="message__text">
-                  {msg.message}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-
-      </div>
-
-      <form className="chat__controller controller" onSubmit={sendMessage}>
-        <input
-          className="controller__input"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          maxLength={100}
-        />
-        <button className="button controller__submit" type="submit">Send</button>
-      </form>
-
+      <ChatMessages messages={messages} userID={userID} />
+      <ChatController message={message} setMessage={setMessage} sendMessage={sendMessage} />
     </div>
 
   );

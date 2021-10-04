@@ -59,4 +59,5 @@ export interface IChatMessage {
   userId: string,
   messageId: string,
   authorMessage: string
+  isServiceMessage: boolean
 }

@@ -8,7 +8,7 @@ function setSocketListeners(socket) {
     socket.on("initExclude", onInitExclude);
     socket.on("confirmExclude", onSocketConfirmExclude);
     socket.on("sendMessage", onSocketSendMessage);
-    socket.on('disconnect', onDisconnect);
+    socket.on("disconnect", onDisconnect);
     return socket;
   } catch (e) {
     console.log(e);
@@ -19,12 +19,14 @@ function onInitExclude(id, excluding, isInstantExclude) {
   const room = rooms.get(id);
   if (isInstantExclude) {
     room.excludeMember(excluding.user, excluding);
+    sendServiceMessage(room, "user was excluded");
   } else {
     room.game = { ...room.game, excluding: { ...excluding, isActive: true } };
     members = room.getMembers().filter((user) => {
       return true;
     });
     room.askToExclude(new Excludor(room.getMembers()));
+    sendServiceMessage(room, "voting started");
   }
 }
 
@@ -44,19 +46,27 @@ const onSocketSendMessage = (gameId, userId, message, authorMessage) => {
 };
 
 function onDisconnect() {
-    // This timeout gives a user a chance to refresh connection
-    setTimeout(() => {
-        let keyForDelete = undefined;
-        rooms.forEach((room, key) => {
-            if (room.filterDisconnected()) {
-                room.emit('cancelGame');
-                keyForDelete = key 
-            }  
-        });
-            rooms.delete(keyForDelete);
-    }, 10000);
+  // This timeout gives a user a chance to refresh connection
+  setTimeout(() => {
+    let keyForDelete = undefined;
+    rooms.forEach((room, key) => {
+      if (room.filterDisconnected()) {
+        room.emit("cancelGame");
+        keyForDelete = key;
+      }
+    });
+    rooms.delete(keyForDelete);
+  }, 10000);
 }
 
-module.exports = { 
-    setSocketListeners
+function sendServiceMessage(room, message) {
+  room.emit(`updateChatMessages`, {
+    message,
+    messageId: uuid.v4(),
+    isServiceMessage: true,
+  });
+}
+
+module.exports = {
+  setSocketListeners,
 };
