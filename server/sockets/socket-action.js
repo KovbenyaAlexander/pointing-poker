@@ -14,7 +14,6 @@ function setSocketListeners(socket) {
     console.log(e);
   }
 }
-develop
 
 function onInitExclude(id, excluding, isInstantExclude) {
   const room = rooms.get(id);

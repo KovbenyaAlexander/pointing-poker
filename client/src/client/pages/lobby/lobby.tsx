@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ExcludingInit from '../../components/excluding-init/excluding-init';
 import Exluding from '../../components/excluding/excluding';
 import Launch from '../../components/launch/launch';
@@ -9,7 +8,6 @@ import MessageForExcluded from '../../components/message-excluded/message-exclud
 import Popup from '../../components/popup/popup';
 import Settings from '../../components/settings/settings';
 import Chat from '../../components/chat/chat';
-import { userJoin } from '../../store/thunk';
 import { IStore } from '../../types/store-types';
 import { isDealer } from '../../utils';
 import './style.scss';
