@@ -19,6 +19,7 @@ export interface IGame {
     stories: Array<{
       name: string,
       description: string,
+      vote: any,
       id: string
     }>
   }

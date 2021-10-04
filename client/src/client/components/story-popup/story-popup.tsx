@@ -15,7 +15,7 @@ export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSub
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    onPopupSubmit({ name, description, id: storyToEdit?.id });
+    onPopupSubmit({ name, description, id: storyToEdit?.id, vote: null });
   };
 
   return (

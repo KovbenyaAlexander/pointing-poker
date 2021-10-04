@@ -76,7 +76,6 @@ export function updateSettings(settings: ISettings) {
   ): Promise<void> => {
     try {
       const { game } = getState();
-
       const response = await axios.post(`${url}/updateSettings`, {
         id: game.id,
         settings,

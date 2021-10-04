@@ -9,6 +9,7 @@ export interface IUserInfo {
 export interface IStory{
   name: string,
   description: string,
+  vote: any,
   id: string
 }
 export interface ISettings {
