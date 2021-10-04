@@ -29,7 +29,8 @@ export default function Member({ member } : { member: IUserInfo }): JSX.Element 
     <figure className="member">
       <Avatar name={name} imgSrc={photoUser} />
       <h4 className="member__name">{ name }</h4>
-      {isDealerMember && <h3 className="member__dealer">Dealer</h3>}
+      {member.role !== 'player'
+      && <h3 className={`member__special member__special_${member.role}`}>{`${member.role}`}</h3>}
       { ((user.role === 'dealer' && !isDealerMember) || isExludable) && (
         <button
           type="button"
