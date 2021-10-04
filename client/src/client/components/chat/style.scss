@@ -1,11 +1,9 @@
 .chat{
-  position: absolute;
-  right: 0;
-  height: 600px;
-  width: 500px;
+  width: 60%;
+  min-width: 500px;
+
   &__messages{
     background-color: rgb(228, 222, 201);
-    width: 500px;
     height: 500px;
     overflow-y: scroll;
   
@@ -25,6 +23,19 @@
         border-radius: 15px 0px 15px 15px;
       }
     }
+  }
+}
+
+.controller{
+  display: flex;
+  justify-content: space-between;
+  
+  &__input{
+    width: 100%;
+  }
+
+  &__submit{
+    padding: 5px 10px;
   }
 }
 

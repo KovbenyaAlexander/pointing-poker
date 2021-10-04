@@ -22,11 +22,10 @@ export default function Lobby(): JSX.Element {
         {game.excluding.IsYouExcluded ? 'Game Ends for You' : `Waiting for start game ${game.settings.gameName}`}
       </h3>
       {game.excluding.IsYouExcluded ? <MessageForExcluded /> : (
-        <>
+        <section className="lobby__chat">
           <MemberList />
-          {' '}
           <Chat />
-        </>
+        </section>
       )}
       {
         dealer

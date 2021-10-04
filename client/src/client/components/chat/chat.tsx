@@ -11,7 +11,8 @@ export default function Chat(): JSX.Element {
 
   const [message, setMessage] = useState('');
 
-  const sendMessage = () => {
+  const sendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
     setMessage('');
     if (message !== '') {
       socket?.sendMessage(message, name);
@@ -24,7 +25,7 @@ export default function Chat(): JSX.Element {
 
         {messages.map((msg: IChatMessage) => {
           let classes;
-          if (userID === msg.userId) {
+          if (userID !== msg.userId) {
             classes = 'chat__messages-left';
           } else {
             classes = 'chat__messages-right';
@@ -46,14 +47,15 @@ export default function Chat(): JSX.Element {
 
       </div>
 
-      <div className="chat__controoler">
+      <form className="chat__controller controller" onSubmit={sendMessage}>
         <input
+          className="controller__input"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           maxLength={100}
         />
-        <button type="button" onClick={sendMessage}>Send</button>
-      </div>
+        <button className="button controller__submit" type="submit">Send</button>
+      </form>
 
     </div>
 
