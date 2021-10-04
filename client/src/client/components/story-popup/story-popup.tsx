@@ -13,9 +13,9 @@ export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSub
   const [name, setName] = useState(storyToEdit?.name || '');
   const [description, setDescription] = useState(storyToEdit?.description || '');
 
-  const submitHandler = (e: React.SyntheticEvent) => {
+  const submitHandler = (e: React.FormEvent ) => {
     e.preventDefault();
-    onPopupSubmit({ name, description, id: storyToEdit?.id || '' });
+    onPopupSubmit({ name, description, id: storyToEdit?.id || '', estimation: null, isActive: false, isCompleted: false });
   };
 
   return (
