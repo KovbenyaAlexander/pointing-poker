@@ -12,6 +12,7 @@ export enum Actions {
   UPDATE_MEMBERS = 'UPDATE_MEMBERS',
   SET_SOCKETAPI = 'SET_SOCKETAPI',
   UPDATE_CHAT_MESSAGES = 'UPDATE_CHAT_MESSAGES',
+  SET_IS_LOADING = 'SET_IS_LOADING',
 }
 
 // Game Actions
@@ -44,4 +45,9 @@ export interface UpdateChatMessagesAction {
   type: Actions.UPDATE_CHAT_MESSAGES;
   payload: IChatMessage;
 }
+export interface SetIsLoadingAction {
+  type: Actions.SET_IS_LOADING;
+  payload: boolean;
+}
+
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;

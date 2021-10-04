@@ -10,16 +10,9 @@ export default function GamePage(): JSX.Element {
       <Chat />
       <h2 className="game__title">There are all your games</h2>
       <p>{window.location.hash}</p>
-      <p>
-        first name:
-        {user.name}
-      </p>
+      <p>{`first name: ${user.name}`}</p>
       {user.lastName && (
-        <p>
-          {' '}
-          last name:
-          {user.lastName}
-        </p>
+        <p>{`last name: ${user.lastName}`}</p>
       )}
       <p>
         job position

@@ -34,6 +34,7 @@ export const initialStore: IStore = {
   chat: {
     messages: [],
   },
+  loading: false,
 };
 
 export const clinetUrl = 'http://localhost:3000';

@@ -13,12 +13,10 @@ class Controller {
       }
 
       if (role !== "observer" && role !== "player" && rooms.get(id)) {
-        console.log(1);
         return res.status(400).json({ message: "Invalid role" });
       }
 
       if (name.length < 4 || name.length > 30) {
-        console.log(2);
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
@@ -29,13 +27,11 @@ class Controller {
       }
 
       if (rooms.get(id).isUserExists(userID)) {
-        console.log(4);
         return res.status(400).json({ message: "User Already Exist" });
       }
       
       return res.status(200).json({game: room.game, message: "Join was successful" });
     } catch (e) {
-      console.log(e);
     }
   }
 

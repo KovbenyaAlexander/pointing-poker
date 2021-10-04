@@ -11,6 +11,7 @@ import {
   SetSocketAction,
   IChatMessage,
   UpdateChatMessagesAction,
+  SetIsLoadingAction,
 } from '../types';
 import { ISocketApi } from '../types/store-types';
 import { AllActions } from './reducers';
@@ -72,6 +73,13 @@ export function SetSocketApi(payload: ISocketApi): SetSocketAction {
 export function UpdateChatMessages(payload: IChatMessage): UpdateChatMessagesAction {
   return {
     type: Actions.UPDATE_CHAT_MESSAGES,
+    payload,
+  };
+}
+
+export function SetIsLoading(payload: boolean): SetIsLoadingAction {
+  return {
+    type: Actions.SET_IS_LOADING,
     payload,
   };
 }

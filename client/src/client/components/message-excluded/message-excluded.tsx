@@ -14,14 +14,12 @@ export default function MessageForExcluded(): JSX.Element {
     setTimeout(() => {
       dispatch(setInitialStore());
       history.push('/');
-    }, 5000);
+    }, 10000);
   }, []);
   return (
     <section className="message-excluded">
       <h3 className="message-excluded__reason">
-        You was excluded, because
-        {' '}
-        {exclude.reason}
+        {` You was excluded, because ${exclude.reason}`}
       </h3>
       <h4 className="message-excluded__next-action">You will be redirected to main page</h4>
     </section>

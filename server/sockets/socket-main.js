@@ -4,10 +4,12 @@ const rooms = require("./socket-index");
 class SocketUser{
     userInfo;
     socket;
+    disconnected;
 
     constructor(socket, userInfo) {
         this.socket = socket;
         this.userInfo = userInfo;
+        this.disconnected = false;
     }
 }
 
@@ -32,6 +34,7 @@ class Room {
         this.members.push(user);
     }
     
+
     finishGame() {
         this.emit('gameEnd');
     }
@@ -49,10 +52,42 @@ class Room {
         return !!finded.length;
     }
 
+    findMember(id) {
+        return this.members.filter((user) => {
+            return user.socket.id === id; 
+        })[0];
+    }
+
     getMembers() {
         return this.members.map((user) => {
             return user.userInfo;
         });
+    }
+
+    getGameData() {
+        return {
+            ...this.game, 
+            members: this.getMembers(),
+        }
+    }
+
+    filterDisconnected() {
+        let isOurRoomExit = false;
+        let isDealerOuts = false;
+        this.members = this.members.filter((member) => {
+            if (!member.socket.connected) {
+                isOurRoomExit = true;
+                if (member.userInfo.role === 'dealer') {
+                    isDealerOuts = true;
+                }
+                return false;
+            }
+            return true;
+        });
+
+        if (isOurRoomExit) this.emit('updateMembers', this.getMembers());
+        
+        return isDealerOuts;
     }
 
     setGameActive(isActive) {
@@ -101,7 +136,10 @@ class Room {
             excludedMember = user.socket;
             return false;
         });
-        excludedMember.emit('excluded', {reason: excluding && excluding.reason ? excluding.reason : 'it was group\'s decision'});
+        excludedMember.emit('excluded', {
+            IsYouExcluded: true,
+            reason: excluding && excluding.reason ? excluding.reason : 'it was group\'s decision',
+        });
         this.emit('updateMembers', this.getMembers());
         this.emit('excludeEnd', `Member ${member.name} was excluded`);
         this.clearExclude();
@@ -110,18 +148,42 @@ class Room {
 }
 
 function initSocket(socket) {
-    try{
+    try {
         const id = socket.handshake.query.id;
-        const user = JSON.parse(socket.handshake.query.user);
-        const game = user.role === 'dealer' ? JSON.parse(socket.handshake.query.game) : undefined;
-        if (game) {
-            rooms.set(id, new Room(id, game, socket));
-        }
-        const room = rooms.get(id);
-        socket = setSocketListeners(socket);
-        room.join(new SocketUser(socket, user));
+        const recconectID = socket.handshake.query.recconectID;
+        
+        if (recconectID) {
+            let member = undefined;
+            let room = undefined;
+            rooms.forEach((r) => {
+               const result = r.findMember(recconectID);
+               if (result) {
+                   room = r;
+                   member = result
+               }
+            });
 
-        room.emit('updateMembers', room.getMembers());
+            if (member && room) {
+                socket = setSocketListeners(socket);
+                member.socket = socket;
+                socket.emit('refreshGame', room.getGameData(), member.userInfo);
+                return;
+            }
+
+            socket.emit('close');
+            return;
+        } else {
+            let { user, game } = socket.handshake.query;
+            user = JSON.parse(socket.handshake.query.user);
+            if (game && user.role === 'dealer') {
+                rooms.set(id, new Room(id, JSON.parse(game), socket));
+            }
+            const room = rooms.get(id);
+            socket = setSocketListeners(socket);
+            room.join(new SocketUser(socket, user));
+
+            room.emit('updateMembers', room.getMembers());
+        }
     }
     catch (e) {
         console.log(e);

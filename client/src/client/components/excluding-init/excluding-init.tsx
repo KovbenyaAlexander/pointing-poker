@@ -25,11 +25,7 @@ export default function ExcludingInit({ user }
   return (
     <div>
       <h2>
-        Are you sure about
-        {' '}
-        {user.name}
-        {' '}
-        excluding? Please give a reason:
+        {`Are you sure about ${user.name} excluding? Please give a reason:`}
       </h2>
       <input
         type="text"

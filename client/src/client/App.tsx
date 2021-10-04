@@ -2,11 +2,11 @@ import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import MainPage from './pages/main-page/main-page';
 import GamePage from './pages/game-page/game-page';
-import Lobby from './pages/lobby/lobby';
 import SettingsPage from './pages/settings-page/settings-page';
 import NotFound from './pages/404/404';
 import Header from './components/header/header';
 import './style.scss';
+import LobbyPrivateRoute from './pages/lobby-private-route/lobby-private-route';
 
 const App = (): JSX.Element => (
   <>
@@ -20,7 +20,7 @@ const App = (): JSX.Element => (
         />
 
         <Route path="/lobby/:gameID">
-          <Lobby />
+          <LobbyPrivateRoute />
         </Route>
 
         <Route path="/game">

@@ -13,7 +13,7 @@ import { IStore } from '../../types/store-types';
 
 const MainPage = (props: any): ReactElement => {
   const dispatch: AppDispatch = useDispatch();
-  const { isActive } = useSelector((sel: IStore) => sel.game);
+  const { isActive, id } = useSelector((sel: IStore) => sel.game);
   const { gameId }: any = props.match.params;
   const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
@@ -66,6 +66,10 @@ const MainPage = (props: any): ReactElement => {
       history.replace('/');
     }
   }, [gameId]);
+
+  useEffect(() => {
+    if (id) history.push(`/lobby/${id}`);
+  }, [id]);
 
   return (
     <article>

@@ -22,14 +22,10 @@ export default function Exluding(): JSX.Element {
   return (
     <div>
       <h3>
-        Exlude
-        {' '}
-        {store.user?.name}
+        {`Exlude ${store.user?.name}`}
       </h3>
       <h4>
-        Reason:
-        {' '}
-        {store.reason}
+        {`Reason: ${store.reason}`}
       </h4>
       <button
         type="button"

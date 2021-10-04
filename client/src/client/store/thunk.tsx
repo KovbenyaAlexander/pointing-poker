@@ -1,8 +1,10 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import axios from 'axios';
-import { IStore, IGame, IUserInfo } from '../types';
-import { setInitialStore, SetGame, SetSocketApi } from './actions';
+import { IStore, IGame } from '../types';
+import {
+  setInitialStore, SetGame, SetSocketApi, SetIsLoading,
+} from './actions';
 import { SocketApi } from '../socket/socket';
 
 const url = 'http://localhost:5000/api';
@@ -108,20 +110,29 @@ export function userJoin(id: string) {
     getState: () => IStore,
   ): Promise<void> => {
     try {
-      const { user } = getState();
+      const { user, socket } = getState();
+      if (socket) return;
+      dispatch(SetIsLoading(true));
       const response = await axios.post(`${url}/join`, {
         id,
         user,
       });
       if (response.status === 200) {
         if (user.role !== 'dealer') {
-          const socket = new SocketApi('http://localhost:5000', user, response.data.game);
-          dispatch(SetSocketApi(socket));
+          const newSocket = new SocketApi('http://localhost:5000', user, response.data.game);
+          dispatch(SetSocketApi(newSocket));
         }
         dispatch(SetGame(response.data.game));
+        dispatch(SetIsLoading(false));
       }
     } catch (e) {
+      const recconectID = sessionStorage.getItem('socketID');
+      if (recconectID) {
+        const { user, game } = getState();
+        const socket = new SocketApi('http://localhost:5000', user, game, recconectID);
+      }
       console.log(e);
+      dispatch(SetIsLoading(false));
     }
   };
 }

@@ -2,10 +2,10 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 200px;
-  margin: 0 5px;
+  margin: 5px 0;
   padding: 5px;
   border: 1px solid;
   border-radius: 5px;
@@ -14,15 +14,23 @@
     margin: 0 5px;
   }
 
-  &__dealer{
+  &__special{
     position: absolute;
     top: -10px;
-    left: -5px;
+    right: -5px;
     padding: 5px;
     border: 1px solid;
-    border-radius: 5px;   
-    background: rgb(110 148 243);
+    border-radius: 5px;
     font-size: .8rem;
     font-weight: normal;
+    text-transform: capitalize;
+
+    &_dealer{
+      background: rgb(110 148 243);
+    }
+
+    &_observer{
+      background: rgb(110 148 243);
+    }
   }
 }

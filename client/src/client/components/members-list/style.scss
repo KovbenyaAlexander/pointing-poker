@@ -9,7 +9,11 @@
 
   &__list{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 10px;
+    max-height: 310px;
+    overflow-y: scroll;
   }
 }

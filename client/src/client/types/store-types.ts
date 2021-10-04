@@ -25,6 +25,7 @@ export interface IExclude {
   reason?: string;
   isActive: boolean;
   message?: string;
+  IsYouExcluded?: boolean;
 }
 
 export interface IGame {
@@ -40,7 +41,8 @@ export interface IStore {
   socket?: ISocketApi;
   chat: {
     messages: Array<IChatMessage>
-  }
+  };
+  loading: boolean;
 }
 
 export interface ISocketApi {

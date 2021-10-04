@@ -1,10 +1,15 @@
 import {
   SetGame,
-  setInitialStore, StartExclude, UpdateMembers, UpdateSettings, UpdateChatMessages,
+  setInitialStore,
+  StartExclude,
+  UpdateMembers,
+  UpdateSettings,
+  UpdateChatMessages,
+  UpdateUser,
 } from '../store/actions';
 import { store } from '../store/store';
 import {
-  IExclude, ISettings, IUserInfo, IChatMessage,
+  IExclude, ISettings, IUserInfo, IChatMessage, IGame,
 } from '../types/store-types';
 
 export function onSocketUpdateMembers(members: IUserInfo[]): void {
@@ -20,7 +25,6 @@ export function onSocketExcludeEnd(message: string): void {
 }
 
 export function onSocketExcluded(excluding: IExclude): void {
-  store.dispatch(setInitialStore());
   store.dispatch(StartExclude(excluding));
 }
 
@@ -43,4 +47,17 @@ export function onSocketSetSettings(settings: ISettings): void {
 
 export function onSocketUpdateChatMessages(message: IChatMessage): void {
   store.dispatch(UpdateChatMessages(message));
+}
+export function onSocketRefreshGame(game: IGame, user: IUserInfo): void {
+  store.dispatch(UpdateUser(user));
+  store.dispatch(SetGame(game));
+}
+
+export function onSocketCancelGame(): void {
+  store.dispatch(setInitialStore());
+}
+
+export function onSocketClose(): void {
+  sessionStorage.clear();
+  store.dispatch(setInitialStore());
 }

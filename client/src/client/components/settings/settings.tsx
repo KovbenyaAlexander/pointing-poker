@@ -21,7 +21,7 @@ export default function Settings(): JSX.Element {
   };
 
   useEffect(() => {
-    if (game.id) {
+    if (game.id && history.location.pathname !== `/lobby/${game.id}`) {
       history.push(`/lobby/${game.id}`);
     }
   }, [game.id]);
