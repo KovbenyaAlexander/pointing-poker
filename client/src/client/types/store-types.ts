@@ -1,5 +1,8 @@
+import { Socket } from 'socket.io-client/build/socket';
+
 export interface IUserInfo {
-  name: string
+  name: string;
+  userID: string;
   lastName?: string
   jobPosition?: string
   photoUser?: string
@@ -23,11 +26,32 @@ export interface ISettings {
   stories: Array<IStory>
 }
 
+export interface IExclude {
+  user?: IUserInfo;
+  reason?: string;
+  isActive: boolean;
+  message?: string;
+  IsYouExcluded?: boolean;
+}
+
+export interface IGame {
+  id?: string | null;
+  isActive: boolean;
+  members: IUserInfo[];
+  excluding: IExclude;
+  settings: ISettings;
+}
 export interface IStore {
   user: IUserInfo;
-  game: {
-    id: string | null;
-    isActive: boolean;
-    settings: ISettings;
-  }
+  game: IGame;
+  socket?: ISocketApi;
+  loading: boolean;
+}
+
+export interface ISocketApi {
+  socket: Socket;
+  setListeners: () => void;
+  initExclude: (e: IExclude | undefined, d: boolean) => void;
+  confirmExclude: (a: boolean) => void;
+  close: () => void;
 }

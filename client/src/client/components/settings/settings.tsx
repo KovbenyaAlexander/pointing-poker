@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from 'react-router';
 import { createGame, updateSettings } from '../../store/thunk';
 import { IStore, IStory, ISettings } from '../../types';
 import StoryPopup from '../story-popup/story-popup';
@@ -9,6 +10,7 @@ import { Stories } from '../settings-stories/settingsStories';
 
 export default function Settings(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
   const game = useSelector((state:IStore) => state.game);
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
@@ -17,9 +19,9 @@ export default function Settings(): JSX.Element {
   const onSettingsSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (game.id) {
-      dispatch(updateSettings(settings));
+      dispatch(updateSettings({ ...game, settings }));
     } else {
-      dispatch(createGame({ settings }));
+      dispatch(createGame({ ...game, settings }));
     }
   };
 
@@ -38,10 +40,15 @@ export default function Settings(): JSX.Element {
         return { ...prev, stories: newStories };
       });
     }
-
     setStoryToEdit(null);
     setShouldShowPopupForAdd(false);
   };
+
+  useEffect(() => {
+    if (game.id && history.location.pathname !== `/lobby/${game.id}`) {
+      history.push(`/lobby/${game.id}`);
+    }
+  }, [game.id]);
 
   return (
     <>

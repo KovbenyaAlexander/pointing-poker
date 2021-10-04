@@ -19,7 +19,7 @@ export default function GameStories(): JSX.Element {
 
   const onPopupSubmit = (newStory: IStory) => {
     setShouldShowPopupForAdd(false);
-    dispatch(updateSettings({ ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] }));
+    dispatch(updateSettings({ ...game, settings: { ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] } }));
   };
 
   return (

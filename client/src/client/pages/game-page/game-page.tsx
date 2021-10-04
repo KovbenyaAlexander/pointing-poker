@@ -12,16 +12,9 @@ export default function GamePage(): JSX.Element {
       <hr />
       <h2 className="game__title">There are all your games</h2>
       <p>{window.location.hash}</p>
-      <p>
-        first name:
-        {user.name}
-      </p>
+      <p>{`first name: ${user.name}`}</p>
       {user.lastName && (
-        <p>
-          {' '}
-          last name:
-          {user.lastName}
-        </p>
+        <p>{`last name: ${user.lastName}`}</p>
       )}
       <p>
         job position
@@ -29,6 +22,7 @@ export default function GamePage(): JSX.Element {
       </p>
       {user.photoUser && (
         <img
+          alt=""
           src={user.photoUser}
           style={{
             width: '50px',
