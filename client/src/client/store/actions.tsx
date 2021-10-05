@@ -9,6 +9,8 @@ import {
   ISettings,
   UpdateMembersAction,
   SetSocketAction,
+  IChatMessage,
+  UpdateChatMessagesAction,
   SetIsLoadingAction,
   SetChoosenCardAction,
 } from '../types';
@@ -65,6 +67,13 @@ export function UpdateMembers(payload: IUserInfo[]): UpdateMembersAction {
 export function SetSocketApi(payload: ISocketApi): SetSocketAction {
   return {
     type: Actions.SET_SOCKETAPI,
+    payload,
+  };
+}
+
+export function UpdateChatMessages(payload: IChatMessage): UpdateChatMessagesAction {
+  return {
+    type: Actions.UPDATE_CHAT_MESSAGES,
     payload,
   };
 }

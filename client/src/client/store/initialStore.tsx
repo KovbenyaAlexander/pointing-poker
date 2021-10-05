@@ -18,6 +18,7 @@ const settings: ISettings = {
   estimationType: 'power2',
   isTimerRequired: false,
   timerValue: '01:01',
+  stories: [],
 };
 
 export const initialStore: IStore = {
@@ -30,6 +31,9 @@ export const initialStore: IStore = {
     settings,
     isActive: false,
     id: null,
+  },
+  chat: {
+    messages: [],
   },
   loading: false,
 };

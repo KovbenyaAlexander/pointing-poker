@@ -6,6 +6,7 @@ class Game {
   newGame(req, res) {
     try {
       const { userName, settings } = req.body;
+      console.log(settings);
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
       }
@@ -105,8 +106,6 @@ class Game {
     const { id } = req.body;
     res.status(200).send(games.has(id));
   }
-
-
 }
 
 module.exports = new Game();

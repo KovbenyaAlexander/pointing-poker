@@ -10,6 +10,11 @@ export interface IUserInfo {
   choose?: number;
 }
 
+export interface IStory{
+  name: string,
+  description: string,
+  id: string
+}
 export interface ISettings {
   gameName: string;
   isDealerInGame: boolean;
@@ -19,6 +24,7 @@ export interface ISettings {
   estimationType: string;
   isTimerRequired: boolean;
   timerValue: string;
+  stories: Array<IStory>
 }
 
 export interface IExclude {
@@ -40,6 +46,9 @@ export interface IStore {
   user: IUserInfo;
   game: IGame;
   socket?: ISocketApi;
+  chat: {
+    messages: Array<IChatMessage>
+  };
   loading: boolean;
 }
 
@@ -50,4 +59,13 @@ export interface ISocketApi {
   confirmExclude: (a: boolean) => void;
   close: () => void;
   setCard: (n: number) => void;
+  sendMessage: (message: string, authorMessage: string)=>void
+}
+
+export interface IChatMessage {
+  message: string,
+  userId: string,
+  messageId: string,
+  authorMessage: string
+  isServiceMessage: boolean
 }
