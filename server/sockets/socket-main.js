@@ -145,6 +145,10 @@ class Room {
         this.clearExclude();
     }
 
+    setCard(userID, choose) {
+        this.findMember(userID)
+    }
+
 }
 
 function initSocket(socket) {
@@ -155,6 +159,7 @@ function initSocket(socket) {
         if (recconectID) {
             let member = undefined;
             let room = undefined;
+
             rooms.forEach((r) => {
                const result = r.findMember(recconectID);
                if (result) {
@@ -179,10 +184,15 @@ function initSocket(socket) {
                 rooms.set(id, new Room(id, JSON.parse(game), socket));
             }
             const room = rooms.get(id);
-            socket = setSocketListeners(socket);
-            room.join(new SocketUser(socket, user));
+            const { isActive , settings } = room.game;
 
-            room.emit('updateMembers', room.getMembers());
+            if (!isActive || settings.isAutoEntry) {
+                socket = setSocketListeners(socket);
+                room.join(new SocketUser(socket, user));
+                room.emit('updateMembers', room.getMembers());
+            } else {
+                socket.emit('close');
+            }
         }
     }
     catch (e) {
