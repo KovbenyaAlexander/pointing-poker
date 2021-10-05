@@ -32,6 +32,9 @@ export const initialStore: IStore = {
     isActive: false,
     id: null,
   },
+  chat: {
+    messages: [],
+  },
   loading: false,
 };
 

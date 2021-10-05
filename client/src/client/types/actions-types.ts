@@ -1,5 +1,5 @@
 import {
-  ISocketApi, IUserInfo, IGame, IExclude,
+  ISocketApi, IUserInfo, IGame, IExclude, IChatMessage,
 } from './store-types';
 
 export enum Actions {
@@ -11,6 +11,7 @@ export enum Actions {
   SET_DEFAULT_SETTINGS = 'SET_DEFAULT_SETTINGS',
   UPDATE_MEMBERS = 'UPDATE_MEMBERS',
   SET_SOCKETAPI = 'SET_SOCKETAPI',
+  UPDATE_CHAT_MESSAGES = 'UPDATE_CHAT_MESSAGES',
   SET_IS_LOADING = 'SET_IS_LOADING',
 }
 
@@ -39,6 +40,11 @@ export interface SetSocketAction {
   payload: ISocketApi;
 }
 
+// Chat Actions
+export interface UpdateChatMessagesAction {
+  type: Actions.UPDATE_CHAT_MESSAGES;
+  payload: IChatMessage;
+}
 export interface SetIsLoadingAction {
   type: Actions.SET_IS_LOADING;
   payload: boolean;
