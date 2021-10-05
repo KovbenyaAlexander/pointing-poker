@@ -23,18 +23,23 @@ export default function Cards(): JSX.Element {
     dispatch(setCard(+n));
   }
 
+  function cardsArray() {
+    const arr = Array(5)
+      .fill(1)
+      .map((one, index) => (
+        <Card key={`card_${Math.random()}`}>
+          {
+            settings.estimationType === 'power2' ? 2 ** index : fibonacci(index + 2)
+          }
+        </Card>
+      ));
+    arr.push(<Card key={`card_${Math.random()}`}>Unknow</Card>);
+    return arr;
+  }
+
   return (
     <form className="cards" onChange={onCardSelect}>
-      {Array(5)
-        .fill(1)
-        .map((one, index) => (
-          <Card key={`card_${Math.random()}`}>
-            {
-              settings.estimationType === 'power2' ? 2 ** index : fibonacci(index + 2)
-            }
-          </Card>
-        ))}
-      <Card>Unknow</Card>
+      {cardsArray()}
     </form>
   );
 }
