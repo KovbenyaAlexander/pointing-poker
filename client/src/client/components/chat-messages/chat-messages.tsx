@@ -1,5 +1,5 @@
 import React from 'react';
-import { IChatMessage} from '../../types';
+import { IChatMessage } from '../../types';
 import './style.scss';
 
 interface IChatMessages {
@@ -16,7 +16,7 @@ export default function ChatMessages({ messages, userID }: IChatMessages): JSX.E
 
         if (msg.isServiceMessage) {
           classes = 'chat__messages-service';
-        } else if (userID === msg.userId) {
+        } else if (userID !== msg.userId) {
           classes = 'chat__messages-left';
         } else {
           classes = 'chat__messages-right';
