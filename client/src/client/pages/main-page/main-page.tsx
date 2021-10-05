@@ -4,6 +4,7 @@ import React, {
 import uuid from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
 import { LoginPopap } from '../../components/login-popap/login-popap';
 import { isGameActive } from '../../store/thunk';
 import { AppDispatch } from '../../types/middleware-types';
@@ -37,7 +38,8 @@ const MainPage = (props: any): ReactElement => {
     [dispatch, history, isActive, keyID],
   );
 
-  const onPlay = useCallback(() => {
+  const onPlay = (e: React.FormEvent) => {
+    e.preventDefault();
     dispatch(isGameActive(keyID))
       .then((res: any) => {
         if (res) {
@@ -46,10 +48,19 @@ const MainPage = (props: any): ReactElement => {
           setIsGameFound(true);
         } else {
           setIsGameFound(false);
+          toast.error(' Game not found', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       })
-      .catch((e) => console.log(e));
-  }, [dispatch, keyID]);
+      .catch((err) => console.log(err));
+  };
 
   const onNewGame = useCallback(() => {
     setShouldShowLogin(true);
@@ -83,21 +94,23 @@ const MainPage = (props: any): ReactElement => {
         <button type="button" onClick={onNewGame}>Create new game</button>
       </section>
       <h2 className="main-page__separator">OR</h2>
+
       <section>
         <p>Connect to lobby by URL: </p>
-        <form>
+        <form onSubmit={(e) => onPlay(e)}>
           <input
             type="text"
             value={keyID}
             onChange={(e) => setKeyID(e.target.value)}
           />
 
-          <button type="button" onClick={onPlay}>
+          <button type="submit">
             Play
           </button>
         </form>
-        {!isGameFound && <p>Game not found...</p>}
+        {/* {!isGameFound && <p>Game not found...</p>} */}
       </section>
+      <ToastContainer />
     </article>
   );
 };
