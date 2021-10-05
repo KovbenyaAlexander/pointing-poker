@@ -12,7 +12,6 @@ export default function GameStories(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const user = useSelector((state:IStore) => state.user);
-  const [activeStory, setActiveStory] = useState<IStory>(game.settings.stories[0])
   const { settings } = game;
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
 
@@ -25,40 +24,50 @@ export default function GameStories(): JSX.Element {
     dispatch(updateSettings({ ...game, settings: { ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] } }));
   };
 
-  // setInterval(()=>{
-  //   console.log(`INTERVAL`)
-  // }, 3000)
+  const chooseStoryHandler = (activeStory: IStory) => {
+    const newStories = game.settings.stories.map((story: IStory) => {
+      if (story.id === activeStory.id) {
+        return {
+          ...activeStory,
+          isActive: true,
+        };
+      }
+      return {
+        ...story,
+        isActive: false,
+      };
+    });
 
+    dispatch(updateSettings({ ...game, settings: { ...settings, stories: newStories } }));
+  };
 
-  console.log(game.settings.stories)
-  // const activeStory = game.settings.stories.find((story: IStory)=>story.isActive)
 
   return (
     <div className="game__stories">
-      <ActiveStory story={activeStory}/>
-      {game.settings.stories.map((story: IStory) => {
-        
-        // if(story.isActive){
-        //   setActiveStory(story)
-        // }
-        
-        return (
-        <div key={story.id}>
-          <p>
-            name:
-            {story.name}
-          </p>
-          <p>
-            description:
-            {story.description}
-          </p>
-          {story.isCompleted ? <p> Estimation: {story.estimation}</p> : <p> Task is not completed</p>}
-          <hr />
-        </div>
-      )
-      })}
+      <ActiveStory />
+      {game.settings.stories.map((story: IStory) => (
+          <div key={story.id}>
+            <p>
+              name:
+              {story.name}
+            </p>
+            <p>
+              description:
+              {story.description}
+            </p>
+            {user.role === 'dealer' && <button type="button" onClick={() => chooseStoryHandler(story)}> Choose this story</button>}
+            {story.isCompleted ? (
+              <p>
+                {' '}
+                Estimation:
+                {story.estimation}
+              </p>
+            ) : <p> Task is not completed</p>}
+            <hr />
+          </div>
+        ))}
 
-      {user.role==="dealer" && <button type="button" onClick={addStoryHandler}>Add story</button>}
+      {user.role === 'dealer' && <button type="button" onClick={addStoryHandler}>Add story</button>}
 
       {shouldShowPopupForAdd && (
         <StoryPopup

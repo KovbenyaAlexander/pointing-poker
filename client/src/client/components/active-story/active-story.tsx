@@ -1,24 +1,37 @@
 import React from 'react';
-import {  IStory } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { IStory, IStore } from '../../types';
 import './style.scss';
 
+export default function ActiveStory(): JSX.Element {
+  const game = useSelector((state:IStore) => state.game);
 
-export default function ActiveStory({story}: any): JSX.Element {
+  const { stories } = game.settings;
 
-  console.log(story)
+  const activeStory = stories.find((story: IStory) => story.isActive);
 
-  return (
+  if (activeStory) {
+    return (
       <div className="active-story">
         <h3>Active story</h3>
         <p>
           name:
-          {story.name}
+          {activeStory.name}
         </p>
         <p>
           description:
-          {story.description}
+          {activeStory.description}
         </p>
         <hr />
       </div>
+    );
+  }
+
+  return (
+    <>
+      <p className="active-story">no active story</p>
+      <hr />
+    </>
   );
 }
