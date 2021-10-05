@@ -49,4 +49,5 @@ export interface ISocketApi {
   initExclude: (e: IExclude | undefined, d: boolean) => void;
   confirmExclude: (a: boolean) => void;
   close: () => void;
+  setCard: (n: number) => void;
 }

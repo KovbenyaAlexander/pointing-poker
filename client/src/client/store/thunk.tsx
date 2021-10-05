@@ -3,7 +3,7 @@ import { AnyAction } from 'redux';
 import axios from 'axios';
 import { IStore, IGame } from '../types';
 import {
-  setInitialStore, SetGame, SetSocketApi, SetIsLoading,
+  setInitialStore, SetGame, SetSocketApi, SetIsLoading, SetChoosenCard,
 } from './actions';
 import { SocketApi } from '../socket/socket';
 
@@ -133,6 +133,21 @@ export function userJoin(id: string) {
       }
       console.log(e);
       dispatch(SetIsLoading(false));
+    }
+  };
+}
+
+export function setCard(number: number) {
+  return async (
+    dispatch: ThunkDispatch<void, IStore, AnyAction>,
+    getState: () => IStore,
+  ): Promise<void> => {
+    try {
+      const { socket } = getState();
+      socket?.setCard(number);
+      dispatch(SetChoosenCard(number));
+    } catch (e) {
+      console.log(e);
     }
   };
 }

@@ -10,6 +10,7 @@ import {
   UpdateMembersAction,
   SetSocketAction,
   SetIsLoadingAction,
+  SetChoosenCardAction,
 } from '../types';
 import { ISocketApi } from '../types/store-types';
 import { AllActions } from './reducers';
@@ -71,6 +72,13 @@ export function SetSocketApi(payload: ISocketApi): SetSocketAction {
 export function SetIsLoading(payload: boolean): SetIsLoadingAction {
   return {
     type: Actions.SET_IS_LOADING,
+    payload,
+  };
+}
+
+export function SetChoosenCard(payload: number): SetChoosenCardAction {
+  return {
+    type: Actions.SET_CHOOSEN_CARD,
     payload,
   };
 }

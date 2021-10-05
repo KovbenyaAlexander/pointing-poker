@@ -6,6 +6,7 @@ import {
   UpdateMembersAction,
   SetSocketAction,
   SetIsLoadingAction,
+  SetChoosenCardAction,
 } from '../types/actions-types';
 import {
   IUserInfo, IStore, ISettings,
@@ -16,7 +17,9 @@ export type AllActions =
   { type: typeof Actions.UPDATE_SETTINGS; payload: ISettings }
   | { type: typeof Actions.UPDATE_USERINFO; payload: IUserInfo }
   | { type: typeof Actions.SET_DEFAULT_SETTINGS }
-  | StopExcludeAction | StartExcludeAction | SetGameAction | UpdateMembersAction | SetSocketAction | SetIsLoadingAction;
+  | StopExcludeAction | StartExcludeAction | SetGameAction
+  | UpdateMembersAction | SetSocketAction | SetIsLoadingAction
+  | SetChoosenCardAction;
 
 export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
@@ -39,6 +42,8 @@ export default function reducer(state: IStore = initialStore, action: AllActions
       return { ...state, socket: action.payload };
     case Actions.SET_IS_LOADING:
       return { ...state, loading: action.payload };
+    case Actions.SET_CHOOSEN_CARD:
+      return { ...state, user: { ...state.user, choose: action.payload } };
     default:
       return state;
   }

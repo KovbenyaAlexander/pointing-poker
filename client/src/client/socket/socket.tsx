@@ -70,4 +70,9 @@ export class SocketApi implements ISocketApi {
     const { game, user } = store.getState();
     this.socket.emit('confirmExclude', game.id, user.userID, answer);
   }
+
+  setCard(n: number): void {
+    const { game, user } = store.getState();
+    this.socket.emit('setCard', game.id, user.userID, n);
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
+import Cards from '../../components/cards/cards';
 import GameInfo from '../../components/game-info/game-info';
 import { IStore } from '../../types';
 import './style.scss';
@@ -19,7 +20,7 @@ export default function GamePage(): JSX.Element {
       <GameInfo />
       <section className="game__chat"><p>Chat</p></section>
       <section className="game__issues"><p>Issue</p></section>
-      <section className="game__cards"><p>Cards</p></section>
+      <Cards />
     </article>
   );
 }
