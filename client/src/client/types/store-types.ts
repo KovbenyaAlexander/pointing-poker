@@ -13,7 +13,10 @@ export interface IUserInfo {
 export interface IStory{
   name: string,
   description: string,
-  id: string
+  id: string,
+  estimation: number | null,
+  isCompleted: boolean,
+  isActive: boolean,
 }
 export interface ISettings {
   gameName: string;
