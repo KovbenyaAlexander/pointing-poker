@@ -8,6 +8,10 @@ export default function Card({ children } : { children: number | string }): JSX.
   const user = useSelector((state: IStore) => state.user);
   const { isRoundActive, settings } = useSelector((state: IStore) => state.game);
 
+  const canIUse = !isRoundActive || user.role === 'observer'
+  || (user.role === 'dealer' && !settings.isDealerInGame)
+  || ((!!user.choose || user.choose === 0) && !settings.isVoteMutable);
+
   return (
     <label htmlFor={id} className="card">
       <input
@@ -17,7 +21,7 @@ export default function Card({ children } : { children: number | string }): JSX.
         id={id}
         value={children}
         defaultChecked={(user.choose === children || (user.choose === 0 && children === 'Unknow')) && isRoundActive}
-        disabled={!isRoundActive || user.role === 'observer' || (user.role === 'dealer' && !settings.isDealerInGame)}
+        disabled={canIUse}
       />
       <p className="card__pointer card__pointer_upper">{children}</p>
       <p className="card__pointer card__pointer_lower">{children}</p>

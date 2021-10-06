@@ -7,6 +7,7 @@ import './style.scss';
 
 export default function Cards(): JSX.Element {
   const settings = useSelector((state: IStore) => state.game.settings);
+  const user = useSelector((state: IStore) => state.user);
   const dispatch = useDispatch();
 
   function fibonacci(n: number): number {
@@ -16,6 +17,7 @@ export default function Cards(): JSX.Element {
   }
 
   function onCardSelect(e: React.ChangeEvent<HTMLFormElement>) {
+    if (user.choose && !settings.isVoteMutable) return;
     let n = e.target.value;
     if (n === 'Unknow') {
       n = 0;
