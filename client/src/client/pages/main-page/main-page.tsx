@@ -4,7 +4,6 @@ import React, {
 import uuid from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify';
 import { LoginPopap } from '../../components/login-popap/login-popap';
 import { isGameActive } from '../../store/thunk';
 import { AppDispatch } from '../../types/middleware-types';
@@ -40,8 +39,8 @@ const MainPage = (props: any): ReactElement => {
 
   const onPlay = (e: React.FormEvent) => {
     e.preventDefault();
-    if(keyID === ''){
-      return
+    if (keyID === '') {
+      return;
     }
     dispatch(isGameActive(keyID))
       .then((res: any) => {
@@ -103,7 +102,7 @@ const MainPage = (props: any): ReactElement => {
           </button>
         </form>
       </section>
-        {isGameFound===false && <p>Game not found</p>}
+      {isGameFound === false && <p>Game not found</p>}
     </article>
   );
 };

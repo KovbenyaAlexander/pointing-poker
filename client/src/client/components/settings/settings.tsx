@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
-import { createGame, updateSettings } from '../../store/thunk';
+import {
+  createGame, updateSettings, cancelGame, activitySwitcher,
+} from '../../store/thunk';
 import { IStore, IStory, ISettings } from '../../types';
 import StoryPopup from '../story-popup/story-popup';
 import { Stories } from '../settings-stories/settingsStories';
@@ -16,9 +18,14 @@ export default function Settings(): JSX.Element {
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
   const [storyToEdit, setStoryToEdit] = useState<null | IStory>(null);
   const [formValidation, setFormValidation] = useState(false);
-  const [storiesValidetion, setStoriesValidation] = useState(true)
+  const [storiesValidation, setStoriesValidation] = useState(true);
 
-  const onSettingsSubmitHandler = (e: React.SyntheticEvent) => {
+  // const { id, isActive } = useSelector((state: IStore) => ({
+  //   id: state.game.id,
+  //   isActive: state.game.isActive,
+  // }));
+
+  const onSettingsSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (settings.gameName.length < 4 || settings.gameName.length > 30) {
@@ -27,7 +34,7 @@ export default function Settings(): JSX.Element {
     }
 
     if (settings.stories.length === 0) {
-      setStoriesValidation(false)
+      setStoriesValidation(false);
       return;
     }
 
@@ -55,6 +62,7 @@ export default function Settings(): JSX.Element {
     }
     setStoryToEdit(null);
     setShouldShowPopupForAdd(false);
+    setStoriesValidation(true);
   };
 
   useEffect(() => {
@@ -72,6 +80,16 @@ export default function Settings(): JSX.Element {
       setFormValidation(false);
     }
   }, [settings.gameName]);
+
+  const gameActivitySwitcher = () => {
+    if (settings.stories.length === 0) {
+      setStoriesValidation(false);
+      return;
+    }
+    dispatch(updateSettings({ ...game, settings }));
+    dispatch(activitySwitcher(game.isActive));
+    history.push(`/game/${game.id}`);
+  };
 
   return (
     <>
@@ -184,8 +202,11 @@ export default function Settings(): JSX.Element {
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
         <br />
-        {!storiesValidetion && <p className="settings__validation-error">To start the game you must create at least one story</p>}
-        <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
+        {!storiesValidation && <p className="settings__validation-error">To start the game you must create at least one story</p>}
+
+        {!game.id && <button type="submit">Create game</button>}
+        {game.isActive && <button type="submit">Update game</button>}
+
       </form>
 
       {shouldShowPopupForAdd && (
@@ -195,6 +216,13 @@ export default function Settings(): JSX.Element {
           storyToEdit={storyToEdit}
         />
       )}
+
+      {game.id && (
+        <button type="button" onClick={gameActivitySwitcher}>
+          {game.isActive ? 'Pause game' : 'Start game'}
+        </button>
+      )}
+
     </>
   );
 }

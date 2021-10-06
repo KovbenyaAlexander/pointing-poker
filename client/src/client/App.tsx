@@ -7,7 +7,6 @@ import NotFound from './pages/404/404';
 import Header from './components/header/header';
 import './style.scss';
 import LobbyPrivateRoute from './pages/lobby-private-route/lobby-private-route';
-import 'react-toastify/dist/ReactToastify.css';
 
 const App = (): JSX.Element => (
   <>
