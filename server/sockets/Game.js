@@ -54,15 +54,16 @@ class Game {
     const room = rooms.get(this.roomID);
     this.isRoundActive = true;
     // Added second for the network operations
-    // if (this.timer) {
-    //   setTimeout(() => {
-    //     this.stopRound();
-    //   }, this.timer + 1000);
-    // }
+    if (this.timer) {
+      setTimeout(() => {
+        this.stopRound();
+      }, this.timer + 1000);
+    }
     room.emit('startRound', this.isRoundActive);
   }
 
   stopRound() {
+    if (!this.isRoundActive) return;
     const room = rooms.get(this.roomID);
     this.isRoundActive = false;
     room.emit('stopRound', this.isRoundActive);

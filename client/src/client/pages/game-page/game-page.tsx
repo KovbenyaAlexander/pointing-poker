@@ -6,6 +6,7 @@ import Chat from '../../components/chat/chat';
 import DealerControls from '../../components/dealer-controls/dealer-controls';
 import GameInfo from '../../components/game-info/game-info';
 import GameStories from '../../components/game-stories/game-stories';
+import Timer from '../../components/timer/timer';
 import { IStore } from '../../types';
 import './style.scss';
 
@@ -25,6 +26,7 @@ export default function GamePage(): JSX.Element {
       <section className={`game__issues game__issues_${user.role}`}><GameStories /></section>
       {user.role === 'dealer' && <section className="game__dealer-controls"><DealerControls /></section>}
       <Cards />
+      {game.isRoundActive && game.settings.isTimerRequired && <Timer />}
     </article>
   );
 }
