@@ -9,6 +9,9 @@ function setSocketListeners(socket) {
     socket.on("confirmExclude", onSocketConfirmExclude);
     socket.on("sendMessage", onSocketSendMessage);
     socket.on("disconnect", onDisconnect);
+    socket.on('startRound', onRoundStart);
+    socket.on('stopRound', onRoundStop);
+    socket.on('setCard', onSetCard);
     return socket;
   } catch (e) {
     console.log(e);
@@ -65,6 +68,23 @@ function sendServiceMessage(room, message) {
     messageId: uuid.v4(),
     isServiceMessage: true,
   });
+}
+
+function onSetCard(gameID, userID, choose) {
+  const room = rooms.get(gameID);
+  room.setCard(userID, choose);
+}
+
+function onRoundStart(gameID) {
+  const room = rooms.get(gameID);
+  room.clearRound();
+  room.startRound();
+}
+
+
+function onRoundStop(gameID) {
+  const room = rooms.get(gameID);
+  room.stopRound();
 }
 
 module.exports = {

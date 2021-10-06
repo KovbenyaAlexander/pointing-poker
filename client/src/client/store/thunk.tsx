@@ -29,6 +29,7 @@ export function createGame(settings: IGame) {
           excluding: {
             isActive: false,
           },
+          isRoundActive: false,
         };
         const socket = new SocketApi('http://localhost:5000', user, game);
         dispatch(SetSocketApi(socket));

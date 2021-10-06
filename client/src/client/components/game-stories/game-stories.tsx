@@ -12,6 +12,7 @@ export default function GameStories(): JSX.Element {
   const dispatch = useDispatch();
   const game = useSelector((state:IStore) => state.game);
   const user = useSelector((state:IStore) => state.user);
+  const socket = useSelector((state: IStore) => state.socket);
   const { settings } = game;
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
 
@@ -21,7 +22,10 @@ export default function GameStories(): JSX.Element {
 
   const onPopupSubmit = (newStory: IStory) => {
     setShouldShowPopupForAdd(false);
-    dispatch(updateSettings({ ...game, settings: { ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] } }));
+    dispatch(updateSettings({
+      ...game,
+      settings: { ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] },
+    }));
   };
 
   const chooseStoryHandler = (activeStory: IStory) => {
@@ -41,31 +45,38 @@ export default function GameStories(): JSX.Element {
     dispatch(updateSettings({ ...game, settings: { ...settings, stories: newStories } }));
   };
 
-
   return (
     <div className="game__stories">
       <ActiveStory />
       {game.settings.stories.map((story: IStory) => (
-          <div key={story.id}>
+        <div key={story.id}>
+          <p>
+            name:
+            {story.name}
+          </p>
+          <p>
+            description:
+            {story.description}
+          </p>
+          {user.role === 'dealer' && !game.isRoundActive && (
+            <button
+              type="button"
+              onClick={() => chooseStoryHandler(story)}
+            >
+              {' '}
+              Choose this story
+            </button>
+          )}
+          {story.isCompleted ? (
             <p>
-              name:
-              {story.name}
+              {' '}
+              Estimation:
+              {story.estimation}
             </p>
-            <p>
-              description:
-              {story.description}
-            </p>
-            {user.role === 'dealer' && <button type="button" onClick={() => chooseStoryHandler(story)}> Choose this story</button>}
-            {story.isCompleted ? (
-              <p>
-                {' '}
-                Estimation:
-                {story.estimation}
-              </p>
-            ) : <p> Task is not completed</p>}
-            <hr />
-          </div>
-        ))}
+          ) : <p> Task is not completed</p>}
+          <hr />
+        </div>
+      ))}
 
       {user.role === 'dealer' && <button type="button" onClick={addStoryHandler}>Add story</button>}
 

@@ -18,6 +18,7 @@ export interface IStory{
   isCompleted: boolean,
   isActive: boolean,
 }
+
 export interface ISettings {
   gameName: string;
   isDealerInGame: boolean;
@@ -41,6 +42,7 @@ export interface IExclude {
 export interface IGame {
   id?: string | null;
   isActive: boolean;
+  isRoundActive: boolean;
   members: IUserInfo[];
   excluding: IExclude;
   settings: ISettings;
@@ -62,7 +64,9 @@ export interface ISocketApi {
   confirmExclude: (a: boolean) => void;
   close: () => void;
   setCard: (n: number) => void;
-  sendMessage: (message: string, authorMessage: string)=>void
+  sendMessage: (message: string, authorMessage: string)=>void;
+  startRound: () => void;
+  stopRound: () => void;
 }
 
 export interface IChatMessage {

@@ -31,6 +31,7 @@ export const initialStore: IStore = {
     settings,
     isActive: false,
     id: null,
+    isRoundActive: false,
   },
   chat: {
     messages: [],

@@ -16,6 +16,7 @@ import {
   onSocketUpdateExcluding,
   onSocketUpdateMembers,
   onSocketUpdateChatMessages,
+  onSocketStartRound,
 } from './socket-actions';
 
 export class SocketApi implements ISocketApi {
@@ -57,6 +58,8 @@ export class SocketApi implements ISocketApi {
     this.socket.on('refreshGame', onSocketRefreshGame.bind(this));
     this.socket.on('cancelGame', onSocketCancelGame);
     this.socket.on('close', onSocketClose);
+    this.socket.on('startRound', onSocketStartRound);
+    this.socket.on('stopRound', onSocketStartRound);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {
@@ -73,13 +76,24 @@ export class SocketApi implements ISocketApi {
     this.socket.emit('confirmExclude', game.id, user.userID, answer);
   }
 
+  sendMessage(message: string, authorMessage: string): void {
+    const { game, user } = store.getState();
+    this.socket.emit('sendMessage', game.id, user.userID, message, authorMessage);
+  }
+
+  // Game Actions
   setCard(n: number): void {
     const { game, user } = store.getState();
     this.socket.emit('setCard', game.id, user.userID, n);
   }
 
-  sendMessage(message: string, authorMessage: string): void {
-    const { game, user } = store.getState();
-    this.socket.emit('sendMessage', game.id, user.userID, message, authorMessage);
+  startRound(): void {
+    const { game } = store.getState();
+    this.socket.emit('startRound', game.id);
+  }
+
+  stopRound(): void {
+    const { game } = store.getState();
+    this.socket.emit('stopRound', game.id);
   }
 }

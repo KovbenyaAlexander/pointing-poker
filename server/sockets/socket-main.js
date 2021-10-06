@@ -1,3 +1,4 @@
+const { Game } = require("./Game");
 const { setSocketListeners } = require("./socket-action");
 const rooms = require("./socket-index");
 
@@ -20,6 +21,7 @@ class Room {
     members;
     excludeQueue;
     currentExcludor;
+    currentGame;
 
     constructor(id, game, socket) {
         this.id = id;
@@ -28,6 +30,7 @@ class Room {
         this.members = [];
         this.excludeQueue = [];
         this.currentExcludor = undefined;
+        this.currentGame = undefined;
     }
 
     join(user) {
@@ -92,7 +95,49 @@ class Room {
 
     setGameActive(isActive) {
         this.game = {...this.game, isActive};
+
+        if (isActive) {
+            const players = this.getMembers().filter((user) => {
+                if (user.role === 'dealer' && this.game.settings.isDealerInGame) return true;
+                return user.role === 'player';
+            });
+            this.currentGame = new Game(this.id, this.game, players);
+            console.log(this.currentGame);
+        } else {
+            this.currentGame = undefined;
+        }
+
         this.emit('setGameActive', this.game.isActive);
+    }
+
+    setCard(userID, choose) {
+        const player = this.members.find((user) => user.userInfo.userID === userID);
+        player.userInfo.choose = choose;
+        this.emit('updateMembers', this.getMembers());
+        this.currentGame.addDecision(userID, choose);
+    }
+
+    clearRound() {
+        this.members.forEach((member) => {
+            member.userInfo.choose = undefined;
+        });
+        this.currentGame.clearRound();
+        this.emit('updateMembers', this.getMembers());
+    }
+    
+    addPlayer(user) {
+        this.currentGame.addPlayer(user);
+    }
+
+    startRound() {
+        this.game = { ...this.game, isRoundActive: true };
+        this.currentGame.startRound();
+    }
+
+    
+    stopRound() {
+        this.game = { ...this.game, isRoundActive: false };
+        this.currentGame.stopRound();
     }
 
     setSettings(settings) {
@@ -145,10 +190,6 @@ class Room {
         this.clearExclude();
     }
 
-    setCard(userID, choose) {
-        this.findMember(userID)
-    }
-
 }
 
 function initSocket(socket) {
@@ -189,6 +230,9 @@ function initSocket(socket) {
             if (!isActive || settings.isAutoEntry) {
                 socket = setSocketListeners(socket);
                 room.join(new SocketUser(socket, user));
+                if (isActive && user.role != 'observer') {
+                    room.addPlayer(user);
+                }
                 room.emit('updateMembers', room.getMembers());
             } else {
                 socket.emit('close');

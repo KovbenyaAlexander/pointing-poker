@@ -61,3 +61,14 @@ export function onSocketClose(): void {
   sessionStorage.clear();
   store.dispatch(setInitialStore());
 }
+
+export function onSocketStartRound(isRoundActive: boolean): void {
+  const { game, user } = store.getState();
+  store.dispatch(SetGame({ ...game, isRoundActive }));
+  store.dispatch(UpdateUser({ ...user, choose: undefined }));
+}
+
+export function onSocketStopRound(isRoundActive: boolean): void {
+  const { game } = store.getState();
+  store.dispatch(SetGame({ ...game, isRoundActive }));
+}
