@@ -6,7 +6,7 @@ export default function ResultsCards({ values, all }
 : { values : { [key: string]: number }, all : number }): JSX.Element {
   const stat = Object.entries(values).map((kv) => (
     <div className="results-cards__card" key={`card-result_${kv[0]}-${kv[1]}`}>
-      <Card>{kv[0]}</Card>
+      <Card onCardChange={() => {}} selected={false}>{kv[0]}</Card>
       <p className="result-card__value">{`${((+kv[1] / all) * 100).toFixed(2)} %`}</p>
     </div>
   ));

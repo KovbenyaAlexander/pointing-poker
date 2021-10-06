@@ -6,42 +6,38 @@ import Card from '../card/card';
 import './style.scss';
 
 export default function Cards(): JSX.Element {
-  const settings = useSelector((state: IStore) => state.game.settings);
+  const { settings, isRoundActive } = useSelector((state: IStore) => state.game);
   const user = useSelector((state: IStore) => state.user);
   const dispatch = useDispatch();
 
-  function fibonacci(n: number): number {
-    if (n === 1) return 1;
-    if (n === 0) return 0;
-    return fibonacci(n - 2) + fibonacci(n - 1);
-  }
+  const fibonacci = [1, 2, 3, 5, 8, 16, 'Unknow'];
+  const powOf2 = [1, 2, 4, 8, 16, 'Unknow'];
 
-  function onCardSelect(e: React.ChangeEvent<HTMLFormElement>) {
-    if (user.choose && !settings.isVoteMutable) return;
-    let n = e.target.value;
+  const canIUse = !isRoundActive || user.role === 'observer'
+  || (user.role === 'dealer' && !settings.isDealerInGame)
+  || ((!!user.choose || user.choose === 0) && !settings.isVoteMutable);
+
+  function onCardSelect(value: string | number) {
+    if (canIUse) return;
+    let n = value;
     if (n === 'Unknow') {
       n = 0;
     }
     dispatch(setCard(+n));
   }
 
-  function cardsArray() {
-    const arr = Array(5)
-      .fill(1)
-      .map((one, index) => (
-        <Card key={`card_${Math.random()}`}>
-          {
-            settings.estimationType === 'power2' ? 2 ** index : fibonacci(index + 2)
-          }
-        </Card>
-      ));
-    arr.push(<Card key={`card_${Math.random()}`}>Unknow</Card>);
-    return arr;
-  }
-
+  const currentArr = settings.estimationType === 'power2' ? powOf2 : fibonacci;
   return (
-    <form className="cards" onChange={onCardSelect}>
-      {cardsArray()}
-    </form>
+    <div className="cards">
+      { currentArr.map((value) => (
+        <Card
+          key={`card_${value}`}
+          selected={user.choose === value || (value === 'Unknow' && user.choose === 0)}
+          onCardChange={() => onCardSelect(value)}
+        >
+          {value}
+        </Card>
+      ))}
+    </div>
   );
 }
