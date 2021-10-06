@@ -85,7 +85,7 @@ export function SetIsLoading(payload: boolean): SetIsLoadingAction {
   };
 }
 
-export function SetChoosenCard(payload: number): SetChoosenCardAction {
+export function SetChoosenCard(payload: number | string): SetChoosenCardAction {
   return {
     type: Actions.SET_CHOOSEN_CARD,
     payload,

@@ -19,11 +19,7 @@ export default function Cards(): JSX.Element {
 
   function onCardSelect(value: string | number) {
     if (canIUse) return;
-    let n = value;
-    if (n === 'Unknow') {
-      n = 0;
-    }
-    dispatch(setCard(+n));
+    dispatch(setCard(value));
   }
 
   const currentArr = settings.estimationType === 'power2' ? powOf2 : fibonacci;
@@ -32,7 +28,7 @@ export default function Cards(): JSX.Element {
       { currentArr.map((value) => (
         <Card
           key={`card_${value}`}
-          selected={user.choose === value || (value === 'Unknow' && user.choose === 0)}
+          selected={user.choose === value}
           onCardChange={() => onCardSelect(value)}
         >
           {value}

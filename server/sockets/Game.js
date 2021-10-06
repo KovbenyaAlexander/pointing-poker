@@ -14,6 +14,7 @@ class Game {
   decisions;
   isAutoFinish;
   isRoundActive;
+  timeout;
 
   constructor(roomid, game, players) {
     this.roomID = roomid;
@@ -22,6 +23,7 @@ class Game {
     this.isRoundActive = false;
     this.players = players;
     this.decisions = new Map();
+    this.timeout = undefined;
   }
 
   findActiveStory() {
@@ -34,7 +36,7 @@ class Game {
     this.isRoundActive = true;
     // Added second for the network operations
     if (this.timer) {
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.stopRound();
       }, this.timer + 1000);
     }
@@ -43,6 +45,8 @@ class Game {
 
   stopRound() {
     if (!this.isRoundActive) return;
+    if ( this.timeout) clearTimeout(this.timeout);
+    this.timeout = undefined;
     const room = rooms.get(this.roomID);
     this.isRoundActive = false;
     room.emit('stopRound', this.isRoundActive);

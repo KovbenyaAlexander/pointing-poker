@@ -161,6 +161,7 @@ class Room {
 
     finishGame(result) {
         this.currentGame.finishGame(result);
+        this.currentGame = undefined;
     }
 
     setSettings(settings) {

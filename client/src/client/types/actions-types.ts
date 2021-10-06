@@ -53,7 +53,7 @@ export interface SetIsLoadingAction {
 
 export interface SetChoosenCardAction {
   type: Actions.SET_CHOOSEN_CARD;
-  payload: number;
+  payload: number | string;
 }
 
 export type GameActions = SetGameAction | StartExcludeAction | StopExcludeAction;

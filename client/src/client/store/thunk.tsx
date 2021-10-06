@@ -139,7 +139,7 @@ export function userJoin(id: string) {
   };
 }
 
-export function setCard(number: number) {
+export function setCard(number: number | string) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
     getState: () => IStore,

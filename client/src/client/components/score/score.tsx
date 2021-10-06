@@ -9,7 +9,7 @@ export default function Score({ member } : { member: IUserInfo }): JSX.Element {
   function showChoose() {
     if ((member.choose || member.choose === 0) && isRoundActive) return 'Waiting until Round ends';
     if (member.choose || member.choose === 0) {
-      return `Player choose - ${member.choose === 0 ? 'Unknow' : member.choose}`;
+      return `Player choose - ${member.choose}`;
     }
     return 'Thinking';
   }

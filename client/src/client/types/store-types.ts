@@ -7,7 +7,7 @@ export interface IUserInfo {
   jobPosition?: string;
   photoUser?: string;
   role?: string;
-  choose?: number;
+  choose?: number | string;
 }
 
 export interface IStory{
@@ -29,7 +29,7 @@ export interface ISettings {
   isTimerRequired: boolean;
   timerValue: string;
   stories: Array<IStory>;
-  gameResult?: IStory | number | string;
+  gameResult?: IStory[] | number | string;
 }
 
 export interface IExclude {
@@ -65,7 +65,7 @@ export interface ISocketApi {
   initExclude: (e: IExclude | undefined, d: boolean) => void;
   confirmExclude: (a: boolean) => void;
   close: () => void;
-  setCard: (n: number) => void;
+  setCard: (n: number | string) => void;
   sendMessage: (message: string, authorMessage: string)=>void;
   startRound: () => void;
   stopRound: () => void;
