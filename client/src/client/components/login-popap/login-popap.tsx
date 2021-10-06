@@ -33,7 +33,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
   }
 
   useEffect(() => {
-    const reg = /^[a-z , а-я]+$/i
+    const reg = /^[a-z, а-я, 0-9]+$/i;
     if (!reg.test(String(userForm.name).toLowerCase())) {
       setIsFormValid(false);
     } else {

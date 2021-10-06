@@ -108,7 +108,6 @@ const MainPage = (props: any): ReactElement => {
             Play
           </button>
         </form>
-        {/* {!isGameFound && <p>Game not found...</p>} */}
       </section>
       <ToastContainer />
     </article>

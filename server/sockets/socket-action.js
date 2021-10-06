@@ -25,7 +25,7 @@ function onInitExclude(id, excluding, isInstantExclude) {
       return true;
     });
     room.askToExclude(new Excludor(room.getMembers()));
-    sendServiceMessage(room, `vote started`);
+    sendServiceMessage(room, "vote started");
   }
 }
 
@@ -36,7 +36,7 @@ function onSocketConfirmExclude(id, userID, answer) {
 
 const onSocketSendMessage = (gameId, userId, message, authorMessage) => {
   const room = rooms.get(gameId);
-  room.emit(`updateChatMessages`, {
+  room.emit("updateChatMessages", {
     message,
     userId,
     messageId: uuid.v4(),
@@ -59,7 +59,7 @@ function onDisconnect() {
 }
 
 function sendServiceMessage(room, message) {
-  room.emit(`updateChatMessages`, {
+  room.emit("updateChatMessages", {
     message,
     messageId: uuid.v4(),
     isServiceMessage: true,

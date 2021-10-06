@@ -1,5 +1,5 @@
 import React from 'react';
-import { IChatMessage} from '../../types';
+import { IChatMessage } from '../../types';
 import './style.scss';
 
 interface IChatMessages {

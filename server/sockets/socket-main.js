@@ -131,9 +131,8 @@ class Room {
     const result = this.currentExcludor.addAnswer(userID, answer);
     if (result) {
       this.excludeMember(this.game.excluding.user, this.game.excluding);
-      // sendServiceMessage(`User excluded`);
     } else if (result === false) {
-      // sendServiceMessage(`User not excluded`);
+      this.sendServiceMessage(`User not excluded`);
       this.clearExclude();
     }
   }
@@ -144,6 +143,9 @@ class Room {
   }
 
   excludeMember(member, excluding) {
+    if (!member) {
+      return;
+    }
     let excludedMember;
     this.members = this.members.filter((user) => {
       if (user.userInfo.userID != member.userID) {
@@ -199,9 +201,9 @@ function initSocket(socket) {
       }
       const room = rooms.get(id);
       socket = setSocketListeners(socket);
-      room.join(new SocketUser(socket, user));
 
-      room.emit("updateMembers", room.getMembers());
+      room?.join(new SocketUser(socket, user));
+      room?.emit("updateMembers", room.getMembers());
     }
   } catch (e) {
     console.log(e);

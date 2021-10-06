@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
-import { ToastContainer, toast } from 'react-toastify';
 import { createGame, updateSettings } from '../../store/thunk';
 import { IStore, IStory, ISettings } from '../../types';
 import StoryPopup from '../story-popup/story-popup';
@@ -16,26 +15,19 @@ export default function Settings(): JSX.Element {
   const [settings, setSettings] = useState(game.settings);
   const [shouldShowPopupForAdd, setShouldShowPopupForAdd] = useState(false);
   const [storyToEdit, setStoryToEdit] = useState<null | IStory>(null);
-  const [errorValidation, setErrorValidation] = useState(false);
+  const [formValidation, setFormValidation] = useState(false);
+  const [storiesValidetion, setStoriesValidation] = useState(true)
 
   const onSettingsSubmitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (settings.gameName.length < 5 || settings.gameName.length > 30) {
-      setErrorValidation(true);
-      return
+    if (settings.gameName.length < 4 || settings.gameName.length > 30) {
+      setFormValidation(true);
+      return;
     }
 
     if (settings.stories.length === 0) {
-      toast.error(' To start the game you must create at least one story', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      setStoriesValidation(false)
       return;
     }
 
@@ -66,8 +58,8 @@ export default function Settings(): JSX.Element {
   };
 
   useEffect(() => {
-    if (settings.gameName.length < 5 || settings.gameName.length > 30) {
-      setErrorValidation(true);
+    if (settings.gameName.length < 4 || settings.gameName.length > 30) {
+      setFormValidation(true);
       return;
     }
     if (game.id && history.location.pathname !== `/lobby/${game.id}`) {
@@ -76,8 +68,8 @@ export default function Settings(): JSX.Element {
   }, [game.id]);
 
   useEffect(() => {
-    if (settings.gameName.length > 4 || settings.gameName.length < 31) {
-      setErrorValidation(false);
+    if (settings.gameName.length > 3 || settings.gameName.length < 31) {
+      setFormValidation(false);
     }
   }, [settings.gameName]);
 
@@ -91,7 +83,7 @@ export default function Settings(): JSX.Element {
             value={settings.gameName}
             onChange={(e) => setSettings({ ...settings, gameName: e.target.value })}
           />
-          {errorValidation && <span className="settings__validation-error">name length must be more than 4 characters and less than 30</span>}
+          {formValidation && <span className="settings__validation-error">name length must be more than 3 characters and less than 30</span>}
           <br />
 
           <span>Dealer in game</span>
@@ -175,7 +167,7 @@ export default function Settings(): JSX.Element {
          type="time"
          value={settings.timerValue}
          onChange={(e) => setSettings({ ...settings, timerValue: e.target.value })}
-         min="00:10" 
+         min="00:10"
          max="99:59"
          required
        />
@@ -192,8 +184,7 @@ export default function Settings(): JSX.Element {
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
         <br />
-        <br />
-        <br />
+        {!storiesValidetion && <p className="settings__validation-error">To start the game you must create at least one story</p>}
         <button type="submit">{game.id ? 'Update game' : 'Create game'}</button>
       </form>
 
@@ -204,7 +195,6 @@ export default function Settings(): JSX.Element {
           storyToEdit={storyToEdit}
         />
       )}
-      <ToastContainer />
     </>
   );
 }
