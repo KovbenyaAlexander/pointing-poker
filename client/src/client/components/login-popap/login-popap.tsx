@@ -67,7 +67,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
             </label>
           </div>
           <label htmlFor="name">
-            <p>First Name:</p>
+            <p>First Name:*</p>
             <input
               type="text"
               name="name"

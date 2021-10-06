@@ -18,7 +18,7 @@ const MainPage = (props: any): ReactElement => {
   const { gameId }: any = props.match.params;
   const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
-  const [isGameFound, setIsGameFound] = useState(false);
+  const [isGameFound, setIsGameFound] = useState<boolean | null>(null);
   const [dealerLogin, setIsDealerLogin] = useState(true);
   const history = useHistory();
 
@@ -40,6 +40,9 @@ const MainPage = (props: any): ReactElement => {
 
   const onPlay = (e: React.FormEvent) => {
     e.preventDefault();
+    if(keyID === ''){
+      return
+    }
     dispatch(isGameActive(keyID))
       .then((res: any) => {
         if (res) {
@@ -48,15 +51,6 @@ const MainPage = (props: any): ReactElement => {
           setIsGameFound(true);
         } else {
           setIsGameFound(false);
-          toast.error(' Game not found', {
-            position: 'top-center',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
         }
       })
       .catch((err) => console.log(err));
@@ -109,7 +103,7 @@ const MainPage = (props: any): ReactElement => {
           </button>
         </form>
       </section>
-      <ToastContainer />
+        {isGameFound===false && <p>Game not found</p>}
     </article>
   );
 };
