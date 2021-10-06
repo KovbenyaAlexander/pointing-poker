@@ -6,7 +6,6 @@ class Game {
   newGame(req, res) {
     try {
       const { userName, settings } = req.body;
-      console.log(settings);
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
       }
@@ -66,7 +65,7 @@ class Game {
       if (!req.body.hasOwnProperty("id")) {
         return res.status(400).json({ message: "Invalid data" });
       }
-      const { id, isActive } = req.body
+      const { id, isActive } = req.body;
       const game = games.get(id);
       if (!game) {
         return res.status(400).json({ message: "Game not found" });
@@ -74,6 +73,7 @@ class Game {
 
       game.settings.isActive = !isActive;
       rooms.get(id).setGameActive(game.settings.isActive);
+
       return res.status(200).json(game.settings.isActive);
     } catch (e) {
       console.log(e);

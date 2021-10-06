@@ -17,7 +17,7 @@ const MainPage = (props: any): ReactElement => {
   const { gameId }: any = props.match.params;
   const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
-  const [isGameFound, setIsGameFound] = useState(false);
+  const [isGameFound, setIsGameFound] = useState<boolean | null>(null);
   const [dealerLogin, setIsDealerLogin] = useState(true);
   const history = useHistory();
 
@@ -37,7 +37,11 @@ const MainPage = (props: any): ReactElement => {
     [dispatch, history, isActive, keyID],
   );
 
-  const onPlay = useCallback(() => {
+  const onPlay = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (keyID === '') {
+      return;
+    }
     dispatch(isGameActive(keyID))
       .then((res: any) => {
         if (res) {
@@ -48,8 +52,8 @@ const MainPage = (props: any): ReactElement => {
           setIsGameFound(false);
         }
       })
-      .catch((e) => console.log(e));
-  }, [dispatch, keyID]);
+      .catch((err) => console.log(err));
+  };
 
   const onNewGame = useCallback(() => {
     setShouldShowLogin(true);
@@ -83,21 +87,22 @@ const MainPage = (props: any): ReactElement => {
         <button type="button" onClick={onNewGame}>Create new game</button>
       </section>
       <h2 className="main-page__separator">OR</h2>
+
       <section>
         <p>Connect to lobby by URL: </p>
-        <form>
+        <form onSubmit={(e) => onPlay(e)}>
           <input
             type="text"
             value={keyID}
             onChange={(e) => setKeyID(e.target.value)}
           />
 
-          <button type="button" onClick={onPlay}>
+          <button type="submit">
             Play
           </button>
         </form>
-        {!isGameFound && <p>Game not found...</p>}
       </section>
+      {isGameFound === false && <p>Game not found</p>}
     </article>
   );
 };
