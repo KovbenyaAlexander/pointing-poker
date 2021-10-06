@@ -67,6 +67,9 @@ export interface ISocketApi {
   sendMessage: (message: string, authorMessage: string)=>void;
   startRound: () => void;
   stopRound: () => void;
+  addStory: (s: IStory) => void;
+  setStory: (s: string) => void;
+  finishStory: (r: number | string) => void;
 }
 
 export interface IChatMessage {

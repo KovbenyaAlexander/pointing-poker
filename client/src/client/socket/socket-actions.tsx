@@ -9,7 +9,7 @@ import {
 } from '../store/actions';
 import { store } from '../store/store';
 import {
-  IExclude, ISettings, IUserInfo, IChatMessage, IGame,
+  IExclude, ISettings, IUserInfo, IChatMessage, IGame, IStory,
 } from '../types/store-types';
 
 export function onSocketUpdateMembers(members: IUserInfo[]): void {
@@ -71,4 +71,14 @@ export function onSocketStartRound(isRoundActive: boolean): void {
 export function onSocketStopRound(isRoundActive: boolean): void {
   const { game } = store.getState();
   store.dispatch(SetGame({ ...game, isRoundActive }));
+}
+
+export function onSocketAddStory(story: IStory): void {
+  const { game } = store.getState();
+  store.dispatch(UpdateSettings({ ...game.settings, stories: [...game.settings.stories, { ...story }] }));
+}
+
+export function onSocketUpdateStories(stories: IStory[]): void {
+  const { game } = store.getState();
+  store.dispatch(UpdateSettings({ ...game.settings, stories: [...stories] }));
 }

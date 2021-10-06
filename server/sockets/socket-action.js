@@ -12,6 +12,9 @@ function setSocketListeners(socket) {
     socket.on('startRound', onRoundStart);
     socket.on('stopRound', onRoundStop);
     socket.on('setCard', onSetCard);
+    socket.on('setStory', onSetStory);
+    socket.on('addStory', onAddStory);
+    socket.on('finishStory', onFinishStory);
     return socket;
   } catch (e) {
     console.log(e);
@@ -85,6 +88,21 @@ function onRoundStart(gameID) {
 function onRoundStop(gameID) {
   const room = rooms.get(gameID);
   room.stopRound();
+}
+
+function onAddStory(gameID, story) {
+  const room = rooms.get(gameID);
+  room.addStory(story);
+}
+
+function onSetStory(gameID, storyID) {
+  const room = rooms.get(gameID);
+  room.setStory(storyID);
+}
+
+function onFinishStory(gameID, result) {
+  const room = rooms.get(gameID);
+  room.finishStory(result);
 }
 
 module.exports = {

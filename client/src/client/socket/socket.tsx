@@ -2,7 +2,7 @@ import io, { Socket } from 'socket.io-client';
 import { SetSocketApi } from '../store/actions';
 import { store } from '../store/store';
 import { IExclude, IGame, IUserInfo } from '../types';
-import { ISocketApi } from '../types/store-types';
+import { ISocketApi, IStory } from '../types/store-types';
 import {
   onSocketCancelGame,
   onSocketClose,
@@ -17,6 +17,8 @@ import {
   onSocketUpdateMembers,
   onSocketUpdateChatMessages,
   onSocketStartRound,
+  onSocketAddStory,
+  onSocketUpdateStories,
 } from './socket-actions';
 
 export class SocketApi implements ISocketApi {
@@ -60,6 +62,9 @@ export class SocketApi implements ISocketApi {
     this.socket.on('close', onSocketClose);
     this.socket.on('startRound', onSocketStartRound);
     this.socket.on('stopRound', onSocketStartRound);
+    this.socket.on('addStory', onSocketAddStory);
+    this.socket.on('setStory', onSocketUpdateStories);
+    this.socket.on('finishStory', onSocketUpdateStories);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {
@@ -95,5 +100,22 @@ export class SocketApi implements ISocketApi {
   stopRound(): void {
     const { game } = store.getState();
     this.socket.emit('stopRound', game.id);
+  }
+
+  // Story Action
+
+  addStory(story: IStory): void {
+    const { game } = store.getState();
+    this.socket.emit('addStory', game.id, story);
+  }
+
+  setStory(storyID: string): void {
+    const { game } = store.getState();
+    this.socket.emit('setStory', game.id, storyID);
+  }
+
+  finishStory(result: number | string): void {
+    const { game } = store.getState();
+    this.socket.emit('finishStory', game.id, result);
   }
 }

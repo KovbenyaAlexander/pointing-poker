@@ -140,6 +140,27 @@ class Room {
         this.currentGame.stopRound();
     }
 
+    addStory(story) {
+        this.game.settings = { ...this.game.settings, stories: [ ...this.game.settings.stories, {...story}  ]};
+        this.emit('addStory', story);
+    }
+
+    setStory(storyID) {
+        this.game.settings.stories = this.game.settings.stories.map((story) => {
+            story.isActive = false;
+            if (story.id === storyID) {
+                story.isActive = true;
+            }
+            return story;
+        });
+        this.emit('setStory', this.game.settings.stories); 
+    }
+
+    finishStory(result){
+        console.log(result);
+        this.currentGame.finishStory(result);
+    }
+
     setSettings(settings) {
         this.game = {...this.game, ...settings};
         this.emit('updateSettings', this.game.settings);

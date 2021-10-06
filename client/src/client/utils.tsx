@@ -10,3 +10,19 @@ export function isDealer(store: IGame, id: string): boolean {
 export function isCurrentUser(user: IUserInfo, id: string): boolean {
   return user.userID === id;
 }
+
+export function calculateResult(people: IUserInfo[]): [{ [key: string]: number }, number] {
+  const values: { [key: string]: number } = {};
+  let allVoted = 0;
+  people.forEach((human) => {
+    if (human.choose || human.choose === 0) {
+      const choose = human.choose === 0 ? 'Unknow' : human.choose;
+      if (!values[`${choose}`]) {
+        values[`${choose}`] = 0;
+      }
+      values[`${choose}`] += 1;
+      allVoted += 1;
+    }
+  });
+  return [values, allVoted];
+}

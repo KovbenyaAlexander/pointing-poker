@@ -9,45 +9,24 @@ function calculateTime(strTime) {
 
 class Game {
   roomID;
-  stories;
   timer;
   players;
   decisions;
-  isDealerPlay;
   isAutoFinish;
   isRoundActive;
-  isVoteMutable;
 
   constructor(roomid, game, players) {
     this.roomID = roomid;
-    this.stories = game.settings.stories;
-    this.isDealerPlay = game.settings.isDealerInGame;
     this.isAutoFinish = game.settings.isAutoFinish;
-    this.isVoteMutable = game.settings.isVoteMutable;
     this.timer = game.settings.isTimerRequired ? calculateTime(game.settings.timerValue) : undefined;
     this.isRoundActive = false;
     this.players = players;
     this.decisions = new Map();
   }
 
-  setStory(storyID) {
-    this.stories = this.stories.map((story) => {
-      if (story.isActive) {
-        story.isActive = false;
-      }
-      if (story.id === storyID) {
-        story.isActive = true;
-      }
-      return story;
-    });
-  }
-
-  addStory(story) {
-    this.stories.push(story);
-  }
-
   findActiveStory() {
-    return this.stories.filter((story) => story.isActive)[0];
+    const room = rooms.get(this.roomID);
+    return room.game.settings.stories.filter((story) => story.isActive)[0];
   }
 
   startRound() {
@@ -93,9 +72,11 @@ class Game {
 
   finishStory(result) {
     const story = this.fillStory(result);
-
+    console.log(story);
+    
     const room = rooms.get(this.roomID);
-    room.emit('finishStory', story);
+    console.log(room.game.settings.stories);
+    room.emit('finishStory', room.game.settings.stories);
   }
 
   finishGame(result) {
@@ -104,7 +85,7 @@ class Game {
     const results = this.stories.length ? this.stories : result; 
 
     const room = rooms.get(this.roomID);
-    room.emit('finishStory', results);
+    room.emit('finishGame', results);
   }
 
   addPlayer(user) {

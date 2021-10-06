@@ -22,10 +22,12 @@ export default function GameStories(): JSX.Element {
 
   const onPopupSubmit = (newStory: IStory) => {
     setShouldShowPopupForAdd(false);
-    dispatch(updateSettings({
-      ...game,
-      settings: { ...settings, stories: [...settings.stories, { ...newStory, id: uuidv4() }] },
-    }));
+    const id = uuidv4();
+    socket?.addStory({ ...newStory, id });
+    // dispatch(updateSettings({
+    //   ...game,
+    //   settings: { ...settings, stories: [...settings.stories, { ...newStory, id }] },
+    // }));
   };
 
   const chooseStoryHandler = (activeStory: IStory) => {
@@ -41,8 +43,8 @@ export default function GameStories(): JSX.Element {
         isActive: false,
       };
     });
-
-    dispatch(updateSettings({ ...game, settings: { ...settings, stories: newStories } }));
+    socket?.setStory(activeStory.id);
+    // dispatch(updateSettings({ ...game, settings: { ...settings, stories: newStories } }));
   };
 
   return (
@@ -58,7 +60,7 @@ export default function GameStories(): JSX.Element {
             description:
             {story.description}
           </p>
-          {user.role === 'dealer' && !game.isRoundActive && (
+          {user.role === 'dealer' && !game.isRoundActive && !story.estimation && (
             <button
               type="button"
               onClick={() => chooseStoryHandler(story)}
