@@ -23,6 +23,7 @@ export default function Settings(): JSX.Element {
 
     if (settings.gameName.length < 5 || settings.gameName.length > 30) {
       setErrorValidation(true);
+      return
     }
 
     if (settings.stories.length === 0) {
@@ -174,6 +175,9 @@ export default function Settings(): JSX.Element {
          type="time"
          value={settings.timerValue}
          onChange={(e) => setSettings({ ...settings, timerValue: e.target.value })}
+         min="00:10" 
+         max="99:59"
+         required
        />
      </label>
    )}

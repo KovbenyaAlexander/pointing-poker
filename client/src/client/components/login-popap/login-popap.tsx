@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './login-popap.scss';
 
 interface ILoginPopap {
@@ -33,7 +33,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
   }
 
   useEffect(() => {
-    const reg = /([a-z])\w+/;
+    const reg = /^[a-z , а-я]+$/i
     if (!reg.test(String(userForm.name).toLowerCase())) {
       setIsFormValid(false);
     } else {
