@@ -17,7 +17,8 @@ export default function GamePage(): JSX.Element {
 
   useEffect(() => {
     if (!game.id) history.push(`/lobby/${id}`);
-  }, [game.id]);
+    if (game.isCompleted) history.push(`/result/${game.id}`);
+  }, [game.id, game.isCompleted]);
 
   return (
     <article className="game">

@@ -84,11 +84,12 @@ export function onSocketUpdateStories(stories: IStory[]): void {
 }
 
 export function onSocketFinishGame(result: IStory[] | string | number): void {
-  const { game } = store.getState();
-  if (Array.isArray(result)) {
+  let { game } = store.getState();
+  if (Array.isArray(result) && result.length) {
     store.dispatch(UpdateSettings({ ...game.settings, stories: [...result] }));
   } else {
     store.dispatch(UpdateSettings({ ...game.settings, gameResult: result }));
   }
+  ({ game } = store.getState());
   store.dispatch(SetGame({ ...game, isCompleted: true }));
 }

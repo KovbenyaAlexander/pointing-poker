@@ -162,6 +162,7 @@ class Room {
     finishGame(result) {
         this.currentGame.finishGame(result);
         this.currentGame = undefined;
+        this.game.isCompleted = true;
     }
 
     setSettings(settings) {
@@ -251,7 +252,7 @@ function initSocket(socket) {
             const room = rooms.get(id);
             const { isActive , settings } = room.game;
 
-            if (!isActive || settings.isAutoEntry) {
+            if (!isActive || settings.isAutoEntry || game.isCompleted) {
                 socket = setSocketListeners(socket);
                 room.join(new SocketUser(socket, user));
                 if (isActive && user.role != 'observer') {
