@@ -1,10 +1,15 @@
 import {
   SetGame,
-  setInitialStore, SetSocketApi, StartExclude, UpdateMembers, UpdateSettings, UpdateUser,
+  setInitialStore,
+  StartExclude,
+  UpdateMembers,
+  UpdateSettings,
+  UpdateChatMessages,
+  UpdateUser,
 } from '../store/actions';
 import { store } from '../store/store';
 import {
-  IExclude, IGame, ISettings, IUserInfo,
+  IExclude, ISettings, IUserInfo, IChatMessage, IGame,
 } from '../types/store-types';
 
 export function onSocketUpdateMembers(members: IUserInfo[]): void {
@@ -40,6 +45,9 @@ export function onSocketSetSettings(settings: ISettings): void {
   store.dispatch(UpdateSettings(settings));
 }
 
+export function onSocketUpdateChatMessages(message: IChatMessage): void {
+  store.dispatch(UpdateChatMessages(message));
+}
 export function onSocketRefreshGame(game: IGame, user: IUserInfo): void {
   store.dispatch(UpdateUser(user));
   store.dispatch(SetGame(game));

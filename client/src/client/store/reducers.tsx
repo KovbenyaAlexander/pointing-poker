@@ -6,6 +6,7 @@ import {
   UpdateMembersAction,
   SetSocketAction,
   SetIsLoadingAction,
+  UpdateChatMessagesAction,
 } from '../types/actions-types';
 import {
   IUserInfo, IStore, ISettings,
@@ -16,7 +17,8 @@ export type AllActions =
   { type: typeof Actions.UPDATE_SETTINGS; payload: ISettings }
   | { type: typeof Actions.UPDATE_USERINFO; payload: IUserInfo }
   | { type: typeof Actions.SET_DEFAULT_SETTINGS }
-  | StopExcludeAction | StartExcludeAction | SetGameAction | UpdateMembersAction | SetSocketAction | SetIsLoadingAction;
+  | StopExcludeAction | StartExcludeAction | SetGameAction
+  | UpdateMembersAction | SetSocketAction | SetIsLoadingAction | UpdateChatMessagesAction;
 
 export default function reducer(state: IStore = initialStore, action: AllActions) {
   switch (action.type) {
@@ -37,6 +39,8 @@ export default function reducer(state: IStore = initialStore, action: AllActions
       return { ...state, game: { ...state.game, members: [...action.payload] } };
     case Actions.SET_SOCKETAPI:
       return { ...state, socket: action.payload };
+    case Actions.UPDATE_CHAT_MESSAGES:
+      return { ...state, chat: { messages: [...state.chat.messages, action.payload] } };
     case Actions.SET_IS_LOADING:
       return { ...state, loading: action.payload };
     default:

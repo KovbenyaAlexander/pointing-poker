@@ -48,6 +48,9 @@ export interface IStore {
   user: IUserInfo;
   game: IGame;
   socket?: ISocketApi;
+  chat: {
+    messages: Array<IChatMessage>
+  };
   loading: boolean;
 }
 
@@ -57,4 +60,13 @@ export interface ISocketApi {
   initExclude: (e: IExclude | undefined, d: boolean) => void;
   confirmExclude: (a: boolean) => void;
   close: () => void;
+  sendMessage: (message: string, authorMessage: string)=>void
+}
+
+export interface IChatMessage {
+  message: string,
+  userId: string,
+  messageId: string,
+  authorMessage: string
+  isServiceMessage: boolean
 }

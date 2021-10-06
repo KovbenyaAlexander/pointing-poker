@@ -15,6 +15,7 @@ import {
   onSocketSetSettings,
   onSocketUpdateExcluding,
   onSocketUpdateMembers,
+  onSocketUpdateChatMessages,
 } from './socket-actions';
 
 export class SocketApi implements ISocketApi {
@@ -52,6 +53,7 @@ export class SocketApi implements ISocketApi {
     this.socket.on('gameEnd', onSocketGameEnd);
     this.socket.on('setGameActive', onSocketSetGameActive);
     this.socket.on('updateSettings', onSocketSetSettings);
+    this.socket.on('updateChatMessages', onSocketUpdateChatMessages);
     this.socket.on('refreshGame', onSocketRefreshGame.bind(this));
     this.socket.on('cancelGame', onSocketCancelGame);
     this.socket.on('close', onSocketClose);
@@ -69,5 +71,10 @@ export class SocketApi implements ISocketApi {
   confirmExclude(answer: boolean): void {
     const { game, user } = store.getState();
     this.socket.emit('confirmExclude', game.id, user.userID, answer);
+  }
+
+  sendMessage(message: string, authorMessage: string): void {
+    const { game, user } = store.getState();
+    this.socket.emit('sendMessage', game.id, user.userID, message, authorMessage);
   }
 }
