@@ -102,7 +102,6 @@ class Room {
                 return user.role === 'player';
             });
             this.currentGame = new Game(this.id, this.game, players);
-            console.log(this.currentGame);
         } else {
             this.currentGame = undefined;
         }
@@ -157,8 +156,11 @@ class Room {
     }
 
     finishStory(result){
-        console.log(result);
         this.currentGame.finishStory(result);
+    }
+
+    finishGame(result) {
+        this.currentGame.finishGame(result);
     }
 
     setSettings(settings) {

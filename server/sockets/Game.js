@@ -61,48 +61,37 @@ class Game {
   }
 
   fillStory(result) {
-    const story = this.findActiveStory();
-    if (story) {
-      story.estimation = result;
-      story.isActive = false;
-      story.isCompleted = true;
+    try{
+      const story = this.findActiveStory();
+      if (story) {
+        story.estimation = result;
+        story.isActive = false;
+        story.isCompleted = true;
+      }
+      return story;
     }
-    return story;
+    catch(e) {
+      console.log(e);
+    }
   }
 
   finishStory(result) {
     const story = this.fillStory(result);
-    console.log(story);
     
     const room = rooms.get(this.roomID);
-    console.log(room.game.settings.stories);
     room.emit('finishStory', room.game.settings.stories);
   }
 
   finishGame(result) {
     this.fillStory(result);
-
-    const results = this.stories.length ? this.stories : result; 
-
     const room = rooms.get(this.roomID);
+    const results = room.game.settings.stories.length ? this.stories : result; 
+    
     room.emit('finishGame', results);
   }
 
   addPlayer(user) {
     this.players.push(user);
-  }
-
-  toString() {
-    return `
-    ${this.roomID}
-    ${this.stories}
-    ${this.isDealerPlay} = game.settings.isDealerInGame;
-    ${this.isAutoFinish} = game.settings.isAutoFinish;
-    ${this.isVoteMutable} = game.settings.isVoteMutable;
-    ${this.timer} = game.settings.isTimerRequired ? game.settings.timerValue : undefined;
-    ${this.isRoundActive} = false;
-    ${this.playersNumber} = players
-    `;
   }
 }
 

@@ -19,6 +19,7 @@ import {
   onSocketStartRound,
   onSocketAddStory,
   onSocketUpdateStories,
+  onSocketFinishGame,
 } from './socket-actions';
 
 export class SocketApi implements ISocketApi {
@@ -65,6 +66,7 @@ export class SocketApi implements ISocketApi {
     this.socket.on('addStory', onSocketAddStory);
     this.socket.on('setStory', onSocketUpdateStories);
     this.socket.on('finishStory', onSocketUpdateStories);
+    this.socket.on('finishGame', onSocketFinishGame);
   }
 
   initExclude(excludeObj: IExclude | undefined, isDealer: boolean): void {
@@ -117,5 +119,10 @@ export class SocketApi implements ISocketApi {
   finishStory(result: number | string): void {
     const { game } = store.getState();
     this.socket.emit('finishStory', game.id, result);
+  }
+
+  finishGame(result: IStory[] | string | number): void {
+    const { game } = store.getState();
+    this.socket.emit('finishGame', game.id, result);
   }
 }

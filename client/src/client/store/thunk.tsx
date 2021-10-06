@@ -30,6 +30,7 @@ export function createGame(settings: IGame) {
             isActive: false,
           },
           isRoundActive: false,
+          isCompleted: false,
         };
         const socket = new SocketApi('http://localhost:5000', user, game);
         dispatch(SetSocketApi(socket));

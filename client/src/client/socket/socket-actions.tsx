@@ -82,3 +82,13 @@ export function onSocketUpdateStories(stories: IStory[]): void {
   const { game } = store.getState();
   store.dispatch(UpdateSettings({ ...game.settings, stories: [...stories] }));
 }
+
+export function onSocketFinishGame(result: IStory[] | string | number): void {
+  const { game } = store.getState();
+  if (Array.isArray(result)) {
+    store.dispatch(UpdateSettings({ ...game.settings, stories: [...result] }));
+  } else {
+    store.dispatch(UpdateSettings({ ...game.settings, gameResult: result }));
+  }
+  store.dispatch(SetGame({ ...game, isCompleted: true }));
+}

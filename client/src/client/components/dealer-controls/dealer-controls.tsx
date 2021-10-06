@@ -31,6 +31,22 @@ export default function DealerControls(): JSX.Element {
     socket?.finishStory(key);
   }
 
+  function onFinishGame(): void {
+    const [values, all] = calculateResult(members);
+    let bigest: number | string = 0;
+    let key: number | string = 0;
+    Object.entries(values).forEach((entries) => {
+      if (entries[1] > bigest) {
+        [key, bigest] = entries;
+      }
+    });
+    if (stories.length) {
+      socket?.finishGame(stories);
+      return;
+    }
+    socket?.finishGame(key);
+  }
+
   return (
     <div className="dealer-controls">
       <button
@@ -58,7 +74,7 @@ export default function DealerControls(): JSX.Element {
           Finish Story
         </button>
       )}
-      <button type="button" className="button dealer-controls__finish-game">Finish Game</button>
+      <button type="button" className="button dealer-controls__finish-game" onClick={onFinishGame}>Finish Game</button>
     </div>
   );
 }

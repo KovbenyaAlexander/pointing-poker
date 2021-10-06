@@ -28,7 +28,8 @@ export interface ISettings {
   estimationType: string;
   isTimerRequired: boolean;
   timerValue: string;
-  stories: Array<IStory>
+  stories: Array<IStory>;
+  gameResult?: IStory | number | string;
 }
 
 export interface IExclude {
@@ -46,6 +47,7 @@ export interface IGame {
   members: IUserInfo[];
   excluding: IExclude;
   settings: ISettings;
+  isCompleted: boolean;
 }
 export interface IStore {
   user: IUserInfo;
@@ -70,6 +72,7 @@ export interface ISocketApi {
   addStory: (s: IStory) => void;
   setStory: (s: string) => void;
   finishStory: (r: number | string) => void;
+  finishGame: (r: IStory[] | number | string) => void;
 }
 
 export interface IChatMessage {

@@ -15,6 +15,7 @@ function setSocketListeners(socket) {
     socket.on('setStory', onSetStory);
     socket.on('addStory', onAddStory);
     socket.on('finishStory', onFinishStory);
+    socket.on('finishGame', onFinishGame);
     return socket;
   } catch (e) {
     console.log(e);
@@ -103,6 +104,11 @@ function onSetStory(gameID, storyID) {
 function onFinishStory(gameID, result) {
   const room = rooms.get(gameID);
   room.finishStory(result);
+}
+
+function onFinishGame(gameID, result) {
+  const room = rooms.get(gameID);
+  room.finishGame(result);
 }
 
 module.exports = {
