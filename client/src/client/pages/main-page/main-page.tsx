@@ -93,7 +93,14 @@ const MainPage = (props: any): ReactElement => {
 
         <section className="main-page__new-game">
           <p className="main-page__description">Start on your own</p>
-          <button className="button button_green" type="button" onClick={onNewGame}>Create new game</button>
+          <button
+            className="button button_green button_medium"
+            type="button"
+            onClick={onNewGame}
+          >
+            Create new game
+
+          </button>
         </section>
 
         <div className="main-page__separator-wrapper">
@@ -110,7 +117,7 @@ const MainPage = (props: any): ReactElement => {
               onChange={(e) => setKeyID(e.target.value)}
               placeholder="Input id for the game"
             />
-            <button type="submit" className="button button_red">
+            <button type="submit" className="button button_red button_medium">
               Play
             </button>
 

@@ -15,11 +15,16 @@
 
   outline: none;
   font-family: "Ubuntu", sans-serif;
+  width: 350px;
+
+  &_medium{
+    width: 240px;
+  }
 
   &_red {
     border: 5px solid $buttonRed;
 
-    &_active {
+    &:active {
       background-color: $buttonRedActive;
     }
 
@@ -38,7 +43,7 @@
 
   &_green {
     border: 5px solid $buttonGreen;
-    &_active {
+    &:active {
       background-color: $buttonGreenActive;
     }
 
@@ -65,7 +70,7 @@
 
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
+  font-size: $commonText;
   line-height: 28px;
 
   color: #787777;
