@@ -1,0 +1,32 @@
+.main-page {
+  &__logo {
+    font-size: 40px;
+    margin: 50px;
+  }
+
+  &__wrapper {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+    // background-color: hotpink;
+    margin-top: 10px;
+  }
+
+  &__new-game {
+    // background-color: hotpink;
+  }
+
+  &__separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__connect {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: 300px;
+    // align-self: center;
+  }
+}
