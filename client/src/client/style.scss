@@ -1,16 +1,11 @@
+@import './variables.scss';
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-$buttonRed: #fc535f;
-$buttonRedHover: #fc535f;
-$buttonRedActive: #bb3f48;
-
-$buttonGreen: #62ea4d;
-$buttonGreenHover: #62ea4d;
-$buttonGreenActive: #45a136;
 
 .button {
   padding: 5px;
@@ -60,4 +55,18 @@ $buttonGreenActive: #45a136;
       }
     }
   }
+}
+
+.input{
+  font-family: "Ubuntu", sans-serif;
+  height: 40px;
+  padding: 5px;
+  border-radius: 2px;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #787777;
 }

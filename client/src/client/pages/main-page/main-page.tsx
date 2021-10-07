@@ -84,20 +84,27 @@ const MainPage = (props: any): ReactElement => {
         <LoginPopap onClose={onPopUpClose} onSubmit={onLoginPlayer} />
       )}
 
-      <h1 className="main-page__logo">Pointing Poker</h1>
+      <div className="main-page__logo-container">
+        <h1 className="main-page__logo">Pointing</h1>
+        <h1 className="main-page__logo-red">Poker</h1>
+      </div>
 
       <div className="main-page__wrapper">
 
         <section className="main-page__new-game">
-          <p>Start on your own</p>
+          <p className="main-page__description">Start on your own</p>
           <button className="button button_green" type="button" onClick={onNewGame}>Create new game</button>
         </section>
 
-        <h2 className="main-page__separator">OR</h2>
+        <div className="main-page__separator-wrapper">
+          <h2 className="main-page__separator">O</h2>
+          <h2 className="main-page__separator main-page__separator-red">R</h2>
+        </div>
 
         <section className="main-page__connect">
           <form onSubmit={(e) => onPlay(e)}>
             <input
+              className="main-page__connect-input input"
               type="text"
               value={keyID}
               onChange={(e) => setKeyID(e.target.value)}

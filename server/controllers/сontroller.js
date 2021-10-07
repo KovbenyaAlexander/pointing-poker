@@ -4,8 +4,8 @@ const games = require("./index");
 class Controller {
   join(req, res) {
     try {
-      const { user, id, } = req.body;
-      const { name, role, userID} = user;
+      const { user, id } = req.body;
+      const { name, role, userID } = user;
 
       // User Validate
       if (!name || !role || !id) {
@@ -16,7 +16,7 @@ class Controller {
         return res.status(400).json({ message: "Invalid role" });
       }
 
-      if (name.length < 4 || name.length > 30) {
+      if (name.length < 1 || name.length > 30) {
         return res.status(400).json({ message: "Invalid nickname" });
       }
 
@@ -29,10 +29,11 @@ class Controller {
       if (rooms.get(id).isUserExists(userID)) {
         return res.status(400).json({ message: "User Already Exist" });
       }
-      
-      return res.status(200).json({game: room.game, message: "Join was successful" });
-    } catch (e) {
-    }
+
+      return res
+        .status(200)
+        .json({ game: room.game, message: "Join was successful" });
+    } catch (e) {}
   }
 
   removeUser(req, res) {
@@ -57,7 +58,6 @@ class Controller {
         (user) => user.userName !== userName
       );
       games.set(id, { ...gameInfo, users: newUsers });
-      
 
       return res.status(200).json({ message: "User deleted successfully" });
     } catch (e) {

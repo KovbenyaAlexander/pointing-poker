@@ -69,7 +69,6 @@ export default function StoryPopup({ setShouldShowPopup, storyToEdit, onPopupSub
           />
         </div>
 
-
         <div className="story-popup__submit-wrapper">
           <button type="submit" className="button button_green">Add story</button>
           <button type="button" className="button button_red" onClick={() => setShouldShowPopup(false)}>Cancel</button>

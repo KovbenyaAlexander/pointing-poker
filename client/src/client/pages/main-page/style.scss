@@ -1,11 +1,22 @@
 .main-page {
-  &__logo {
-    font-size: 40px;
-    margin: 50px;
+  &__logo-container{
+    font-family: 'Rock Salt';
+    font-size: 35px;
+    margin: 30px;
+  }
+
+  &__logo{
+    display: inline;
+  }
+
+  &__logo-red{
+    display: inline;
+    color: red
   }
 
   &__wrapper {
-    width: 80%;
+    width: 50%;
+    min-width: 500px;
     margin: 0 auto;
     height: 100%;
     margin-top: 10px;
@@ -19,7 +30,25 @@
 
   &__connect {
     display: flex;
-    align-items: flex-end;
     justify-content: flex-end;
   }
+
+  &__separator{
+    font-family: 'Rock Salt';
+    display: inline;
+    &-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+    &-red{
+      color: red
+    }
+  }
+
+  &__description{
+    font-size: 25px;
+    font-family: "Ubuntu", sans-serif;
+  }
 }
+
+
