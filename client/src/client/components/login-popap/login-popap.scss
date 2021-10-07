@@ -1,4 +1,4 @@
-.login_popap{
+.login_popup{
   width: 100%;
   height: 100%;
 
@@ -10,38 +10,63 @@
   left: 0;
   background: rgba($color: #000000, $alpha: 0.5);
 
+  font-family: "Ubuntu", sans-serif;
+
+  &__form-wrapper{
+    display: flex;
+    justify-content: space-around;
+  }
+
   &-wrapper {
-    height: 350px;
+    height: 400px;
+    width: 400px;
     margin-top: 5rem;
     padding: 3rem 1rem;
     border-radius: 10px;
     background-color: white;
-    form{
-      .photo_user-wrapper {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          border: 2px solid black;
-          label{
-            cursor: pointer;
-          }
-  
-          img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+  }
 
-          }
-    
-        input {
-          display: none;
-        }
-      }
-      .btn_wrapper {
-        display: flex;
-        justify-content: space-between;
-      }
+  &__photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid black;
+    label{
+      cursor: pointer;
     }
-    
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    input {
+      display: none;
+    }
+  }
+
+  .btn_wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__inputs{
+    width: 250px;
+    input{
+      width: 100%;
+      margin: 5px auto;
+    }
+  }
+
+  &__button{
+    margin-top: 20px;
+    width: 100px;
+  }
+
+  &__observer-container{
+    width: 340px;
+    margin: 15px auto;
   }
 }
+

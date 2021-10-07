@@ -20,7 +20,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
   const [userForm, setUserForm] = useState<IUserForm>({
     name: '',
     lastName: '',
-    jobPosition: 'value1',
+    jobPosition: 'junior',
     role: isDealer ? 'dealer' : 'player',
     photoUser: undefined,
   });
@@ -50,76 +50,89 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
   }
 
   return (
-    <div className="login_popap">
-      <div className="login_popap-wrapper">
-        <h2>Login Popap</h2>
+    <div className="login_popup">
+      <div className="login_popup-wrapper">
         <form onSubmit={() => onSubmit(userForm)}>
-          <div className="photo_user-wrapper">
-            <label htmlFor="photoUser">
-              {!userForm.photoUser ? (
-                <p>Added photo</p>
-              ) : (
-                <img
-                  src={URL.createObjectURL(userForm.photoUser)}
-                  alt={userForm.name && userForm.name}
+
+          <div className="login_popup__form-wrapper">
+            <div className="login_popup__inputs">
+              <label htmlFor="name">
+                <p>First Name:</p>
+                <input
+                  className="input"
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={userForm.name}
+                  onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
                 />
-              )}
+              </label>
 
-              <input
-                type="file"
-                name="photoUser"
-                id="photoUser"
-                accept=".png, jpg, .jpeg"
-                onChange={(e) => addedPhotoUser(e)}
-              />
-            </label>
+              <label htmlFor="lastName">
+                <p>Last Name (Optional):</p>
+                <input
+                  className="input"
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={userForm.lastName}
+                  onChange={(e) => setUserForm({ ...userForm, lastName: e.target.value })}
+                />
+              </label>
+
+              <label htmlFor="jobPosition">
+                <p>Job Position:</p>
+                <select
+                  className="input"
+                  id="jobPosition"
+                  name="jobPosition"
+                  onChange={(e) => setUserForm({ ...userForm, jobPosition: e.target.value })}
+                >
+                  <option value="junior">junior</option>
+                  <option value="middle">middle</option>
+                  <option value="senior">senior</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="login_popup__photo">
+              <label htmlFor="photoUser">
+                {!userForm.photoUser ? (
+                  <p>Upload photo</p>
+                ) : (
+                  <img
+                    src={URL.createObjectURL(userForm.photoUser)}
+                    alt={userForm.name && userForm.name}
+                  />
+                )}
+
+                <input
+                  type="file"
+                  name="photoUser"
+                  id="photoUser"
+                  accept=".png, jpg, .jpeg"
+                  onChange={(e) => addedPhotoUser(e)}
+                />
+
+              </label>
+            </div>
           </div>
-          <label htmlFor="name">
-            <p>First Name:*</p>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={userForm.name}
-              onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
-            />
-          </label>
 
-          <label htmlFor="lastName">
-            <p>Last Name:</p>
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              value={userForm.lastName}
-              onChange={(e) => setUserForm({ ...userForm, lastName: e.target.value })}
-            />
-          </label>
-
-          <label htmlFor="jobPosition">
-            <p>Job Position:</p>
-            <select
-              id="jobPosition"
-              name="jobPosition"
-              onChange={(e) => setUserForm({ ...userForm, jobPosition: e.target.value })}
-            >
-              <option value="value1">value1</option>
-              <option value="value2">value2</option>
-              <option value="value3">value3</option>
-            </select>
-          </label>
           {!isDealer && (
-            <label htmlFor="isRole">
-              <p>You observer?</p>
-              <input type="checkbox" name="isRole" id="isRole" onChange={onObserverChange} />
-            </label>
+            <div className="login_popup__observer-container">
+              <label htmlFor="isRole">
+                <input type="checkbox" name="isRole" id="isRole" onChange={onObserverChange} />
+                <span>Observer?</span>
+              </label>
+            </div>
           )}
+
           <div className="btn_wrapper">
-            <button type="submit" disabled={!isFormValid} className="button button_green">
+            <button type="submit" disabled={!isFormValid} className="button button_green login_popup__button">
               GO
             </button>
 
-            <button type="button" onClick={onClose} className="button button_red">
+            <button type="button" onClick={onClose} className="button button_red login_popup__button">
               Cancel
             </button>
           </div>

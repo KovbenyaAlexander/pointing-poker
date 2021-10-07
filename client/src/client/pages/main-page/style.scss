@@ -29,8 +29,12 @@
   }
 
   &__connect {
-    display: flex;
-    justify-content: flex-end;
+    form{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
   }
 
   &__separator{
