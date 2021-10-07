@@ -65,6 +65,46 @@ export default function Settings(): JSX.Element {
     setStoriesValidation(true);
   };
 
+  function onFileLoad(e: React.ChangeEvent<HTMLInputElement>): void {
+    const input = e.target;
+    if (input.files) {
+      Array(...input.files).forEach((file) => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(file);
+        fileReader.onload = () => {
+          if (typeof (fileReader.result) === 'string') {
+            const stories = JSON.parse(fileReader.result);
+            if (Array.isArray(stories)) {
+              stories.forEach((story) => {
+                const newStory: IStory = {
+                  name: story.name,
+                  description: story.description ? story.description : '',
+                  isActive: false,
+                  isCompleted: false,
+                  estimation: null,
+                  id: '',
+                };
+                setSettings((prev: ISettings) => (
+                  { ...prev, stories: [...prev.stories, { ...newStory, id: uuidv4() }] }));
+              });
+              return;
+            }
+            const newStory: IStory = {
+              name: stories.name,
+              description: stories.description ? stories.description : '',
+              isActive: false,
+              isCompleted: false,
+              estimation: null,
+              id: '',
+            };
+            setSettings((prev: ISettings) => (
+              { ...prev, stories: [...prev.stories, { ...newStory, id: uuidv4() }] }));
+          }
+        };
+      });
+    }
+  }
+
   useEffect(() => {
     if (settings.gameName.length < 4 || settings.gameName.length > 30) {
       setFormValidation(true);
@@ -201,6 +241,15 @@ export default function Settings(): JSX.Element {
         />
 
         <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
+        <div className="file-choose">
+          <label className="file-choose__file" htmlFor="file">
+            Load Stories
+            <input className="file-choose__input" type="file" accept=".json" id="file" onChange={onFileLoad} />
+          </label>
+          <p className="file-choose__tooltip">
+            Story must have name and could have description. Possible format: .json
+          </p>
+        </div>
         <br />
         {!storiesValidation && <p className="settings__validation-error">To start the game you must create at least one story</p>}
 
