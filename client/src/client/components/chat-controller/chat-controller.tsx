@@ -9,7 +9,7 @@ interface IChatController {
 
 export default function ChatController({ message, setMessage, sendMessage }: IChatController): JSX.Element {
   return (
-    <div className="chat">
+    <div className="chat__controller">
 
       <form className="chat__controller controller" onSubmit={sendMessage}>
         <input

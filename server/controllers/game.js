@@ -104,7 +104,9 @@ class Game {
 
   chekedIdKey(req, res) {
     const { id } = req.body;
-    res.status(200).send(games.has(id));
+    const room = rooms.get(id)
+    const avalible = !room.game.isCompleted && (!room.game.isActive || room.game.settings.isAutoEntry);
+    res.status(200).send(games.has(id) && avalible);
   }
 }
 

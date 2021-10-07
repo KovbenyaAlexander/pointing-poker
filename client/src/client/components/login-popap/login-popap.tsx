@@ -41,6 +41,10 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
     }
   }, [userForm.name]);
 
+  function onObserverChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    setUserForm((prev) => ({ ...prev, role: e.target.checked ? 'observer' : 'player' }));
+  }
+
   return (
     <div className="login_popap">
       <div className="login_popap-wrapper">
@@ -103,7 +107,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
           {!isDealer && (
             <label htmlFor="isRole">
               <p>You observer?</p>
-              <input type="checkbox" name="isRole" id="isRole" />
+              <input type="checkbox" name="isRole" id="isRole" onChange={onObserverChange} />
             </label>
           )}
           <div className="btn_wrapper">

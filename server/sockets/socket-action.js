@@ -9,6 +9,13 @@ function setSocketListeners(socket) {
     socket.on("confirmExclude", onSocketConfirmExclude);
     socket.on("sendMessage", onSocketSendMessage);
     socket.on("disconnect", onDisconnect);
+    socket.on('startRound', onRoundStart);
+    socket.on('stopRound', onRoundStop);
+    socket.on('setCard', onSetCard);
+    socket.on('setStory', onSetStory);
+    socket.on('addStory', onAddStory);
+    socket.on('finishStory', onFinishStory);
+    socket.on('finishGame', onFinishGame);
     return socket;
   } catch (e) {
     console.log(e);
@@ -64,6 +71,43 @@ function sendServiceMessage(room, message) {
     messageId: uuid.v4(),
     isServiceMessage: true,
   });
+}
+
+function onSetCard(gameID, userID, choose) {
+  const room = rooms.get(gameID);
+  room.setCard(userID, choose);
+}
+
+function onRoundStart(gameID) {
+  const room = rooms.get(gameID);
+  room.clearRound();
+  room.startRound();
+}
+
+
+function onRoundStop(gameID) {
+  const room = rooms.get(gameID);
+  room.stopRound();
+}
+
+function onAddStory(gameID, story) {
+  const room = rooms.get(gameID);
+  room.addStory(story);
+}
+
+function onSetStory(gameID, storyID) {
+  const room = rooms.get(gameID);
+  room.setStory(storyID);
+}
+
+function onFinishStory(gameID, result) {
+  const room = rooms.get(gameID);
+  room.finishStory(result);
+}
+
+function onFinishGame(gameID, result) {
+  const room = rooms.get(gameID);
+  room.finishGame(result);
 }
 
 module.exports = {
