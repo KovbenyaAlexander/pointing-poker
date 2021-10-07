@@ -48,8 +48,9 @@ class Room {
     }
     
 
-    finishGame() {
-        this.emit('gameEnd');
+    finishGame(result) {
+        this.currentGame.finishGame(result);
+        this.currentGame = undefined;
         this.sendServiceMessage(`the game is over`);
     }
 
@@ -107,19 +108,18 @@ class Room {
 
     setGameActive(isActive) {
         this.game = {...this.game, isActive};
-        console.log(this.currentGame? 'GAME' : 'NOT GAME');
         if (isActive) {
             const players = this.getMembers().filter((user) => {
                 if (user.role === 'dealer' && this.game.settings.isDealerInGame) return true;
                 return user.role === 'player';
             });
             this.currentGame = new Game(this.id, this.game, players);
-            console.log(this.currentGame? 'GAME' : 'NOT GAME');
         } else {
             this.currentGame = undefined;
         }
         
         this.emit('setGameActive', this.game.isActive);
+        this.sendServiceMessage(`the game is active`);
     }
 
     setCard(userID, choose) {
@@ -172,12 +172,6 @@ class Room {
         this.currentGame.finishStory(result);
     }
 
-    finishGame(result) {
-        this.currentGame.finishGame(result);
-        this.currentGame = undefined;
-        this.game.isCompleted = true;
-    }
-
     setSettings(settings) {
         this.game = {...this.game, ...settings};
         this.emit('updateSettings', this.game.settings);
@@ -194,29 +188,6 @@ class Room {
         this.excludeQueue.push(Excludor);
         this.emit('excluding', this.game.excluding);
     }
-
-  setGameActive(isActive) {
-    this.game = { ...this.game, isActive };
-    this.emit("setGameActive", this.game.isActive);
-    this.sendServiceMessage(`the game is active`);
-  }
-
-  setSettings(settings) {
-    this.game = { ...this.game, ...settings };
-    this.emit("updateSettings", this.game.settings);
-  }
-
-  askToExclude(Excludor) {
-    if (this.members.length < 4) {
-      return;
-    }
-
-    if (!this.currentExcludor && !this.excludeQueue.length) {
-      this.currentExcludor = Excludor;
-    }
-    this.excludeQueue.push(Excludor);
-    this.emit("excluding", this.game.excluding);
-  }
 
   writeExcludeAnswer(userID, answer) {
     const result = this.currentExcludor.addAnswer(userID, answer);
