@@ -21,7 +21,7 @@ export function onSocketExcluding(excluding: IExclude): void {
 }
 
 export function onSocketExcludeEnd(message: string): void {
-  alert(message);
+
 }
 
 export function onSocketExcluded(excluding: IExclude): void {

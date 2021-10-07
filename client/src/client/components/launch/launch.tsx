@@ -4,7 +4,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useHistory } from 'react-router';
 import { cancelGame, activitySwitcher } from '../../store/thunk';
 import { IStore } from '../../types';
-import { clinetUrl } from '../../store/initialStore';
 
 export default function Launch(): JSX.Element {
   const dispatch = useDispatch();
@@ -53,12 +52,6 @@ export default function Launch(): JSX.Element {
             </CopyToClipboard>
 
           </p>
-
-          <br />
-
-          <button type="button" onClick={gameActivitySwitcher}>
-            {isActive ? 'Pause game' : 'Start game'}
-          </button>
 
           <button type="button" onClick={cancelGameHandler}>Cancel game</button>
         </>

@@ -1,17 +1,18 @@
 const { Game } = require("./Game");
 const { setSocketListeners } = require("./socket-action");
 const rooms = require("./socket-index");
+const uuid = require("uuid");
 
-class SocketUser{
-    userInfo;
-    socket;
-    disconnected;
+class SocketUser {
+  userInfo;
+  socket;
+  disconnected;
 
-    constructor(socket, userInfo) {
-        this.socket = socket;
-        this.userInfo = userInfo;
-        this.disconnected = false;
-    }
+  constructor(socket, userInfo) {
+    this.socket = socket;
+    this.userInfo = userInfo;
+    this.disconnected = false;
+  }
 }
 
 class Room {
@@ -33,13 +34,23 @@ class Room {
         this.currentGame = undefined;
     }
 
+    sendServiceMessage(message) {
+      this.emit(`updateChatMessages`, {
+        message,
+        messageId: uuid.v4(),
+        isServiceMessage: true,
+      });
+    }
+
     join(user) {
         this.members.push(user);
+        this.sendServiceMessage(`${user.userInfo.name} joined`);
     }
     
 
     finishGame() {
         this.emit('gameEnd');
+        this.sendServiceMessage(`the game is over`);
     }
 
     emit(type, data=undefined) {
@@ -82,6 +93,7 @@ class Room {
                 isOurRoomExit = true;
                 if (member.userInfo.role === 'dealer') {
                     isDealerOuts = true;
+                    this.sendServiceMessage(`Dealer left the game`);
                 }
                 return false;
             }
@@ -95,17 +107,18 @@ class Room {
 
     setGameActive(isActive) {
         this.game = {...this.game, isActive};
-
+        console.log(this.currentGame? 'GAME' : 'NOT GAME');
         if (isActive) {
             const players = this.getMembers().filter((user) => {
                 if (user.role === 'dealer' && this.game.settings.isDealerInGame) return true;
                 return user.role === 'player';
             });
             this.currentGame = new Game(this.id, this.game, players);
+            console.log(this.currentGame? 'GAME' : 'NOT GAME');
         } else {
             this.currentGame = undefined;
         }
-
+        
         this.emit('setGameActive', this.game.isActive);
     }
 
@@ -182,39 +195,68 @@ class Room {
         this.emit('excluding', this.game.excluding);
     }
 
-    writeExcludeAnswer(userID, answer) {
-        const result = this.currentExcludor.addAnswer(userID, answer);
-        if (result) {
-            this.excludeMember(this.game.excluding.user, this.game.excluding);
-        }
-        else if (result === false) {
-            this.clearExclude();
-        }
+  setGameActive(isActive) {
+    this.game = { ...this.game, isActive };
+    this.emit("setGameActive", this.game.isActive);
+    this.sendServiceMessage(`the game is active`);
+  }
+
+  setSettings(settings) {
+    this.game = { ...this.game, ...settings };
+    this.emit("updateSettings", this.game.settings);
+  }
+
+  askToExclude(Excludor) {
+    if (this.members.length < 4) {
+      return;
     }
 
-    clearExclude() {
-        this.game = {...this.game, excluding: {isActive: false}};
-        this.emit('updateExcluding', {isActive: false});
+    if (!this.currentExcludor && !this.excludeQueue.length) {
+      this.currentExcludor = Excludor;
     }
+    this.excludeQueue.push(Excludor);
+    this.emit("excluding", this.game.excluding);
+  }
 
-    excludeMember(member, excluding) {
-        let excludedMember;
-        this.members = this.members.filter((user) => {
-            if (user.userInfo.userID != member.userID) {
-                return true;
-            }
-            excludedMember = user.socket;
-            return false;
-        });
-        excludedMember.emit('excluded', {
-            IsYouExcluded: true,
-            reason: excluding && excluding.reason ? excluding.reason : 'it was group\'s decision',
-        });
-        this.emit('updateMembers', this.getMembers());
-        this.emit('excludeEnd', `Member ${member.name} was excluded`);
-        this.clearExclude();
+  writeExcludeAnswer(userID, answer) {
+    const result = this.currentExcludor.addAnswer(userID, answer);
+    if (result) {
+      this.excludeMember(this.game.excluding.user, this.game.excluding);
+    } else if (result === false) {
+      this.sendServiceMessage(`User not excluded`);
+      this.clearExclude();
     }
+  }
 
+  clearExclude() {
+    this.game = { ...this.game, excluding: { isActive: false } };
+    this.emit("updateExcluding", { isActive: false });
+  }
+
+  excludeMember(member, excluding) {
+    if (!member) {
+      return;
+    }
+    let excludedMember;
+    this.members = this.members.filter((user) => {
+      if (user.userInfo.userID != member.userID) {
+        return true;
+      }
+      excludedMember = user.socket;
+      return false;
+    });
+    this.sendServiceMessage(`Member ${member.name} was excluded`);
+    excludedMember.emit("excluded", {
+      IsYouExcluded: true,
+      reason:
+        excluding && excluding.reason
+          ? excluding.reason
+          : "it was group's decision",
+    });
+    this.emit("updateMembers", this.getMembers());
+    this.emit("excludeEnd", `Member ${member.name} was excluded`);
+    this.clearExclude();
+  }
 }
 
 function initSocket(socket) {
@@ -262,11 +304,10 @@ function initSocket(socket) {
             } else {
                 socket.emit('close');
             }
-        }
-    }
-    catch (e) {
-        console.log(e);
-    }
+          }
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 module.exports = { initSocket, rooms };

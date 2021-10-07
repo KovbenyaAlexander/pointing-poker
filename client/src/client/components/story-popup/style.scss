@@ -11,10 +11,22 @@
   background: rgba($color: #000000, $alpha: 0.5);
 
   &-wrapper {
+    width: 500px;
     height: 350px;
     margin-top: 5rem;
     padding: 3rem 1rem;
     border-radius: 10px;
     background-color: white;
+  }
+}
+
+.story-popup{
+  &__validation-error{
+    color: red
+  }
+
+  input{
+    width: 90%;
+    margin: 0 auto;
   }
 }

@@ -6,7 +6,6 @@ class Game {
   newGame(req, res) {
     try {
       const { userName, settings } = req.body;
-
       if (!userName) {
         return res.status(400).json({ message: "Invalid data" });
       }
