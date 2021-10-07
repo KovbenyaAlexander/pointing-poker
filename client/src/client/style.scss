@@ -16,6 +16,7 @@ $buttonGreenActive: #45a136;
   padding: 5px;
   font-size: 1.2rem;
   border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0);
 
   outline: none;
   font-family: "Ubuntu", sans-serif;
@@ -31,6 +32,13 @@ $buttonGreenActive: #45a136;
       background-color: $buttonRedHover;
       cursor: pointer;
     }
+
+    &:disabled {
+      border: none;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0);
+      }
+    }
   }
 
   &_green {
@@ -42,6 +50,14 @@ $buttonGreenActive: #45a136;
     &:hover {
       background-color: $buttonGreenHover;
       cursor: pointer;
+    }
+
+    &:disabled {
+      border: none;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0);
+        cursor: unset;
+      }
     }
   }
 }
