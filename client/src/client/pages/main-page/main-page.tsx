@@ -23,7 +23,10 @@ const MainPage = (props: any): ReactElement => {
 
   const onLoginDealer = useCallback(
     (data) => {
-      dispatch(UpdateUser({ ...data, userID: uuid.v4() }));
+      const photo = data.photoUser;
+      const sid = uuid.v4();
+      data.photoUser = '';
+      dispatch(UpdateUser({ ...data, userID: sid }));
       history.push('settings');
     },
     [dispatch, history],

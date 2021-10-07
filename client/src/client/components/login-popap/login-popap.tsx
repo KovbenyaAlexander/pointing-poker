@@ -7,29 +7,33 @@ interface ILoginPopap {
   isDealer?: boolean;
 }
 
+interface IUserForm {
+  name: string;
+  lastName: string;
+  jobPosition: string;
+  role: string;
+  photoUser: File | undefined,
+}
+
 export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Element => {
   const [isFormValid, setIsFormValid] = useState(true);
-  const [userForm, setUserForm] = useState({
+  const [userForm, setUserForm] = useState<IUserForm>({
     name: '',
     lastName: '',
     jobPosition: 'value1',
     role: isDealer ? 'dealer' : 'player',
-    photoUser: '',
+    photoUser: undefined,
   });
 
-  function addedPhotoUser(e: React.ChangeEvent<any>) {
-    const file = e.target.files[0];
-
-    const render = new FileReader();
-
-    render.onload = (event) => {
+  function addedPhotoUser(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      const render = file;
       setUserForm({
         ...userForm,
-        [e.target.name]: event.target?.result,
+        photoUser: render,
       });
-    };
-
-    render.readAsDataURL(file);
+    }
   }
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
                 <p>Added photo</p>
               ) : (
                 <img
-                  src={userForm.photoUser}
+                  src={URL.createObjectURL(userForm.photoUser)}
                   alt={userForm.name && userForm.name}
                 />
               )}

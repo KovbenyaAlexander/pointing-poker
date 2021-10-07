@@ -54,6 +54,10 @@ class Room {
         this.sendServiceMessage(`the game is over`);
     }
 
+    cancelGame() {
+        this.emit('cancelGame');
+    }
+
     emit(type, data=undefined) {
         this.members.forEach((user) => {
             user.socket.emit(type, data);
