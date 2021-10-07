@@ -9,6 +9,7 @@ interface ILoginPopap {
 
 export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Element => {
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isObserver, setIsObserver] = useState(false);
   const [userForm, setUserForm] = useState({
     name: '',
     lastName: '',
@@ -104,7 +105,16 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
           {!isDealer && (
             <label htmlFor="isRole">
               <p>You observer?</p>
-              <input type="checkbox" name="isRole" id="isRole" />
+              <input
+                type="checkbox"
+                name="isRole"
+                id="isRole"
+                checked={isObserver}
+                onChange={() => {
+                  setIsObserver((prev: boolean) => !prev);
+                  setUserForm({ ...userForm, role: isObserver ? 'player' : 'observer' });
+                }}
+              />
             </label>
           )}
           <div className="btn_wrapper">
