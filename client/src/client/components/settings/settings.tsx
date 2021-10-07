@@ -20,11 +20,6 @@ export default function Settings(): JSX.Element {
   const [formValidation, setFormValidation] = useState(false);
   const [storiesValidation, setStoriesValidation] = useState(true);
 
-  // const { id, isActive } = useSelector((state: IStore) => ({
-  //   id: state.game.id,
-  //   isActive: state.game.isActive,
-  // }));
-
   const onSettingsSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -240,7 +235,7 @@ export default function Settings(): JSX.Element {
           setShouldShowPopupForAdd={setShouldShowPopupForAdd}
         />
 
-        <button type="button" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
+        <button type="button" className="button button_red" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
         <div className="file-choose">
           <label className="file-choose__file" htmlFor="file">
             Load Stories
@@ -250,11 +245,13 @@ export default function Settings(): JSX.Element {
             Story must have name and could have description. Possible format: .json
           </p>
         </div>
+
+        <button type="button" className="button button_red" onClick={() => setShouldShowPopupForAdd(true)}>Add story</button>
         <br />
         {!storiesValidation && <p className="settings__validation-error">To start the game you must create at least one story</p>}
 
-        {!game.id && <button type="submit">Create game</button>}
-        {game.isActive && <button type="submit">Update game</button>}
+        {!game.id && <button type="submit" className="button button_red">Create game</button>}
+        {game.isActive && <button type="submit" className="button button_red">Update game</button>}
 
       </form>
 
@@ -267,7 +264,7 @@ export default function Settings(): JSX.Element {
       )}
 
       {game.id && (
-        <button type="button" onClick={gameActivitySwitcher}>
+        <button type="button" onClick={gameActivitySwitcher} className="button button_red">
           {game.isActive ? 'Pause game' : 'Start game'}
         </button>
       )}

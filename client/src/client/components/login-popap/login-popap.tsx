@@ -79,7 +79,6 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
               value={userForm.name}
               onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
             />
-            <p>{!isFormValid && 'Wrong data..'}</p>
           </label>
 
           <label htmlFor="lastName">
@@ -112,11 +111,11 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
             </label>
           )}
           <div className="btn_wrapper">
-            <button type="submit" disabled={!isFormValid}>
-              Check Button
+            <button type="submit" disabled={!isFormValid} className="button button_green">
+              GO
             </button>
 
-            <button type="button" onClick={onClose}>
+            <button type="button" onClick={onClose} className="button button_red">
               Cancel
             </button>
           </div>

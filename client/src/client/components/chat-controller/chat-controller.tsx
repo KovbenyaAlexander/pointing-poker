@@ -18,7 +18,7 @@ export default function ChatController({ message, setMessage, sendMessage }: ICh
           onChange={(e) => setMessage(e.target.value)}
           maxLength={100}
         />
-        <button className="button controller__submit" type="submit">Send</button>
+        <button className="button button_red controller__submit " type="submit">Send</button>
       </form>
 
     </div>
