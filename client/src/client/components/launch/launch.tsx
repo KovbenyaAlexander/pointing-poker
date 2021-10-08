@@ -44,9 +44,9 @@ export default function Launch(): JSX.Element {
           </p>
           <p>
             Link to game:
-            {`http://localhost:3000/#/connect/${id}`}
+            {`https://vast-peak-99290.herokuapp.com/#/connect/${id}`}
             <CopyToClipboard
-              text={`http://localhost:3000/#/connect/${id}`}
+              text={`https://vast-peak-99290.herokuapp.com/#/connect/${id}`}
             >
               <button type="button">Copy link to game to clipboard</button>
             </CopyToClipboard>
