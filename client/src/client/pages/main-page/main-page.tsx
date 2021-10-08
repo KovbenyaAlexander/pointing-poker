@@ -26,7 +26,7 @@ const MainPage = (props: any): ReactElement => {
     async (data) => {
       const photo = data.photoUser;
       const sid = uuid.v4();
-      axios.post('http://localhost:5000/api/uploadPhoto', {
+      axios.post('https://vast-peak-99290.herokuapp.com/api/uploadPhoto', {
         image: photo,
         userID: sid,
       }).then(() => {
@@ -43,7 +43,7 @@ const MainPage = (props: any): ReactElement => {
     (data) => {
       const photo = data.photoUser;
       const sid = uuid.v4();
-      axios.post('http://localhost:5000/api/uploadPhoto', {
+      axios.post('https://vast-peak-99290.herokuapp.com/api/uploadPhoto', {
         image: photo,
         userID: sid,
       }).then(() => {

@@ -44,9 +44,9 @@ export default function Launch(): JSX.Element {
           </p>
           <p>
             Link to game:
-            {`http://localhost:3000/#/connect/${id}`}
+            {`https://kovbenyaalexander.github.io/pp-client-deploy/#/connect/${id}`}
             <CopyToClipboard
-              text={`http://localhost:3000/#/connect/${id}`}
+              text={`https://kovbenyaalexander.github.io/pp-client-deploy/#/connect/${id}`}
             >
               <button type="button">Copy link to game to clipboard</button>
             </CopyToClipboard>

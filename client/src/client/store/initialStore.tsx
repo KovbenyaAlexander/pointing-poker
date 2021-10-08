@@ -41,4 +41,4 @@ export const initialStore: IStore = {
   usersImages: [],
 };
 
-export const clinetUrl = 'http://localhost:3000';
+export const clinetUrl = 'https://kovbenyaalexander.github.io/pp-client-deploy/#/';
