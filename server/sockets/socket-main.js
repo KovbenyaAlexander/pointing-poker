@@ -311,7 +311,7 @@ function initSocket(socket) {
                 socket = setSocketListeners(socket);
                 member.socket = socket;
                 socket.emit('refreshGame', room.getGameData(), member.userInfo);
-                socket.emit('chatHistory', this.chatHistory);
+                socket.emit('chatHistory', room.chatHistory);
                 socket.emit('askAboutImages', room.getAllIDWithImage());
                 return;
             }

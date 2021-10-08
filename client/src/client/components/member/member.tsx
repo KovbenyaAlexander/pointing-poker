@@ -38,13 +38,14 @@ export default function Member({ member } : { member: IUserInfo }): JSX.Element 
       && <h3 className={`member__special member__special_${member.role}`}>{`${member.role}`}</h3>}
         { ((user.role === 'dealer' && !isDealerMember) || isExludable) && (
           <button
+            className="button button_red"
             type="button"
             onClick={(e) => {
               e.preventDefault();
               handleExcludeInit();
             }}
           >
-            Exclude
+            Kick
           </button>
         ) }
       </li>
