@@ -50,7 +50,7 @@
 
   &_green {
     border: 5px solid $buttonGreen;
-    text-shadow: $mainGreen;
+    text-shadow: 0 0 2px $mainGreen;
 
     &:active {
       border-color: $activeGreen;
