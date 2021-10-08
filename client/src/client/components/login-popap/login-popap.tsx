@@ -54,7 +54,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
 
   return (
     <div className="login_popup">
-      <div className="login_popup-wrapper">
+      <div className="login_popup-wrapper popup-std">
         <form onSubmit={() => onSubmit(userForm)}>
 
           <div className="login_popup__form-wrapper">
@@ -98,10 +98,10 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
               </label>
             </div>
 
-            <div className="login_popup__photo">
+            <div className={!userForm.photoUser ? 'login_popup__photo login_popup__photo_non' : 'login_popup__photo'}>
               <label htmlFor="photoUser">
                 {!userForm.photoUser ? (
-                  <p>Upload photo</p>
+                  <p className="login_popup__photo-text button button_green button_medium">Download</p>
                 ) : (
                   <img
                     src={`${userForm.photoUser}`}
@@ -123,8 +123,15 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
 
           {!isDealer && (
             <div className="login_popup__observer-container">
-              <label htmlFor="isRole">
-                <input type="checkbox" name="isRole" id="isRole" onChange={onObserverChange} />
+              <label className="login_popup__observer" htmlFor="isRole">
+                <input
+                  className="login_popup__observer__checkbox"
+                  type="checkbox"
+                  name="isRole"
+                  id="isRole"
+                  onChange={onObserverChange}
+                />
+                <div className="checkbox_custom"> </div>
                 <span>Observer?</span>
               </label>
             </div>
