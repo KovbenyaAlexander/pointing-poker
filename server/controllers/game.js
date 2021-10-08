@@ -1,5 +1,5 @@
 const uuid = require("uuid");
-const games = require("./index");
+const { games } = require("./index");
 const rooms = require("../sockets/socket-index");
 
 class Game {

@@ -16,6 +16,7 @@ function setSocketListeners(socket) {
     socket.on('addStory', onAddStory);
     socket.on('finishStory', onFinishStory);
     socket.on('finishGame', onFinishGame);
+    socket.on('requestImages', onRequestImages);
     return socket;
   } catch (e) {
     console.log(e);
@@ -43,12 +44,14 @@ function onSocketConfirmExclude(id, userID, answer) {
 
 const onSocketSendMessage = (gameId, userId, message, authorMessage) => {
   const room = rooms.get(gameId);
-  room.emit("updateChatMessages", {
+  const messageExp = {
     message,
     userId,
     messageId: uuid.v4(),
     authorMessage,
-  });
+  };
+  room.addMessage(messageExp);
+  room.emit("updateChatMessages", messageExp);
 };
 
 function onDisconnect() {
@@ -66,11 +69,13 @@ function onDisconnect() {
 }
 
 function sendServiceMessage(room, message) {
-  room.emit("updateChatMessages", {
+  const messExp = {
     message,
     messageId: uuid.v4(),
     isServiceMessage: true,
-  });
+  };
+  room.addMessage(messExp);
+  room.emit("updateChatMessages", messExp);
 }
 
 function onSetCard(gameID, userID, choose) {
@@ -108,6 +113,16 @@ function onFinishStory(gameID, result) {
 function onFinishGame(gameID, result) {
   const room = rooms.get(gameID);
   room.finishGame(result);
+}
+
+function onRequestImages(gameID, userID, diff) {
+  if (!diff.length) return;
+  const room = rooms.get(gameID);
+  const images = room.getAllRequestedImages(diff);
+  const user = room.findMemberByID(userID);
+  images.forEach((image) => {
+    user.socket.emit('addUserImage', image);
+  })
 }
 
 module.exports = {

@@ -38,6 +38,7 @@ export const initialStore: IStore = {
     messages: [],
   },
   loading: false,
+  usersImages: [],
 };
 
 export const clinetUrl = 'http://localhost:3000';

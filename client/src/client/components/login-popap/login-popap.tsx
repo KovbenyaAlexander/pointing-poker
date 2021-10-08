@@ -12,7 +12,7 @@ interface IUserForm {
   lastName: string;
   jobPosition: string;
   role: string;
-  photoUser: File | undefined,
+  photoUser: string | ArrayBuffer | null | undefined,
 }
 
 export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Element => {
@@ -28,11 +28,14 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
   function addedPhotoUser(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const file = e.target.files[0];
-      const render = file;
-      setUserForm({
-        ...userForm,
-        photoUser: render,
-      });
+      const render = new FileReader();
+      render.onload = (data) => {
+        setUserForm({
+          ...userForm,
+          photoUser: data.target?.result,
+        });
+      };
+      render.readAsDataURL(file);
     }
   }
 
@@ -101,7 +104,7 @@ export const LoginPopap = ({ onClose, onSubmit, isDealer }: ILoginPopap):JSX.Ele
                   <p>Upload photo</p>
                 ) : (
                   <img
-                    src={URL.createObjectURL(userForm.photoUser)}
+                    src={`${userForm.photoUser}`}
                     alt={userForm.name && userForm.name}
                   />
                 )}

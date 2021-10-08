@@ -12,5 +12,6 @@ router.post("/updateSettings", Game.updateSettings);
 router.post("/checkedIdKey", Game.chekedIdKey)
 router.post("/join", Controller.join);
 router.post("/removeUser", Controller.removeUser);
+router.post("/uploadPhoto", Controller.uploadPhoto);
 
 module.exports = router;

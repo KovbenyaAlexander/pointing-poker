@@ -1,4 +1,4 @@
 const games = new Map();
+const userImages = new Map();
 
-
-module.exports = games;
+module.exports = { games, userImages };

@@ -3,18 +3,19 @@ import React, {
 } from 'react';
 import uuid from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import axios from 'axios';
 import { LoginPopap } from '../../components/login-popap/login-popap';
 import { isGameActive } from '../../store/thunk';
 import { AppDispatch } from '../../types/middleware-types';
-import { UpdateUser } from '../../store/actions';
+import { AddUserImage, UpdateUser } from '../../store/actions';
 import { IStore } from '../../types/store-types';
 import './style.scss';
 
 const MainPage = (props: any): ReactElement => {
   const dispatch: AppDispatch = useDispatch();
   const { isActive, id } = useSelector((sel: IStore) => sel.game);
-  const { gameId }: any = props.match.params;
+  const { gameId } = useParams<{ gameId: string }>();
   const [keyID, setKeyID] = useState(gameId || '');
   const [shouldShowLogin, setShouldShowLogin] = useState(false);
   const [isGameFound, setIsGameFound] = useState<boolean | null>(null);
@@ -22,9 +23,15 @@ const MainPage = (props: any): ReactElement => {
   const history = useHistory();
 
   const onLoginDealer = useCallback(
-    (data) => {
+    async (data) => {
       const photo = data.photoUser;
       const sid = uuid.v4();
+      axios.post('http://localhost:5000/api/uploadPhoto', {
+        image: photo,
+        userID: sid,
+      }).then(() => {
+        dispatch(AddUserImage(sid, photo));
+      }).catch((e) => console.log(e));
       data.photoUser = '';
       dispatch(UpdateUser({ ...data, userID: sid }));
       history.push('settings');
@@ -34,7 +41,16 @@ const MainPage = (props: any): ReactElement => {
 
   const onLoginPlayer = useCallback(
     (data) => {
-      dispatch(UpdateUser({ ...data, userID: uuid.v4() }));
+      const photo = data.photoUser;
+      const sid = uuid.v4();
+      axios.post('http://localhost:5000/api/uploadPhoto', {
+        image: photo,
+        userID: sid,
+      }).then(() => {
+        dispatch(AddUserImage(sid, photo));
+      }).catch((e) => console.log(e));
+      data.photoUser = '';
+      dispatch(UpdateUser({ ...data, userID: sid }));
       history.push(isActive ? `game/${keyID}` : `lobby/${keyID}`);
     },
     [dispatch, history, isActive, keyID],
