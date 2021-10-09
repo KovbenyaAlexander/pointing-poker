@@ -1,0 +1,25 @@
+.results-cards{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+  .card{
+    width: 30px;
+    height: 50%;
+
+    p {
+      font-size: 17px;
+    }
+  }
+
+  &__card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.result-card__value{
+  font-size: 17px;
+}

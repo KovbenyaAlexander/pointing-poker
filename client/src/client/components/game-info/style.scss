@@ -1,0 +1,28 @@
+.info{
+  grid-area: 1/1/4/4;
+  display: flex;
+  flex-direction: column;
+
+  &__members{
+    display: flex;
+    height: 80%;
+
+    .members__list{
+      height: 88%;
+    }
+
+    .member{
+
+      &__special{
+        width: 40%;
+      }
+
+      .button{
+        right: 58px;
+        width: 60px;
+        height: 38px;
+        bottom: -43px;
+      }
+    }
+  }
+}

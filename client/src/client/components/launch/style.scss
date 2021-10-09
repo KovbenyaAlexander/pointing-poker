@@ -1,0 +1,41 @@
+@import '../../variables.scss';
+
+.launch{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
+
+
+  &-copy-btn{
+    height: 40px !important;
+    width: 200px !important;
+  }
+
+  &__item{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    &-wrapper{
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  input{
+    width: 60%;
+    padding: 5px 0;
+    padding-left: 10px;
+    border-radius: 2px;
+    border: 1px solid $lightGrey;
+  }
+}
+
+
+.input-launch{
+
+}

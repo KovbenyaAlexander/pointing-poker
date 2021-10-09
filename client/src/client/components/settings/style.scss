@@ -1,0 +1,191 @@
+@import '../../variables.scss';
+
+.settings {
+  display: grid; 
+  width: 90%;
+  margin: 25px auto;
+  grid-template-columns: 49% 49%; 
+  grid-template-rows: 1fr 100px; 
+
+  &__container { 
+    height: 100px;
+
+    .game-name{
+      margin-left: 10px;
+      padding: 5px 0;
+      padding-left: 10px;
+      border-radius: 2px;
+      border: 1px solid $lightGrey;
+    }
+  }
+
+  &__stories { 
+    &-controller{
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 15px;
+      margin-top: 50px;
+    }
+  }
+  
+  &__item{
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+
+    .settings__checkbox{
+      display: none;
+    }
+
+    .custom-checkbox{
+      width: 30px;
+      height: 30px;
+      border: 5px solid $mainRed;
+      border-radius: 2px;
+    }
+
+    .settings__checkbox:checked ~ .custom-checkbox{
+      background-color: $mainRed;
+    }
+    
+  }
+  
+  input{
+    cursor: pointer;
+  }
+
+  &__validation-error{
+    color: red
+  }
+
+  &__estimation{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+
+    &-item{
+      width: 310px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+      margin-left: 40px;
+
+      .settings__estimation-input{
+        display: none;
+      }
+      .custom-radio{
+        position: relative;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 5px solid $mainRed;
+      }
+
+      .custom-radio__checker{
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: $mainRed;
+      }
+
+      .settings__estimation-input:checked ~ .custom-radio {
+        .custom-radio__checker{
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__checkbox{
+    width: 25px;
+    height: 25px;
+  }
+
+  &__launch{
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    min-width: 500px;
+    margin: 0 auto;
+  }
+
+}
+
+.file-choose{
+  position: relative;
+  transition: all 1s;
+  display: block;
+
+  &__file{
+    border: 5px solid red;
+
+    &:hover{
+      cursor: pointer;
+    }
+
+    &:active {
+      border-color: $activeRed;
+      background-color: $buttonRedActive;
+      text-shadow: 0 0 2px $activeRed;
+    }
+
+    &:hover {
+      border-color: $secondaryRed;
+      background-color: $buttonRedHover;
+      text-shadow: 0 0 2px $secondaryRed;
+      cursor: pointer;
+    }
+  }
+
+  &__input{
+    display: none;
+  }
+
+  &__tooltip{
+    display: none;
+    position: absolute;
+    left: 20px;
+    bottom: -146px;
+    width: 213px;
+    height: 167px;
+    padding: 10px;
+    border: 1px solid;
+    background: white;
+    opacity: 0;
+    transition: all 1s;
+  }
+
+  &:hover{
+    .file-choose__tooltip{
+      opacity: 1;
+      display: block;
+      transition: all 1s; 
+    }
+  }
+  &-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0 2px $mainGreen;
+    width: 350px !important;
+  }
+}
+
+.settings__controller{
+  margin-top: 40px;
+}
+
+
+@media screen and (max-width: 1100px) {
+  .settings {
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 1fr 1fr; 
+  }
+}
