@@ -2,17 +2,35 @@ const { Game } = require("./Game");
 const { setSocketListeners } = require("./socket-action");
 const rooms = require("./socket-index");
 const uuid = require("uuid");
+const { userImages } = require("../controllers");
 
 class SocketUser {
   userInfo;
   socket;
   disconnected;
+  image;
+  
 
   constructor(socket, userInfo) {
     this.socket = socket;
     this.userInfo = userInfo;
     this.disconnected = false;
+    this.image = undefined;
+    this.checkImage();
   }
+
+  addImage(image) {
+      this.image = image.image;
+  }
+
+  checkImage() {
+    const image = userImages.get(this.userInfo.userID);
+    if (image) {
+        this.image = image;
+        userImages.delete(this.userInfo.userID);
+    }
+  }
+
 }
 
 class Room {
@@ -23,6 +41,7 @@ class Room {
     excludeQueue;
     currentExcludor;
     currentGame;
+    chatHistory
 
     constructor(id, game, socket) {
         this.id = id;
@@ -32,18 +51,27 @@ class Room {
         this.excludeQueue = [];
         this.currentExcludor = undefined;
         this.currentGame = undefined;
+        this.chatHistory = [];
     }
 
     sendServiceMessage(message) {
-      this.emit(`updateChatMessages`, {
-        message,
-        messageId: uuid.v4(),
-        isServiceMessage: true,
-      });
+        const messageExp = {
+            message,
+            messageId: uuid.v4(),
+            isServiceMessage: true,
+          };
+        this.chatHistory.push(messageExp)
+        this.emit(`updateChatMessages`, messageExp);
+    }
+
+    addMessage(message) {
+        this.chatHistory.push(message);
     }
 
     join(user) {
         this.members.push(user);
+        this.emit('askAboutImages', this.getAllIDWithImage());
+        user.socket.emit('chatHistory', this.chatHistory);
         this.sendServiceMessage(`${user.userInfo.name} joined`);
     }
     
@@ -52,6 +80,10 @@ class Room {
         this.currentGame.finishGame(result);
         this.currentGame = undefined;
         this.sendServiceMessage(`the game is over`);
+    }
+
+    cancelGame() {
+        this.emit('cancelGame');
     }
 
     emit(type, data=undefined) {
@@ -67,9 +99,15 @@ class Room {
         return !!finded.length;
     }
 
-    findMember(id) {
+    findMemberBySocket(id) {
         return this.members.filter((user) => {
             return user.socket.id === id; 
+        })[0];
+    }
+
+    findMemberByID(userID) {
+        return this.members.filter((user) => {
+            return user.userInfo.userID === userID; 
         })[0];
     }
 
@@ -228,6 +266,28 @@ class Room {
     this.emit("excludeEnd", `Member ${member.name} was excluded`);
     this.clearExclude();
   }
+
+  getAllIDWithImage() {
+     const filtred = this.members.filter((member) => {
+        return member.image ? true : false;
+      });
+      return filtred.map((member) => member.userInfo.userID);
+  }
+  getAllRequestedImages(ids) {
+    return ids.map((id) => {
+        const user = this.members.find((member) => id === member.userInfo.userID);
+        if (user) {
+            return {
+                id: user.userInfo.userID,
+                image: user.image
+            };
+        }
+        return {
+            id,
+            image: '',
+        }
+    });
+  }
 }
 
 function initSocket(socket) {
@@ -240,7 +300,7 @@ function initSocket(socket) {
             let room = undefined;
 
             rooms.forEach((r) => {
-               const result = r.findMember(recconectID);
+               const result = r.findMemberBySocket(recconectID);
                if (result) {
                    room = r;
                    member = result
@@ -251,6 +311,8 @@ function initSocket(socket) {
                 socket = setSocketListeners(socket);
                 member.socket = socket;
                 socket.emit('refreshGame', room.getGameData(), member.userInfo);
+                socket.emit('chatHistory', room.chatHistory);
+                socket.emit('askAboutImages', room.getAllIDWithImage());
                 return;
             }
 
@@ -268,6 +330,7 @@ function initSocket(socket) {
             if (!isActive || settings.isAutoEntry || game.isCompleted) {
                 socket = setSocketListeners(socket);
                 room.join(new SocketUser(socket, user));
+
                 if (isActive && user.role != 'observer') {
                     room.addPlayer(user);
                 }

@@ -1,5 +1,5 @@
 const uuid = require("uuid");
-const games = require("./index");
+const { games } = require("./index");
 const rooms = require("../sockets/socket-index");
 
 class Game {
@@ -31,7 +31,7 @@ class Game {
       }
 
       games.delete(id);
-      rooms.get(id).finishGame();
+      rooms.get(id).cancelGame();
       rooms.delete(id);
 
       return res.status(200).json({ message: "Game deleted successfully" });

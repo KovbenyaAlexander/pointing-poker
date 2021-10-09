@@ -7,8 +7,7 @@ import {
 } from './actions';
 import { SocketApi } from '../socket/socket';
 
-const url = 'http://localhost:5000/api';
-
+const url = 'https://vast-peak-99290.herokuapp.com/api';
 export function createGame(settings: IGame) {
   return async (
     dispatch: ThunkDispatch<void, IStore, AnyAction>,
@@ -32,7 +31,7 @@ export function createGame(settings: IGame) {
           isRoundActive: false,
           isCompleted: false,
         };
-        const socket = new SocketApi('http://localhost:5000', user, game);
+        const socket = new SocketApi('https://vast-peak-99290.herokuapp.com', user, game);
         dispatch(SetSocketApi(socket));
         dispatch(SetGame(game));
       }
@@ -121,7 +120,7 @@ export function userJoin(id: string) {
       });
       if (response.status === 200) {
         if (user.role !== 'dealer') {
-          const newSocket = new SocketApi('http://localhost:5000', user, response.data.game);
+          const newSocket = new SocketApi('https://vast-peak-99290.herokuapp.com', user, response.data.game);
           dispatch(SetSocketApi(newSocket));
         }
         dispatch(SetGame(response.data.game));
@@ -131,7 +130,7 @@ export function userJoin(id: string) {
       const recconectID = sessionStorage.getItem('socketID');
       if (recconectID) {
         const { user, game } = getState();
-        const socket = new SocketApi('http://localhost:5000', user, game, recconectID);
+        const socket = new SocketApi('https://vast-peak-99290.herokuapp.com', user, game, recconectID);
       }
       console.log(e);
       dispatch(SetIsLoading(false));
